@@ -8,8 +8,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.content.Intent;
 
-public class MainMenu extends AppCompatActivity  { //test comment
+public class MainMenu extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +18,22 @@ public class MainMenu extends AppCompatActivity  { //test comment
         setContentView(R.layout.activity_main_menu);
 
     }
+
+    public void onMapsClick(View view){
+        Intent i = new Intent(this, MapsActivity.class);
+        startActivity(i);
+    }
+
+    public void onNearbyClick(View view){
+        Intent i = new Intent(this, Nearby.class);
+        startActivity(i);
+    }
+
+    public void onCameraClick(View view){
+        //Intent i = new Intent(this, Camera.class);
+        //startActivity(i);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

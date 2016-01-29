@@ -1,4 +1,13 @@
 <resources>
-    <string name="app_name">ThesisTest2</string>
+    <string name="app_name">Thesis test 1</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_nearby">Nearby</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="mapText">Maps</string>
+    <string name="nearbyText">Nearby</string>
+    <string name="cameraText">Camera</string>
+    <string name="searchText">Search</string>
+    <string name="addressText">Address:</string>
+    <string name="coordinatesText">Coordinates:</string>
+    <string name="title_activity_camera">Camera</string>
 </resources>
