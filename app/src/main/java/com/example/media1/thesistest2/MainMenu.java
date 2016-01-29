@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainMenu extends AppCompatActivity {
+public class MainMenu extends AppCompatActivity  { //test comment
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
