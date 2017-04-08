@@ -1,6 +1,7 @@
 package com.example.media1.thesistest2;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Build;
@@ -22,7 +23,13 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
+
 import java.io.IOException;
+import java.util.EventListener;
 import java.util.List;
 import java.util.Locale;
 
@@ -31,7 +38,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
 
     // Create a LatLngBounds that includes West Macedonia Perfecture.
-    private LatLngBounds AUSTRALIA = new LatLngBounds(new LatLng(39.821813, 20.784578), new LatLng(40.944606, 22.181563)); //center (40.383210, 21.483071)
+    //private LatLngBounds AUSTRALIA = new LatLngBounds(new LatLng(39.821813, 20.784578), new LatLng(40.944606, 22.181563)); //center (40.383210, 21.483071)
+
+    private LatLngBounds allowedBounds = new LatLngBounds(
+            new LatLng(70.33956792419954, 178.01171875),
+            new LatLng(83.86483689701898, -88.033203125)
+    );
+
+
+    //var lastValidCenter = map.getCenter();
+   // private LatLng lastValidCenter = mMap.getCameraPosition().target; //get the center coords
+
 
 
     @Override
@@ -107,6 +124,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     // }
 
 
+   // public void
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -119,6 +138,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.setMyLocationEnabled(true);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(kozani, 9));
 
+        //add a circle in kozani
+        Circle circle = mMap.addCircle(new CircleOptions()
+                .center(new LatLng(40.300882, 21.788082))
+                .radius(10000)
+                .strokeColor(Color.RED));
+                //.fillColor(Color.BLUE));
+
+        // Add a triangle in kozani
+        Polygon polygon = mMap.addPolygon(new PolygonOptions()
+                .add(new LatLng(40.300882, 21.788082), new LatLng(40.300882, 22.788082), new LatLng(41.300882, 22.788082), new LatLng(40.300882, 21.788082))
+                .strokeColor(Color.RED));
+                //.fillColor(Color.BLUE));
+
+        //Restriction of panning out of the wanted area (Dyt Mak)
+
+        // bounds of the desired area
+        /*var allowedBounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(70.33956792419954, 178.01171875),
+                new google.maps.LatLng(83.86483689701898, -88.033203125)
+        ); */
+
+        //var lastValidCenter = map.getCenter();
+        //private LatLng lastValidCenter = mMap.getCameraPosition().target;
+
+       // mMap.setOnCameraChangeListener();
+      //  mMap.onC
+
+
+
+      /*  google.maps.event.addListener(map, 'center_changed', function() {
+            if (allowedBounds.contains(mMap.getCameraPosition().target)) {
+                // still within valid bounds, so save the last valid position
+                lastValidCenter = mMap.getCameraPosition().target;
+                return;
+            }
+
+            // not valid anymore => return to last valid position
+            mMap.panTo(lastValidCenter);
+        }); /*
 
         //1st way to zoom the camera into my boundaries
         // Set the camera to the greatest possible zoom level that includes the bounds

@@ -27,12 +27,11 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/mapsButton"
-        android:layout_below="@+id/mapsButton"
-        android:layout_marginStart="14dp"
         android:clickable="false"
         android:text="@string/mapText"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_below="@+id/mapsButton"
+        android:layout_alignStart="@+id/textView7" />
 
     <ImageButton
         android:id="@+id/nearbyButton"
@@ -68,8 +67,29 @@
         android:layout_height="wrap_content"
         android:text="@string/cameraText"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_alignTop="@+id/textView2"
+        android:layout_below="@+id/cameraButton"
+        android:layout_alignEnd="@+id/cameraButton"
         android:layout_alignStart="@+id/cameraButton" />
+
+    <ImageButton
+        android:id="@+id/placesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/placesicon3"
+        android:onClick="onPlacesClick"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/mapsButton" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:text="@string/placesText"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_below="@+id/placesButton"
+        android:layout_alignStart="@+id/placesButton"
+        android:layout_marginStart="10dp" />
 
 
 </RelativeLayout>

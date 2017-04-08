@@ -34,6 +34,10 @@ public class MainMenu extends AppCompatActivity {
         //startActivity(i);
     }
 
+    public void onPlacesClick(View view){
+        Intent i = new Intent(this, PlacesActivity.class);
+        startActivity(i);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
