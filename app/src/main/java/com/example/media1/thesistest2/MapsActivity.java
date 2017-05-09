@@ -28,7 +28,10 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.EventListener;
 import java.util.List;
 import java.util.Locale;
@@ -226,6 +229,68 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
+
+    //otan dokimaza me to xml
+    /** public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+        private GoogleMap mMap;
+        private List<PlaceOnMap> placeList;
+
+        @Override
+        protected void onCreate(final Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_maps);
+            this.placeList = getPlaceList();
+        }
+
+        @Override
+        public void onMapReady(final GoogleMap googleMap) {
+            this.mMap = googleMap;
+            addPlaceListMarkersToGoogleMap();
+        }
+
+        private void addPlaceListMarkersToGoogleMap() {
+            for (final PlaceOnMap place : this.placeList) {
+                final LatLong latLong = new LatLong(place.getPlaceLatitude(), place.getPlaceLongitude());
+                this.mMap.addMarker(new MarkerOptions().position(latLong).title(place.getPlaceName()));
+            }
+        }
+
+        private List<PlaceOnMap> getPlaceList() {
+            final String xmlString = "<placesp>" +
+                    "<placep>" +
+                    "  <place_id>1</place_id>" +
+                    "  <name>Place1</name>" +
+                    "  <description>Place description 1</description>" +
+                    "  <coordinates>;40.430224;21.559570</coordinates>" +
+                    "</placep>" +
+                    "<placep>" +
+                    "  <place_id>2</place_id>" +
+                    "  <name>Place2</name>" +
+                    "  <description>Place description 2</description>" +
+                    "  <coordinates>;40.423324;21.062439</coordinates>" +
+                    "</placep>" +
+                    "<placep>" +
+                    "  <place_id>3</place_id>" +
+                    "  <name>Place3</name>" +
+                    "  <description>Place description 3</description>" +
+                    "  <coordinates>;40.266952;21.238220</coordinates>" +
+                    "</placep>" +
+                    "</placesp>";
+            final InputStream xmlStream = getXmlStream(xmlString);
+            final PlaceXmlParser parser = new PlaceXmlParser();
+            return parser.parsePlacesXml(xmlStream);
+        }
+
+        private InputStream getXmlStream(final String xmlString) {
+            InputStream xmlStream = null;
+            try {
+                xmlStream = new ByteArrayInputStream(xmlString.getBytes("UTF-8"));
+            } catch (final UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            return xmlStream;
+        }
+    } **/
 
 
 

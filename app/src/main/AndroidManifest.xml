@@ -54,4 +54,6 @@
         <activity android:name=".PlacesActivity"></activity>
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" /> //gia to json
+
 </manifest>
