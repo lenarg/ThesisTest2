@@ -1,21 +1,11 @@
 package com.example.media1.thesistest2;
 
-import android.content.res.XmlResourceParser;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.view.Menu;
-import android.view.MenuItem;
 
 //import com.google.android.gms.location.places.Place;
 
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
 import java.util.List;
 
 //ayto htan gia to xml arxeio
@@ -50,20 +40,10 @@ import java.util.List;
 
 //edw dokimazoume me json
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 //package com.example.media1.thesistest2;
-import com.example.media1.thesistest2.JSONParser;
-
+/**
 public class PlacesActivity extends Activity {
    // TextView uid;
    // TextView name1;
@@ -75,6 +55,8 @@ public class PlacesActivity extends Activity {
     TextView type1;
     TextView coordinates1;
     Button Btngetdata;
+
+    ListView listView;//
 
     //URL to get JSON Array
     private static String url = "http://zafora.icte.uowm.gr/~ictest00344/testjson.php";//"http://10.0.2.2/JSON/";
@@ -186,4 +168,85 @@ public class PlacesActivity extends Activity {
         }
     }
 
+}**/
+
+//edw dokimazoume populate listview me json
+
+import android.widget.AdapterView;
+import android.widget.ListAdapter;
+import android.widget.SimpleAdapter;
+import android.widget.Toast;
+
+import com.example.media1.thesistest2.model.PlaceStoring;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+public class PlacesActivity extends AppCompatActivity implements LoadJSONTask.Listener, AdapterView.OnItemClickListener {
+
+    private ListView mListView;
+
+    public static final String URL = "http://zafora.icte.uowm.gr/~ictest00344/get_json.php";
+
+    private List<HashMap<String, String>> mPlacesMapList = new ArrayList<>();
+
+    private static final String KEY_PID = "place_id";
+    private static final String KEY_UID = "user_id";
+    private static final String KEY_NAME = "name";
+    private static final String KEY_DESC = "description";
+    private static final String KEY_TYPE = "type";
+    private static final String KEY_COO = "coordinates";
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_places);
+
+        mListView = (ListView) findViewById(R.id.list_view);
+        mListView.setOnItemClickListener(this);
+        new LoadJSONTask(this).execute(URL);
+    }
+
+    @Override
+    public void onLoaded(List<PlaceStoring> allplacesList) {
+
+        for (PlaceStoring allplaces : allplacesList) {
+
+            HashMap<String, String> map = new HashMap<>();
+
+            map.put(KEY_PID, allplaces.getPlace_id());
+            map.put(KEY_UID, allplaces.getUser_id());
+            map.put(KEY_NAME, allplaces.getName());
+            map.put(KEY_DESC, allplaces.getDescription());
+            map.put(KEY_TYPE, allplaces.getType());
+            map.put(KEY_COO, allplaces.getCoordinates());
+
+            mPlacesMapList.add(map);
+        }
+
+        loadListView();
+    }
+
+    @Override
+    public void onError() {
+
+        Toast.makeText(this, "Error !", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+        Toast.makeText(this, mPlacesMapList.get(i).get(KEY_NAME),Toast.LENGTH_LONG).show();
+    }
+
+    private void loadListView() {
+
+        ListAdapter adapter = new SimpleAdapter(PlacesActivity.this, mPlacesMapList, R.layout.list_item,
+                new String[] { KEY_PID, KEY_UID, KEY_NAME, KEY_DESC, KEY_TYPE, KEY_COO },
+                new int[] { R.id.place_id,R.id.user_id, R.id.name, R.id.description, R.id.type, R.id.coordinates });
+
+        mListView.setAdapter(adapter);
+
+    }
 }
