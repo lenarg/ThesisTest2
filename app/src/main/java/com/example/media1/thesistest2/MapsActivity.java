@@ -231,7 +231,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         private static final String LOG_TAG = "ExampleApp";
 
-        private static final String SERVICE_URL = "https://api.myjson.com/bins/4jb09";
+        private static final String SERVICE_URL = "http://zafora.icte.uowm.gr/~ictest00344/testjson.php"; //"https://api.myjson.com/bins/4jb09";
 
         // Invoked by execute() method of this object
         @Override
@@ -268,8 +268,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         protected void onPostExecute(String json) {
 
             try {
+
+                JSONObject baseJsonResponse = new JSONObject(json); //Convert json String into a JSONObject
                 // De-serialize the JSON string into an array of city objects
-                JSONArray jsonArray = new JSONArray(json);
+                JSONArray jsonArray = baseJsonResponse.getJSONArray("allplaces");//new JSONArray(json);//Extract “allplaces” JSONArray
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObj = jsonArray.getJSONObject(i);
+
+                    LatLng latLng = new LatLng(jsonObj.getJSONArray("coordinates").getDouble(0),
+                            jsonObj.getJSONArray("coordinates").getDouble(1));
+
+                    //move CameraPosition on first result
+                    if (i == 0) {
+                        CameraPosition cameraPosition = new CameraPosition.Builder()
+                                .target(latLng).zoom(13).build();
+
+                        mMap.animateCamera(CameraUpdateFactory
+                                .newCameraPosition(cameraPosition));
+                    }
+
+                    // Create a marker for each city in the JSON data.
+                    mMap.addMarker(new MarkerOptions()
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
+                            .title(jsonObj.getString("name"))//.title(jsonObj.getString("name"))
+                            .snippet(jsonObj.getString("description"))//.snippet(Integer.toString(jsonObj.getInt("population")))
+                            .position(latLng));
+
+
+                /*JSONArray jsonArray = new JSONArray(json);
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObj = jsonArray.getJSONObject(i);
 
@@ -290,7 +316,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                             .title(jsonObj.getString("name"))
                             .snippet(Integer.toString(jsonObj.getInt("population")))
-                            .position(latLng));
+                            .position(latLng));*/
                 }
             } catch (JSONException e) {
                 Log.e(LOG_TAG, "Error processing JSON", e);
@@ -364,7 +390,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
    // public void
 
-
+    //den xrisimopoieitai mallon pia(?)
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
