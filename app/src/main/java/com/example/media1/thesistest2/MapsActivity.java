@@ -275,25 +275,38 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject jsonObj = jsonArray.getJSONObject(i);
 
-                    LatLng latLng = new LatLng(jsonObj.getJSONArray("coordinates").getDouble(0),
-                            jsonObj.getJSONArray("coordinates").getDouble(1));
+                    //LatLng latLng = new LatLng(jsonObj.getJSONArray("coordinates").getDouble(0),
+                     //       jsonObj.getJSONArray("coordinates").getDouble(1));
+
+                    String coords = jsonObj.getString("coordinates");
+                    //Log.d("coords", coords);
+                    String[] coordstable = coords.split(";");
+                    //String coords1 = coordstable[1];
+                    //Log.d("coords", coords1);
+
+                    String msgt = jsonObj.getString("type");
+                    Log.d("msg1", "I am out!");
+                    Log.d("msgt", msgt);
+                    if ( msgt == "2" ){
+                        Log.d("msg2", "I got in!"); //polygon ;lat1,lng1,lat2,lng2..,latn,lngn
+                    }
 
                     //move CameraPosition on first result
                     if (i == 0) {
-                        CameraPosition cameraPosition = new CameraPosition.Builder()
-                                .target(latLng).zoom(13).build();
+                       // CameraPosition cameraPosition = new CameraPosition.Builder()
+                        //        .target(latLng).zoom(13).build();//.target(latLng).zoom(13).build();
 
-                        mMap.animateCamera(CameraUpdateFactory
-                                .newCameraPosition(cameraPosition));
+                       // mMap.animateCamera(CameraUpdateFactory
+                        //        .newCameraPosition(cameraPosition));
                     }
-
+/*
                     // Create a marker for each city in the JSON data.
                     mMap.addMarker(new MarkerOptions()
                             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                             .title(jsonObj.getString("name"))//.title(jsonObj.getString("name"))
                             .snippet(jsonObj.getString("description"))//.snippet(Integer.toString(jsonObj.getInt("population")))
                             .position(latLng));
-
+*/
 
                 /*JSONArray jsonArray = new JSONArray(json);
                 for (int i = 0; i < jsonArray.length(); i++) {
