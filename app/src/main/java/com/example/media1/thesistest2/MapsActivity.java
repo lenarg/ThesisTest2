@@ -281,14 +281,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     String coords = jsonObj.getString("coordinates");
                     //Log.d("coords", coords);
                     String[] coordstable = coords.split(";");
-                    //String coords1 = coordstable[1];
-                    //Log.d("coords", coords1);
+                    String coords1 = coordstable[1];
+                    Log.d("coords", coords1);
+                    String coords2 = coordstable[2];
+                    Log.d("coords2", coords2);
 
-                    String msgt = jsonObj.getString("type");
-                    Log.d("msg1", "I am out!");
-                    Log.d("msgt", msgt);
-                    if ( msgt == "2" ){
-                        Log.d("msg2", "I got in!"); //polygon ;lat1,lng1,lat2,lng2..,latn,lngn
+                    String type = jsonObj.getString("type");
+                    //Log.d("msg1", "I am out!");
+                    //Log.d("msgt", type);
+                    int itype = Integer.parseInt(type);
+                    if ( itype == 1 ){
+                        Log.d("msg1", "Polygon!"); //polygon ;lat1,lng1,lat2,lng2..,latn,lngn
+                    }else if ( itype == 2 ){
+                        Log.d("msg2", "rectangle");//rectangle ;latne;lngne;latsw;lngsw
+                        Double latne = Double.parseDouble(coordstable[1]);
+                        Double lngne = Double.parseDouble(coordstable[2]);
+                        Double latsw = Double.parseDouble(coordstable[3]);
+                        Double lngsw = Double.parseDouble(coordstable[4]);
+
+                        Polygon rectangle = mMap.addPolygon(new PolygonOptions()
+                                .add( new LatLng(latne, lngsw), new LatLng(latsw, lngsw), new LatLng(latsw, lngne), new LatLng(latne, lngne), new LatLng(latne, lngsw))
+                                .strokeColor(Color.RED));
+                    }else if ( itype == 3 ){
+                        Log.d("msg3", "circle"); //circle  ;radius;latcen;lngcen
+                        Double radius = Double.parseDouble(coordstable[1]);
+                        //Log.d("msgr", String.valueOf(radius));
+                        Double latcen = Double.parseDouble(coordstable[2]);
+                        Double lngcen = Double.parseDouble(coordstable[3]);
+                        Circle circle = mMap.addCircle(new CircleOptions()
+                                .center(new LatLng(latcen, lngcen))//.center(new LatLng(40.300882, 21.788082)) //coordstable [2],coordstable [3]
+                                .radius(radius)//.radius(10000) //coordstable [1]
+                                .strokeColor(Color.RED));
+                    }else {
+                        Log.d("msg4", "Undentified type");
                     }
 
                     //move CameraPosition on first result
