@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.Menu;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -231,7 +232,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         private static final String LOG_TAG = "ExampleApp";
 
-        private static final String SERVICE_URL = "http://zafora.icte.uowm.gr/~ictest00344/testjson.php"; //"https://api.myjson.com/bins/4jb09";
+        private static final String SERVICE_URL = "http://zafora.icte.uowm.gr/~ictest00344/get_json.php";//"http://zafora.icte.uowm.gr/~ictest00344/testjson.php"; //"https://api.myjson.com/bins/4jb09";
 
         // Invoked by execute() method of this object
         @Override
@@ -291,9 +292,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     //Log.d("msgt", type);
                     int itype = Integer.parseInt(type);
                     if ( itype == 1 ){
-                        Log.d("msg1", "Polygon!"); //polygon ;lat1,lng1,lat2,lng2..,latn,lngn
+                        //Log.d("msg1", "Polygon!"); //polygon ;lat1,lng1,lat2,lng2..,latn,lngn
+                        PolygonOptions polygonOptions = new PolygonOptions();
+                        polygonOptions.strokeColor(Color.RED);
+                        for (int j = 1; j<coordstable.length; j=j+2){
+                            Double plat = Double.parseDouble(coordstable[j]);
+                            Double plng = Double.parseDouble(coordstable[j+1]);
+
+                            polygonOptions.add( new LatLng( plat, plng ));
+                        }
+                        Polygon polygon = mMap.addPolygon(polygonOptions);
+
+                        polygon.setClickable(true);
+
+                        /*polygon.infowindow = new google.maps.InfoWindow(
+                                {
+                                        content:"<b>" + c + "</b>" + "</br>",
+                                });
+
+                        getMap().setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
+                            public void onPolygonClick(Polygon polygon) {
+
+                                google.maps.event.addListener(alertPolygon, 'click', function(ev) {
+                                    //console.log(ev);
+                                    //console.log(alertText);
+                                    var infoWindow = new google.maps.InfoWindow({ content: alertText });
+                                    infoWindow.setPosition(ev.latLnt);
+                                    infoWindow.open(map);
+                                });
+
+                            }
+                        });*/
+
                     }else if ( itype == 2 ){
-                        Log.d("msg2", "rectangle");//rectangle ;latne;lngne;latsw;lngsw
+                        //Log.d("msg2", "rectangle");//rectangle ;latne;lngne;latsw;lngsw
                         Double latne = Double.parseDouble(coordstable[1]);
                         Double lngne = Double.parseDouble(coordstable[2]);
                         Double latsw = Double.parseDouble(coordstable[3]);
@@ -302,8 +334,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Polygon rectangle = mMap.addPolygon(new PolygonOptions()
                                 .add( new LatLng(latne, lngsw), new LatLng(latsw, lngsw), new LatLng(latsw, lngne), new LatLng(latne, lngne), new LatLng(latne, lngsw))
                                 .strokeColor(Color.RED));
+
+                        rectangle.setClickable(true);
                     }else if ( itype == 3 ){
-                        Log.d("msg3", "circle"); //circle  ;radius;latcen;lngcen
+                        //Log.d("msg3", "circle"); //circle  ;radius;latcen;lngcen
                         Double radius = Double.parseDouble(coordstable[1]);
                         //Log.d("msgr", String.valueOf(radius));
                         Double latcen = Double.parseDouble(coordstable[2]);
@@ -312,18 +346,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 .center(new LatLng(latcen, lngcen))//.center(new LatLng(40.300882, 21.788082)) //coordstable [2],coordstable [3]
                                 .radius(radius)//.radius(10000) //coordstable [1]
                                 .strokeColor(Color.RED));
+                                //.clickable(true);
+
+                        //circle.setClickable(true);
+
                     }else {
                         Log.d("msg4", "Undentified type");
                     }
 
                     //move CameraPosition on first result
                     if (i == 0) {
-                       // CameraPosition cameraPosition = new CameraPosition.Builder()
-                        //        .target(latLng).zoom(13).build();//.target(latLng).zoom(13).build();
+                        LatLng kozani = new LatLng(40.300882, 21.788082);
+                        CameraPosition cameraPosition = new CameraPosition.Builder()
+                                .target(kozani).zoom(8).build();//.target(latLng).zoom(13).build();
 
-                       // mMap.animateCamera(CameraUpdateFactory
-                        //        .newCameraPosition(cameraPosition));
+                        mMap.animateCamera(CameraUpdateFactory
+                                .newCameraPosition(cameraPosition));
                     }
+
+
 /*
                     // Create a marker for each city in the JSON data.
                     mMap.addMarker(new MarkerOptions()
@@ -360,9 +401,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Log.e(LOG_TAG, "Error processing JSON", e);
             }
 
+            mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener(){
+                //public void onPolygonClick(Polygon polygon){
+                 //   Log.d("msgpol", "A polygon was clicked!");
+                //}
+                public void onPolygonClick(Polygon polygon){
+                      Log.d("msgpol", "A polygon or rectangle was clicked!");
+                    }
+            });
+
         }
     }
-
 
 
     //When the Search button is pressed
