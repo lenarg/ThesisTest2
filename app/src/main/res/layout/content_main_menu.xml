@@ -91,5 +91,24 @@
         android:layout_alignStart="@+id/placesButton"
         android:layout_marginStart="10dp" />
 
+    <ImageButton
+        android:id="@+id/notifButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/placesicon3"
+        android:onClick="onNotifClick"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/nearbyButton" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:text="@string/notifText"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_below="@+id/notifButton"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>

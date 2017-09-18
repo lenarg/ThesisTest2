@@ -1,9 +1,15 @@
 package com.example.media1.thesistest2;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -12,12 +18,38 @@ import android.content.Intent;
 
 public class MainMenu extends AppCompatActivity {
 
+    private int mID = 10002;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        Context context = getApplicationContext();
+        NotificationCompat.Builder builder = (NotificationCompat.Builder) new NotificationCompat.Builder(context )
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentText("mARs is running")
+                .setContentTitle("mARs");
+
+        Intent intent = new Intent( context, MainMenu.class);
+        PendingIntent pIntent = PendingIntent.getActivity(context, mID , intent, 0);
+        builder.setContentIntent(pIntent);
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Notification notif = builder.build();
+        mNotificationManager.notify(mID, notif);
+
     }
+
+    /*
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+
+        savedInstanceState.putInt(STATE_SCORE, mCurrentScore);
+        savedInstanceState.putInt(STATE_LEVEL, mCurrentLevel);
+
+        super.onSaveInstanceState(savedInstanceState);//(outState, outPersistentState);
+    }*/
 
     public void onMapsClick(View view){
         Intent i = new Intent(this, MapsActivity.class);
@@ -36,6 +68,11 @@ public class MainMenu extends AppCompatActivity {
 
     public void onPlacesClick(View view){
         Intent i = new Intent(this, PlacesActivity.class);
+        startActivity(i);
+    }
+
+    public void onNotifClick(View view){
+        Intent i = new Intent(this, NotifActivity.class);
         startActivity(i);
     }
 
@@ -59,5 +96,20 @@ public class MainMenu extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        Context context = getApplicationContext();
+        NotificationManager mNotificationManager2 = (NotificationManager) getSystemService(context.NOTIFICATION_SERVICE);
+        mNotificationManager2.cancel(mID);
+
+        super.onDestroy();
+
+        //Context context = getApplicationContext();
+        //NotificationManager nManager = ((NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE));
+        //nManager.cancelAll();
+
+
     }
 }

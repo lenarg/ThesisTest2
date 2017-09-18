@@ -11,4 +11,5 @@
     <string name="coordinatesText">Coordinates:</string>
     <string name="title_activity_camera">Camera</string>
     <string name="placesText">Places</string>
+    <string name="notifText">Notifications</string>
 </resources>
