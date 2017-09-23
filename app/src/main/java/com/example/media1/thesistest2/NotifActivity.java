@@ -45,7 +45,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class NotifActivity  {
+/**public class NotifActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_notif);
+    }
+
+}**/
+
+
+
+public class NotifActivity extends AppCompatActivity {
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,30 +118,52 @@ public class NotifActivity  {
         @Override
         protected void onPostExecute(String json) {
 
+            Log.d("msg7","Its here 1!");
+
             try {
+                Log.d("msg7","Its here 2!");
 
                 JSONObject baseJsonResponse = new JSONObject(json); //Convert json String into a JSONObject
                 // De-serialize the JSON string into an array of city objects
                 JSONArray jsonArray = baseJsonResponse.getJSONArray("allplaces");//new JSONArray(json);//Extract “allplaces” JSONArray
 
-                //latlng tap = ( 40.416425, 21.521270); //point inside namata region (rectangle area)
+                LatLng tap = new LatLng(40.416425,21.521270); //point inside namata region (rectangle area)
+                int intersectCount = 0;
 
                 for ( int i = 0; i < jsonArray.length(); i++) {
+                    Log.d("msg7","Its here :" + i );
                     JSONObject jsonObj = jsonArray.getJSONObject(i);
                     String type = jsonObj.getString("type");
-                    if ( type == "1" || type == "2" ){ // Polygon or Rectangle
-
-                        String coords = jsonObj.getString("coordinates");
-                        String[] coordstable = coords.split(";"); //ΕΔΩ ΕΜΕΙΝΑ ΜΠΟΡΕΙ ΝΑ ΧΩ ΚΑΝΕΙ ΚΑΙ ΧΑΖΟΜΑΡΑ, ΝΑ ΤΟ ΞΑΝΑΔΩ
-                        String coords1 = coordstable[1];
-                        Double lat = Double.parseDouble(coords1);
-                        String coords2 = coordstable[2];
-                        Double lng = Double.parseDouble(coords2);
+                    int itype = Integer.parseInt(type);
+                    int place_id = jsonObj.getInt("place_id");
+                    Log.d("msg7","Type :" + type );
+                    if ( itype == 1 || itype == 2 ){ // Polygon or Rectangle
                         // put coordinates in vertices array as latlng(double lat, double lng) format
                         // do Ray-Casting
                         //if R-C result is odd then we're in the area, show notification!
 
-                    }else if ( type == "3" ){ //Circle
+                        String coords = jsonObj.getString("coordinates");
+                        String[] coordstable = coords.split(";");
+
+                        List<LatLng> vertices = new ArrayList<LatLng>();
+
+                        for (int j = 1; j<coordstable.length; j=j+2) {
+                            Double platx = Double.parseDouble(coordstable[j]);
+                            Double plngy = Double.parseDouble(coordstable[j + 1]);
+
+                            vertices.add(new LatLng(platx, plngy));
+                        }
+
+                        //int intersectCount = 0;
+                        for (int j = 0; j < vertices.size() - 1; j++) {
+                            if (rayCastIntersect(tap, vertices.get(j), vertices.get(j + 1))) {
+                                    intersectCount++;
+                            }
+                        }
+
+                    }else if ( itype == 3 ){ //Circle
+
+                        Log.d("msg7","Circle");
 
                         // do Geofencing
 
@@ -135,69 +171,46 @@ public class NotifActivity  {
 
                 }
 
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObj = jsonArray.getJSONObject(i);
+                if ( (intersectCount % 2) == 1 ) { //odd = inside
 
-                    String coords = jsonObj.getString("coordinates");
-                    //Log.d("coords", coords);
-                    String[] coordstable = coords.split(";");
-                    String coords1 = coordstable[1];
-                    Log.d("coords", coords1);
-                    String coords2 = coordstable[2];
-                    Log.d("coords2", coords2);
+                    //Show notification
+                    Log.d("msg7","Its IN!");
 
-                    int place_id = jsonObj.getInt("place_id");
+                }else{ //even = outside
 
-                    String type = jsonObj.getString("type");
-
-                    int itype = Integer.parseInt(type);
-                    if ( itype == 1 ){
-                        //Log.d("msg1", "Polygon!"); //polygon ;lat1,lng1,lat2,lng2..,latn,lngn
-                        PolygonOptions polygonOptions = new PolygonOptions();
-                        polygonOptions.strokeColor(Color.RED);
-                        for (int j = 1; j<coordstable.length; j=j+2){
-                            Double plat = Double.parseDouble(coordstable[j]);
-                            Double plng = Double.parseDouble(coordstable[j+1]);
-
-                            polygonOptions.add( new LatLng( plat, plng ));
-                        }
-                        Polygon polygon = mMap.addPolygon(polygonOptions);
-
-                        polygon.setClickable(true);
-
-                    }else if ( itype == 2 ){
-                        //Log.d("msg2", "rectangle");//rectangle ;latne;lngne;latsw;lngsw
-                        Double latne = Double.parseDouble(coordstable[1]);
-                        Double lngne = Double.parseDouble(coordstable[2]);
-                        Double latsw = Double.parseDouble(coordstable[3]);
-                        Double lngsw = Double.parseDouble(coordstable[4]);
-
-                        Polygon rectangle = mMap.addPolygon(new PolygonOptions()
-                                .add( new LatLng(latne, lngsw), new LatLng(latsw, lngsw), new LatLng(latsw, lngne), new LatLng(latne, lngne), new LatLng(latne, lngsw))
-                                .strokeColor(Color.RED));
-
-                        rectangle.setClickable(true);
-                    }else if ( itype == 3 ){
-                        //Log.d("msg3", "circle"); //circle  ;radius;latcen;lngcen
-                        Double radius = Double.parseDouble(coordstable[1]);
-                        //Log.d("msgr", String.valueOf(radius));
-                        Double latcen = Double.parseDouble(coordstable[2]);
-                        Double lngcen = Double.parseDouble(coordstable[3]);
-                        Circle circle = mMap.addCircle(new CircleOptions()
-                                .center(new LatLng(latcen, lngcen))//.center(new LatLng(40.300882, 21.788082)) //coordstable [2],coordstable [3]
-                                .radius(radius)//.radius(10000) //coordstable [1]
-                                .strokeColor(Color.RED));
-
-                    }else {
-                        Log.d("msg4", "Undentified type");
-                    }
-
+                    //do nothing
+                    Log.d("msg7","its OUT");
 
                 }
+
             } catch (JSONException e) {
                 Log.e(LOG_TAG, "Error processing JSON", e);
             }
         }
+    }
+
+
+
+    private boolean rayCastIntersect(LatLng tap, LatLng vertA, LatLng vertB) {
+
+        double aY = vertA.latitude;
+        double bY = vertB.latitude;
+        double aX = vertA.longitude;
+        double bX = vertB.longitude;
+        double pY = tap.latitude;
+        double pX = tap.longitude;
+
+        if ((aY > pY && bY > pY) || (aY < pY && bY < pY)
+                || (aX < pX && bX < pX)) {
+            return false; // a and b can't both be above or below pt.y, and a or
+            // b must be east of pt.x
+        }
+
+        double m = (aY - bY) / (aX - bX); // Rise over run
+        double bee = (-aX) * m + aY; // y = mx + b
+        double x = (pY - bee) / m; // algebra is neat!
+
+        return x > pX;
     }
 }
 
@@ -224,4 +237,4 @@ public class NotifActivity  {
     }
 **/
 
-}
+
