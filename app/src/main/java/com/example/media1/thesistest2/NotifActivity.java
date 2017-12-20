@@ -4,6 +4,7 @@ package com.example.media1.thesistest2;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -18,7 +19,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.media1.thesistest2.model.PlaceStoring;
+//import com.example.media1.thesistest2.model.PlaceStoring;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -118,59 +119,112 @@ public class NotifActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String json) {
 
-            Log.d("msg7","Its here 1!");
+            //Log.d("msg7","Its here 1!");
 
             try {
-                Log.d("msg7","Its here 2!");
+                //Log.d("msg7","Its here 2!");
 
                 JSONObject baseJsonResponse = new JSONObject(json); //Convert json String into a JSONObject
                 // De-serialize the JSON string into an array of city objects
                 JSONArray jsonArray = baseJsonResponse.getJSONArray("allplaces");//new JSONArray(json);//Extract “allplaces” JSONArray
 
-                LatLng tap = new LatLng(40.416425,21.521270); //point inside namata region (rectangle area)
-                int intersectCount = 0;
+                //LatLng tap = new LatLng(40.416425,21.521270); //point inside namata region (rectangle area)
+                //LatLng tap = new LatLng(40.328595, 20.996130); //circle kotyli
+                //LatLng tap = new LatLng(40.393161, 20.835766);
+                //LatLng tap = new LatLng(40.417223, 21.057134); //circle
+                //int intersectCount = 0;
+                LatLng tap = new LatLng( 40.203385, 21.444823 );
 
                 for ( int i = 0; i < jsonArray.length(); i++) {
-                    Log.d("msg7","Its here :" + i );
+                    //Log.d("msg7","Its here :" + i );
                     JSONObject jsonObj = jsonArray.getJSONObject(i);
                     String type = jsonObj.getString("type");
                     int itype = Integer.parseInt(type);
                     int place_id = jsonObj.getInt("place_id");
-                    Log.d("msg7","Type :" + type );
-                    if ( itype == 1 || itype == 2 ){ // Polygon or Rectangle
+                    //Log.d("msg7","Type :" + itype );
+                    String coords = jsonObj.getString("coordinates");
+                    String[] coordstable = coords.split(";");
+                    //List<LatLng> vertices = new ArrayList<LatLng>();
+
+                    /* if ( itype == 1 || itype == 2 ){ // Polygon or Rectangle
+
+                        //Log.d("msg7","Rec and Pols");
+
                         // put coordinates in vertices array as latlng(double lat, double lng) format
                         // do Ray-Casting
                         //if R-C result is odd then we're in the area, show notification!
 
-                        String coords = jsonObj.getString("coordinates");
-                        String[] coordstable = coords.split(";");
-
                         List<LatLng> vertices = new ArrayList<LatLng>();
 
                         for (int j = 1; j<coordstable.length; j=j+2) {
-                            Double platx = Double.parseDouble(coordstable[j]);
-                            Double plngy = Double.parseDouble(coordstable[j + 1]);
+                            double platx = Double.parseDouble(coordstable[j]);
+                            double plngy = Double.parseDouble(coordstable[j + 1]);
 
                             vertices.add(new LatLng(platx, plngy));
                         }
 
-                        //int intersectCount = 0;
+                        int intersectCount = 0;
                         for (int j = 0; j < vertices.size() - 1; j++) {
                             if (rayCastIntersect(tap, vertices.get(j), vertices.get(j + 1))) {
                                     intersectCount++;
                             }
                         }
 
-                    }else if ( itype == 3 ){ //Circle
+                        if ( (intersectCount % 2) == 1 ) { //odd = inside
 
-                        Log.d("msg7","Circle");
+
+                            //Show notification
+                            Log.d("msg7","Its IN place with ID: " + place_id);
+
+                        }else{ //even = outside
+
+                            //do nothing
+                            //Log.d("msg7","its OUT");
+
+                        }
+
+                    }else */ if ( itype == 3 ){ //Circle
+
+                        //Log.d("msg7","Circle");
 
                         // do Geofencing
+                        //function pointInCircle(point, radius, center)
+                        //{
+                        //    return (google.maps.geometry.spherical.computeDistanceBetween(point, center) <= radius)
+                        //}
+                        //;radius;latcen,lngcen
+
+                        //Double pradius = Double.parseDouble(coordstable[0]);
+                        float pradius = Float.parseFloat(coordstable[1]);
+                        //Log.d("msg7","radius" + coordstable[1] + pradius);
+
+                        double platcen = Double.parseDouble(coordstable[2]);
+                        double plngcen = Double.parseDouble(coordstable[3]);
+                        //Log.d("msg7","radius" + coordstable[2] + platcen);
+                        //Log.d("msg7","radius" + coordstable[3] +plngcen);
+
+                        LatLng pcenter = new LatLng(platcen, plngcen);
+
+                        float[] distance = new float[2];
+
+                        Location.distanceBetween( tap.latitude, tap.longitude, platcen, plngcen, distance );
+                        //Log.d("msg7","center" + pcenter);
+                        //Log.d("msg7","radius" + pradius);
+                        //Log.d("msg7","distance" + distance[0]);
+
+                        if( distance[0] < pradius  ){ //itsIN
+                            Log.d("msg7","Its IN circle place" + place_id); //with ID: " + place_id);
+                            //Toast.makeText(getBaseContext(), "Outside", Toast.LENGTH_LONG).show();
+                        } else { //its OUT
+                            //Toast.makeText(getBaseContext(), "Inside", Toast.LENGTH_LONG).show();
+                        }
+
 
                     }
 
                 }
 
+                /*
                 if ( (intersectCount % 2) == 1 ) { //odd = inside
 
                     //Show notification
@@ -181,7 +235,7 @@ public class NotifActivity extends AppCompatActivity {
                     //do nothing
                     Log.d("msg7","its OUT");
 
-                }
+                }*/
 
             } catch (JSONException e) {
                 Log.e(LOG_TAG, "Error processing JSON", e);

@@ -5,7 +5,7 @@
     <string name="title_activity_maps">Map</string>
     <string name="mapText">Maps</string>
     <string name="nearbyText">Nearby</string>
-    <string name="cameraText">Camera</string>
+    <string name="toursText">Tours</string>
     <string name="searchText">Search</string>
     <string name="addressText">Address:</string>
     <string name="coordinatesText">Coordinates:</string>

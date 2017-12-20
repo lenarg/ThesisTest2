@@ -39,8 +39,8 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/mapsButton"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/radaricon"
-        android:onClick="onNearbyClick"/>
+        android:background="@drawable/nearbyicon"
+        android:onClick="onNearbyClick" />
 
     <TextView
         android:id="@+id/textView2"
@@ -52,24 +52,24 @@
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <ImageButton
-        android:id="@+id/cameraButton"
+        android:id="@+id/toursButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/nearbyButton"
         android:layout_marginStart="41dp"
         android:layout_toEndOf="@+id/nearbyButton"
-        android:background="@drawable/cameraicon"
-        android:onClick="onCameraClick"/>
+        android:background="@drawable/toursicon"
+        android:onClick="onToursClick" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cameraText"
+        android:text="@string/toursText"
         android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_below="@+id/cameraButton"
-        android:layout_alignEnd="@+id/cameraButton"
-        android:layout_alignStart="@+id/cameraButton" />
+        android:layout_below="@+id/toursButton"
+        android:layout_alignEnd="@+id/toursButton"
+        android:layout_alignStart="@+id/toursButton" />
 
     <ImageButton
         android:id="@+id/placesButton"

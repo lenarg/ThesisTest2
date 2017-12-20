@@ -57,13 +57,13 @@ public class MainMenu extends AppCompatActivity {
     }
 
     public void onNearbyClick(View view){
-        Intent i = new Intent(this, Nearby.class);
+        Intent i = new Intent(this, NearbyActivity.class);
         startActivity(i);
     }
 
-    public void onCameraClick(View view){
-        //Intent i = new Intent(this, Camera.class);
-        //startActivity(i);
+    public void onToursClick(View view){
+        Intent i = new Intent(this, ToursActivity.class);
+        startActivity(i);
     }
 
     public void onPlacesClick(View view){
