@@ -141,7 +141,6 @@ public class NotifActivity extends AppCompatActivity {
                     String type = jsonObj.getString("type");
                     int itype = Integer.parseInt(type);
                     int place_id = jsonObj.getInt("place_id");
-                    //Log.d("msg7","Type :" + itype );
                     String coords = jsonObj.getString("coordinates");
                     String[] coordstable = coords.split(";");
                     //List<LatLng> vertices = new ArrayList<LatLng>();

@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -32,6 +33,7 @@ import java.net.URL;
 
 public class NearbyActivity extends AppCompatActivity {
 
+    private TextView textView6;
     private LocationManager locationManager;
     private LocationListener locationListener;
 
@@ -41,6 +43,8 @@ public class NearbyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby);
 
+        textView6 = (TextView) findViewById(R.id.textView6);
+
         //initializing the location manager and listener
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         locationListener = new LocationListener() {
@@ -48,7 +52,7 @@ public class NearbyActivity extends AppCompatActivity {
             public void onLocationChanged(Location location) { //it is called whenever the location is updated
                 Log.d("msg7","Its here 6!");
                 Log.d("msg7", "\n" + location.getLatitude() + " " + location.getLongitude());
-                textView.append("\n" + location.getLatitude() + " " + location.getLongitude());
+                textView6.append("\n" + location.getLatitude() + " " + location.getLongitude());
             }
 
             @Override
