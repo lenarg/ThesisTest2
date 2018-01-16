@@ -52,6 +52,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import static com.example.media1.thesistest2.R.id.map;
 
 /* //trying http://stackoverflow.com/questions/29724192/using-json-for-android-maps-api-markers-not-showing-up
@@ -232,18 +234,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         private static final String LOG_TAG = "ExampleApp";
 
-        private static final String SERVICE_URL = "http://zafora.icte.uowm.gr/~ictest00344/get_json.php";//"http://zafora.icte.uowm.gr/~ictest00344/testjson.php"; //"https://api.myjson.com/bins/4jb09";
+        private static final String SERVICE_URL = "https://zafora.icte.uowm.gr/~ictest00344/get_json.php";//"http://zafora.icte.uowm.gr/~ictest00344/testjson.php"; //"https://api.myjson.com/bins/4jb09";
 
         // Invoked by execute() method of this object
         @Override
         protected String doInBackground(Void... args) {
 
-            HttpURLConnection conn = null;
+            HttpsURLConnection conn = null;
             final StringBuilder json = new StringBuilder();
             try {
                 // Connect to the web service
                 URL url = new URL(SERVICE_URL);
-                conn = (HttpURLConnection) url.openConnection();
+                conn = (HttpsURLConnection) url.openConnection();
                 InputStreamReader in = new InputStreamReader(conn.getInputStream());
 
                 // Read the JSON data into the StringBuilder

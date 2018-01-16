@@ -14,6 +14,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class LoadJSONTask extends AsyncTask<String, Void, Response> {
     public LoadJSONTask(Listener listener) {
 
@@ -62,7 +64,7 @@ public class LoadJSONTask extends AsyncTask<String, Void, Response> {
     private String loadJSON(String jsonURL) throws IOException {
 
         URL url = new URL(jsonURL);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
         conn.setReadTimeout(10000);
         conn.setConnectTimeout(15000);
         conn.setRequestMethod("GET");

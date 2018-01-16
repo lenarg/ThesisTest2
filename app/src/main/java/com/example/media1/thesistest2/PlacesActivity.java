@@ -25,7 +25,7 @@ public class PlacesActivity extends AppCompatActivity implements LoadJSONTask.Li
 
     private ListView mListView;
 
-    public static final String URL = "http://zafora.icte.uowm.gr/~ictest00344/get_json.php";
+    public static final String URL = "https://zafora.icte.uowm.gr/~ictest00344/get_json.php";
 
     private List<HashMap<String, String>> mPlacesMapList = new ArrayList<>();
 
@@ -70,7 +70,7 @@ public class PlacesActivity extends AppCompatActivity implements LoadJSONTask.Li
     @Override
     public void onError() {
 
-        Toast.makeText(this, "Error !", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Error!!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -46,6 +46,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import javax.net.ssl.HttpsURLConnection;
+
 /**public class NotifActivity extends AppCompatActivity {
 
     @Override
@@ -83,18 +85,18 @@ public class NotifActivity extends AppCompatActivity {
 
         private static final String LOG_TAG = "ExampleApp";
 
-        private static final String SERVICE_URL = "http://zafora.icte.uowm.gr/~ictest00344/get_json.php";//"http://zafora.icte.uowm.gr/~ictest00344/testjson.php"; //"https://api.myjson.com/bins/4jb09";
+        private static final String SERVICE_URL = "https://zafora.icte.uowm.gr/~ictest00344/get_json.php";//"http://zafora.icte.uowm.gr/~ictest00344/testjson.php"; //"https://api.myjson.com/bins/4jb09";
 
         // Invoked by execute() method of this object
         @Override
         protected String doInBackground(Void... args) {
 
-            HttpURLConnection conn = null;
+            HttpsURLConnection conn = null;
             final StringBuilder json = new StringBuilder();
             try {
                 // Connect to the web service
                 URL url = new URL(SERVICE_URL);
-                conn = (HttpURLConnection) url.openConnection();
+                conn = (HttpsURLConnection) url.openConnection();
                 InputStreamReader in = new InputStreamReader(conn.getInputStream());
 
                 // Read the JSON data into the StringBuilder
@@ -124,17 +126,21 @@ public class NotifActivity extends AppCompatActivity {
             try {
                 //Log.d("msg7","Its here 2!");
 
+                //Log.d("msg7","Its here 4!");
+
                 JSONObject baseJsonResponse = new JSONObject(json); //Convert json String into a JSONObject
                 // De-serialize the JSON string into an array of city objects
+                //Log.d("msg7","Its here 4!");
                 JSONArray jsonArray = baseJsonResponse.getJSONArray("allplaces");//new JSONArray(json);//Extract “allplaces” JSONArray
-
+                //Log.d("msg7","Its here 5!");
                 //LatLng tap = new LatLng(40.416425,21.521270); //point inside namata region (rectangle area)
-                //LatLng tap = new LatLng(40.328595, 20.996130); //circle kotyli
+                LatLng tap = new LatLng(40.328595, 20.996130); //circle kotyli
                 //LatLng tap = new LatLng(40.393161, 20.835766);
                 //LatLng tap = new LatLng(40.417223, 21.057134); //circle
                 //int intersectCount = 0;
-                LatLng tap = new LatLng( 40.203385, 21.444823 );
-
+                //LatLng tap = new LatLng( 40.203385, 21.444823 ); //kivotos
+                //int m = jsonArray.length();
+                //Log.d("msg7","lengtharray: "+m);
                 for ( int i = 0; i < jsonArray.length(); i++) {
                     //Log.d("msg7","Its here :" + i );
                     JSONObject jsonObj = jsonArray.getJSONObject(i);
