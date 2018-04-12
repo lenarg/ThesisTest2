@@ -45,6 +45,7 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 //public class NearbyActivity extends AppCompatActivity {
 public class NearbyActivity extends AppCompatActivity implements LocationListener {
     private TextView latitudeField;

@@ -35,7 +35,7 @@
             </intent-filter>
         </activity>
 
-        <!-- 13/1-->
+        <!-- 13/1 -->
         <activity
             android:name=".LocationCheckerActivity"
             android:label="@string/app_name">
@@ -52,7 +52,8 @@
                     android:enabled="true"
                     android:exported="true"
                     android:process=":my_service" />
-                 till here -->
+                 till here
+        -->
 
 
         <!--
@@ -78,7 +79,12 @@
         <service
             android:name=".GoogleService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity
+            android:name=".PlaceDetails"
+            android:label="@string/title_activity_place_details"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

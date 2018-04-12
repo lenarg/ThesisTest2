@@ -1,5 +1,6 @@
 package com.example.media1.thesistest2;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
@@ -29,12 +30,13 @@ public class PlacesActivity extends AppCompatActivity implements LoadJSONTask.Li
 
     private List<HashMap<String, String>> mPlacesMapList = new ArrayList<>();
 
-    private static final String KEY_PID = "place_id";
-    private static final String KEY_UID = "user_id";
-    private static final String KEY_NAME = "name";
-    private static final String KEY_DESC = "description";
-    private static final String KEY_TYPE = "type";
-    private static final String KEY_COO = "coordinates";
+    //private static final String KEY_PID = "place_id";
+    public static final String KEY_PID = "place_id";
+    public static final String KEY_UID = "user_id";
+    public static final String KEY_NAME = "name";
+    public static final String KEY_DESC = "description";
+    public static final String KEY_TYPE = "type";
+    public static final String KEY_COO = "coordinates";
 
 
     @Override
@@ -76,7 +78,18 @@ public class PlacesActivity extends AppCompatActivity implements LoadJSONTask.Li
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        Toast.makeText(this, mPlacesMapList.get(i).get(KEY_NAME),Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, mPlacesMapList.get(i).get(KEY_NAME),Toast.LENGTH_LONG).show();
+        Intent myIntent2 = new Intent(PlacesActivity.this, PlaceDetails.class);
+        //myIntent2.putExtra("Position", i);
+        myIntent2.putExtra( KEY_PID, mPlacesMapList.get(i).get(KEY_PID)); //String.valueOf(l));//ID_EXTRA, id
+        myIntent2.putExtra( KEY_NAME, mPlacesMapList.get(i).get(KEY_NAME));
+        myIntent2.putExtra( KEY_DESC, mPlacesMapList.get(i).get(KEY_DESC));
+        myIntent2.putExtra( KEY_TYPE, mPlacesMapList.get(i).get(KEY_TYPE));
+        myIntent2.putExtra( KEY_COO, mPlacesMapList.get(i).get(KEY_COO));
+
+        //myIntent2.putExtra("key", "value"); //Optional parameters
+        //CurrentActivity.this.startActivity(myIntent);
+        startActivity(myIntent2);
     }
 
     private void loadListView() {
