@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<employees>
+
+    <employee>
+        <id>2165</id>
+        <name>Mike</name>
+        <department>Dev</department>
+        <type>Perm</type>
+        <email>mike@a.com</email>
+    </employee>
+
+    <employee>
+        <id>3463</id>
+        <name>Trav</name>
+        <department>DB</department>
+        <type>Contr</type>
+        <email>travis@a.com</email>
+    </employee>
+
+    <employee>
+        <id>2001</id>
+        <name>Mary</name>
+        <department>Test</department>
+        <type>Perm</type>
+        <email>mary@a.com</email>
+    </employee>
+</employees>

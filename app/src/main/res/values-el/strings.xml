@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">mARs</string>
+    <string name="action_settings">Ρυθμίσεις</string>
+    <string name="title_activity_nearby">Κοντινά</string>
+    <string name="title_activity_maps">Χάρτης</string>
+    <string name="mapText">Χάρτες</string>
+    <string name="nearbyText">Κοντινά</string>
+    <string name="toursText">Περιηγήσεις</string>
+    <string name="searchText">Αναζήτηση</string>
+    <string name="addressText">Διεύθυνση:</string>
+    <string name="coordinatesText">Συντεταγμένες:</string>
+    <string name="title_activity_camera">Κάμερα</string>
+    <string name="placesText">Σημεία Ενδιαφέροντος</string>
+    <string name="notifText">Ειδοποιήσεις</string>
+</resources>
