@@ -12,4 +12,5 @@
     <string name="title_activity_camera">Κάμερα</string>
     <string name="placesText">Σημεία Ενδιαφέροντος</string>
     <string name="notifText">Ειδοποιήσεις</string>
+    <string name="title_activity_place_details">Λεπτομέριες Περιοχής</string>
 </resources>

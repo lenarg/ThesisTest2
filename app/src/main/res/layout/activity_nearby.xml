@@ -22,7 +22,7 @@
         </TextView>
 
         <TextView
-            android:id="@+id/TextView02"
+            android:id="@+id/lattv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="unknown"
@@ -46,7 +46,7 @@
         </TextView>
 
         <TextView
-            android:id="@+id/TextView04"
+            android:id="@+id/lngtv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="unknown"

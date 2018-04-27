@@ -8,6 +8,7 @@ public class PlaceStoring {
     private String description;
     private String type;
     private String coordinates;
+    private String pfimage;
 
     public String getPlace_id() {
         return place_id;
@@ -31,6 +32,10 @@ public class PlaceStoring {
 
     public String getCoordinates() {
         return coordinates;
+    }
+
+    public String getImage() {
+        return pfimage;
     }
 
 }

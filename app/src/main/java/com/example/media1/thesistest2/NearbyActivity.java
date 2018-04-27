@@ -58,8 +58,8 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby);
-        latitudeField = (TextView) findViewById(R.id.TextView02);
-        longitudeField = (TextView) findViewById(R.id.TextView04);
+        latitudeField = (TextView)findViewById(R.id.lattv);
+        longitudeField = (TextView)findViewById(R.id.lngtv);
 
         // Get the location manager
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -115,8 +115,8 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
 
     @Override
     public void onLocationChanged(Location location) {
-        int lat = (int) (location.getLatitude());
-        int lng = (int) (location.getLongitude());
+        double lat = (location.getLatitude());
+        double lng = (location.getLongitude());
         latitudeField.setText(String.valueOf(lat));
         longitudeField.setText(String.valueOf(lng));
     }

@@ -37,4 +37,5 @@ dependencies {
     }
     //compile 'org.apache.httpcomponents:httpcore:4.4.1'  //added for httpclient
     //compile 'org.apache.httpcomponents:httpclient:4.5'  //added for httpclient
+    //compile 'com.google.maps.android:android-maps-utils:0.4+'
 }

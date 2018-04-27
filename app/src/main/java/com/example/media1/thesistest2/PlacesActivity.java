@@ -37,6 +37,7 @@ public class PlacesActivity extends AppCompatActivity implements LoadJSONTask.Li
     public static final String KEY_DESC = "description";
     public static final String KEY_TYPE = "type";
     public static final String KEY_COO = "coordinates";
+    public static final String KEY_IMG = "pfimage";
 
 
     @Override
@@ -62,6 +63,7 @@ public class PlacesActivity extends AppCompatActivity implements LoadJSONTask.Li
             map.put(KEY_DESC, allplaces.getDescription());
             map.put(KEY_TYPE, allplaces.getType());
             map.put(KEY_COO, allplaces.getCoordinates());
+            map.put(KEY_IMG, allplaces.getImage());
 
             mPlacesMapList.add(map);
         }
@@ -86,6 +88,7 @@ public class PlacesActivity extends AppCompatActivity implements LoadJSONTask.Li
         myIntent2.putExtra( KEY_DESC, mPlacesMapList.get(i).get(KEY_DESC));
         myIntent2.putExtra( KEY_TYPE, mPlacesMapList.get(i).get(KEY_TYPE));
         myIntent2.putExtra( KEY_COO, mPlacesMapList.get(i).get(KEY_COO));
+        myIntent2.putExtra( KEY_IMG, mPlacesMapList.get(i).get(KEY_IMG));
 
         //myIntent2.putExtra("key", "value"); //Optional parameters
         //CurrentActivity.this.startActivity(myIntent);
@@ -94,9 +97,13 @@ public class PlacesActivity extends AppCompatActivity implements LoadJSONTask.Li
 
     private void loadListView() {
 
+        /*ListAdapter adapter = new SimpleAdapter(PlacesActivity.this, mPlacesMapList, R.layout.list_item,
+                new String[] { KEY_PID, KEY_UID, KEY_NAME, KEY_DESC, KEY_TYPE, KEY_COO, KEY_IMG },
+                new int[] { R.id.place_id,R.id.user_id, R.id.name, R.id.description, R.id.type, R.id.coordinates, R.id.pfimage });*/
+
         ListAdapter adapter = new SimpleAdapter(PlacesActivity.this, mPlacesMapList, R.layout.list_item,
-                new String[] { KEY_PID, KEY_UID, KEY_NAME, KEY_DESC, KEY_TYPE, KEY_COO },
-                new int[] { R.id.place_id,R.id.user_id, R.id.name, R.id.description, R.id.type, R.id.coordinates });
+                new String[] { KEY_NAME },
+                new int[] { R.id.name });
 
         mListView.setAdapter(adapter);
 
