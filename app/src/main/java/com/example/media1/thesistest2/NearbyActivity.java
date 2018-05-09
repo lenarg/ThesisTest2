@@ -240,8 +240,7 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
         // distance
 
             public int compare(PlaceStoring a, PlaceStoring b) {
-                //String acoo = a.coords;
-                //String bcoo = b.coords;
+                
                 String acoo = a.getCoordinates();
                 String bcoo = b.getCoordinates();
                 String[] coordsa = acoo.split(";");
