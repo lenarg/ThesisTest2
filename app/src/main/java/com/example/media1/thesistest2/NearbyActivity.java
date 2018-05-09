@@ -21,6 +21,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -33,6 +37,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
 
 
 import android.app.Activity;
@@ -45,21 +54,35 @@ import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.media1.thesistest2.model.PlaceStoring;
+
 
 //public class NearbyActivity extends AppCompatActivity {
-public class NearbyActivity extends AppCompatActivity implements LocationListener {
+public class NearbyActivity extends AppCompatActivity implements LocationListener, LoadJSONTask.Listener, AdapterView.OnItemClickListener {
     private TextView latitudeField;
     private TextView longitudeField;
     private LocationManager locationManager;
     private String provider;
+
+    private ListView mListView;
+
+    public static final String URL = "https://zafora.icte.uowm.gr/~ictest00344/get_json.php";
+
+    private List<HashMap<String, String>> mPlacesMapList = new ArrayList<>();
+
+    public static final String KEY_PID = "place_id";
+    public static final String KEY_UID = "user_id";
+    public static final String KEY_NAME = "name";
+    public static final String KEY_DESC = "description";
+    public static final String KEY_TYPE = "type";
+    public static final String KEY_COO = "coordinates";
+    public static final String KEY_IMG = "pfimage";
 
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby);
-        latitudeField = (TextView)findViewById(R.id.lattv);
-        longitudeField = (TextView)findViewById(R.id.lngtv);
 
         // Get the location manager
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -79,14 +102,26 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
         }
         Location location = locationManager.getLastKnownLocation(provider);
 
+
+        //latitudeField.setText(String.valueOf(lat));
+        //longitudeField.setText(String.valueOf(lng));
+
+
         // Initialize the location fields
         if (location != null) {
+            double lat5 = (location.getLatitude()); //ayta einai  h topothesia mou
+            double lng5 = (location.getLongitude());
+            Log.d("msg7", "HERE lat: " + lat5 + " lng: " + lng5);
+
             System.out.println("Provider " + provider + " has been selected.");
             onLocationChanged(location);
         } else {
-            latitudeField.setText("Location not available");
-            longitudeField.setText("Location not available");
+            Log.d("msg7", "Location not available");
         }
+
+        mListView = (ListView) findViewById(R.id.list_view4);
+        mListView.setOnItemClickListener(this);
+        new LoadJSONTask(this).execute(URL);
     }
 
     /* Request updates at startup */
@@ -115,10 +150,12 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
 
     @Override
     public void onLocationChanged(Location location) {
-        double lat = (location.getLatitude());
+        double lat = (location.getLatitude()); //ayta einai  h topothesia mou
         double lng = (location.getLongitude());
-        latitudeField.setText(String.valueOf(lat));
-        longitudeField.setText(String.valueOf(lng));
+        //latitudeField.setText(String.valueOf(lat));
+        //longitudeField.setText(String.valueOf(lng));
+        Log.d("msg7", "now HERE lat: " + lat + " lng: " + lng);
+
     }
 
     @Override
@@ -139,187 +176,157 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
         Toast.makeText(this, "Disabled provider " + provider,
                 Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onLoaded(List<PlaceStoring> allplacesList) {
+
+        Collections.sort(allplacesList, new SortbyDist());
+
+        for (PlaceStoring allplaces : allplacesList) {
+
+            HashMap<String, String> map = new HashMap<>();
+
+            map.put(KEY_PID, allplaces.getPlace_id());
+            map.put(KEY_UID, allplaces.getUser_id());
+            map.put(KEY_NAME, allplaces.getName());
+            map.put(KEY_DESC, allplaces.getDescription());
+            map.put(KEY_TYPE, allplaces.getType());
+            map.put(KEY_COO, allplaces.getCoordinates());
+            map.put(KEY_IMG, allplaces.getImage());
+
+            mPlacesMapList.add(map);
+        }
+
+        loadListView();
+    }
+
+    @Override
+    public void onError() {
+
+        Toast.makeText(this, "Error!!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+        //Toast.makeText(this, mPlacesMapList.get(i).get(KEY_NAME),Toast.LENGTH_LONG).show();
+        Intent myIntent2 = new Intent(NearbyActivity.this, PlaceDetails.class);
+        //myIntent2.putExtra("Position", i);
+        myIntent2.putExtra(KEY_PID, mPlacesMapList.get(i).get(KEY_PID)); //String.valueOf(l));//ID_EXTRA, id
+        myIntent2.putExtra(KEY_NAME, mPlacesMapList.get(i).get(KEY_NAME));
+        myIntent2.putExtra(KEY_DESC, mPlacesMapList.get(i).get(KEY_DESC));
+        myIntent2.putExtra(KEY_TYPE, mPlacesMapList.get(i).get(KEY_TYPE));
+        myIntent2.putExtra(KEY_COO, mPlacesMapList.get(i).get(KEY_COO));
+        myIntent2.putExtra(KEY_IMG, mPlacesMapList.get(i).get(KEY_IMG));
+
+        //myIntent2.putExtra("key", "value"); //Optional parameters
+        //CurrentActivity.this.startActivity(myIntent);
+        startActivity(myIntent2);
+    }
+
+    private void loadListView() {
+
+        ListAdapter adapter = new SimpleAdapter(NearbyActivity.this, mPlacesMapList, R.layout.list_item,
+                new String[]{KEY_NAME},
+                new int[]{R.id.name});
+
+        mListView.setAdapter(adapter);
+
+    }
+
+
+    class SortbyDist implements Comparator<PlaceStoring> {
+        // Used for sorting in ascending order of
+        // distance
+
+            public int compare(PlaceStoring a, PlaceStoring b) {
+                //String acoo = a.coords;
+                //String bcoo = b.coords;
+                String acoo = a.getCoordinates();
+                String bcoo = b.getCoordinates();
+                String[] coordsa = acoo.split(";");
+                String[] coordsb = bcoo.split(";");
+                String latca = "0";
+                String lngca = "0";
+                String latcb = "0";
+                String lngcb = "0";
+
+                int at = Integer.parseInt(a.getType());
+                int bt = Integer.parseInt(b.getType());
+
+                if (at == 3) { //circle
+                    latca = coordsa[2]; //center
+                    lngca = coordsa[3];
+
+                } else if (at == 2) { //rec
+                    String latnea = coordsa[1];
+                    String lngnea = coordsa[2];
+                    String latswa = coordsa[3];
+                    String lngswa = coordsa[4];
+                    double llatnea = Double.parseDouble(latnea);
+                    double llngnea = Double.parseDouble(lngnea);
+                    double llatswa = Double.parseDouble(latswa);
+                    double llngswa = Double.parseDouble(lngswa);
+
+                    double llatca, llngca;
+
+                    llngca = llngswa + ((llngnea - llngswa) / 2);
+                    llatca = llatswa + ((llatnea - llatswa) / 2);
+
+                    latca = String.valueOf(llatca);
+                    lngca = String.valueOf(llngca);
+                }
+                if (bt == 3) { //circle
+                    latcb = coordsb[2]; //center
+                    lngcb = coordsb[3];
+
+                } else if (bt == 2) { //rec
+                    String latneb = coordsb[1];
+                    String lngneb = coordsb[2];
+                    String latswb = coordsb[3];
+                    String lngswb = coordsb[4];
+                    double llatneb = Double.parseDouble(latneb);
+                    double llngneb = Double.parseDouble(lngneb);
+                    double llatswb = Double.parseDouble(latswb);
+                    double llngswb = Double.parseDouble(lngswb);
+
+                    double llatcb, llngcb;
+
+                    llngcb = llngswb + ((llngneb - llngswb) / 2);
+                    llatcb = llatswb + ((llatneb - llatswb) / 2);
+
+                    latcb = String.valueOf(llatcb);
+                    lngcb = String.valueOf(llngcb);
+
+                }
+                Location loca = new Location(LocationManager.GPS_PROVIDER);
+                Location locb = new Location(LocationManager.GPS_PROVIDER);
+
+                double latcad = Double.parseDouble(latca);
+                double lngcad = Double.parseDouble(lngca);
+                double latcbd = Double.parseDouble(latcb);
+                double lngcbd = Double.parseDouble(lngcb);
+                loca.setLatitude(latcad);
+                loca.setLongitude(lngcad);
+                locb.setLatitude(latcbd);
+                locb.setLongitude(lngcbd);
+
+                Location location2 = new Location("");
+                location2.setLatitude(38.0546);
+                location2.setLongitude(23.5318);
+
+                //Location location2 = locationManager.getLastKnownLocation(provider);
+                double dista = loca.distanceTo(location2);
+                double distb = locb.distanceTo(location2);
+                return Double.compare(dista, distb);
+                //return dista - distb;
+
+                //latca lngca latcb lngcb
+
+                //return a.rollno - b.rollno;
+            }
+
+    }
 }
 
-/*
-public class NearbyActivity extends AppCompatActivity {
-
-    private TextView textView6;
-    private LocationManager locationManager;
-    private LocationListener locationListener;
-
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nearby);
-
-        textView6 = (TextView) findViewById(R.id.textView6);
-
-        LocationManager locationManager = LocationManager)getSystemService(Context.LOCATION_SERVICE);
-
-        // Creating an empty criteria object
-
-        Criteria criteria = new Criteria();
-
-        // Getting the name of the provider that meets the criteria
-
-        String provider = locationManager.getBestProvider(criteria, false);
-        if ( Build.VERSION.SDK_INT >= 23 &&
-                ContextCompat.checkSelfPermission( context, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission( context, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return  ;
-        }
-        Location location = locationManager.getLastKnownLocation(provider);
-
-        double c = location.getLatitude();
-
-        double d = location.getLongitude();
-
-        //initializing the location manager and listener
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        locationListener = new LocationListener() {
-            //textView6.append("\n" + location.getLatitude() + " " + location.getLongitude());
-            @Override
-            public void onLocationChanged(Location location) { //it is called whenever the location is updated
-                Log.d("msg7","Its here 6!");
-                Log.d("msg7", "\n" + location.getLatitude() + " " + location.getLongitude());
-                //textView6.append("\n" + location.getLatitude() + " " + location.getLongitude());
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) { //it is called when gps is turned off
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(intent);
-
-            }
-        };
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{
-                        Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.INTERNET
-                }, 10);
-                return;
-            }
-        } else {
-            getLoc();
-
-        }
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case 10:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    getLoc();
-                return;
-        }
-
-    }
-
-    private void getLoc() {
-        locationManager.requestLocationUpdates("gps", 5000, 0, locationListener);
-    }
-
-}*/
-
-    /*--
-    @Override
-    protected void onResume() {
-        super.onResume();
-        new CooTask().execute();
-        //setUpMapIfNeeded();
-    }
-
-    private class CooTask extends AsyncTask<Void, Void, String> {
-
-        private static final String LOG_TAG = "ExampleApp";
-
-        private static final String SERVICE_URL = "http://zafora.icte.uowm.gr/~ictest00344/get_json.php";//"http://zafora.icte.uowm.gr/~ictest00344/testjson.php"; //"https://api.myjson.com/bins/4jb09";
-
-        // Invoked by execute() method of this object
-        @Override
-        protected String doInBackground(Void... args) {
-
-            HttpURLConnection conn = null;
-            final StringBuilder json = new StringBuilder();
-            try {
-                // Connect to the web service
-                URL url = new URL(SERVICE_URL);
-                conn = (HttpURLConnection) url.openConnection();
-                InputStreamReader in = new InputStreamReader(conn.getInputStream());
-
-                // Read the JSON data into the StringBuilder
-                int read;
-                char[] buff = new char[1024];
-                while ((read = in.read(buff)) != -1) {
-                    json.append(buff, 0, read);
-                }
-            } catch (IOException e) {
-                Log.e(LOG_TAG, "Error connecting to service", e);
-                //throw new IOException("Error connecting to service", e); //uncaught
-            } finally {
-                if (conn != null) {
-                    conn.disconnect();
-                }
-            }
-
-            return json.toString();
-        }
-
-        // Executed after the complete execution of doInBackground() method
-        @Override
-        protected void onPostExecute(String json) {
-
-            //Log.d("msg7","Its here 1!");
-
-            try {
-                //Log.d("msg7","Its here 2!");
-
-                JSONObject baseJsonResponse = new JSONObject(json); //Convert json String into a JSONObject
-                // De-serialize the JSON string into an array of city objects
-                JSONArray jsonArray = baseJsonResponse.getJSONArray("allplaces");//new JSONArray(json);//Extract “allplaces” JSONArray
-
-
-                LatLng tap = new LatLng( 40.203385, 21.444823 );
-
-                for ( int i = 0; i < jsonArray.length(); i++) {
-                    //Log.d("msg7","Its here :" + i );
-                    JSONObject jsonObj = jsonArray.getJSONObject(i);
-                    String type = jsonObj.getString("type");
-                    int itype = Integer.parseInt(type);
-                    int place_id = jsonObj.getInt("place_id");
-                    //Log.d("msg7","Type :" + itype );
-                    String coords = jsonObj.getString("coordinates");
-                    String[] coordstable = coords.split(";");
-
-
-
-                }
-
-
-            } catch (JSONException e) {
-                Log.e(LOG_TAG, "Error processing JSON", e);
-            }
-        }
-    }
-
-
-
-
-}
-}--*/
 

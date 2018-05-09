@@ -167,6 +167,8 @@ public class PlaceDetails extends AppCompatActivity {
                 } else if( pVTi == 2 ){ //rectangle
                     Log.d("msg7", "IN 2");
 
+                    //String cenCoo = new FindRecCenter(passedVarC);
+
                     String latne = coordst[1];
                     String lngne = coordst[2];
                     String latsw = coordst[3];
