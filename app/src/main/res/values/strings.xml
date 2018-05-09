@@ -13,4 +13,5 @@
     <string name="placesText">Places</string>
     <string name="notifText">Notifications</string>
     <string name="title_activity_place_details">Place Details</string>
+    <string name="title_activity_tour_details">Tour Details</string>
 </resources>

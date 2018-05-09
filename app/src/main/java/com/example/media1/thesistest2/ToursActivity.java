@@ -1,5 +1,6 @@
 package com.example.media1.thesistest2;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -28,11 +29,11 @@ public class ToursActivity extends AppCompatActivity implements LoadJSONTask2.Li
 
     private List<HashMap<String, String>> mToursMapList = new ArrayList<>();
 
-    private static final String KEY_TID = "tour_id";
-    private static final String KEY_UID = "user_id";
-    private static final String KEY_TNAME = "tour_name";
-    private static final String KEY_TDESC = "tour_desc";
-    private static final String KEY_TSAO = "tsa_order";
+    public static final String KEY_TID = "tour_id";
+    public static final String KEY_UID = "user_id";
+    public static final String KEY_TNAME = "tour_name";
+    public static final String KEY_TDESC = "tour_desc";
+    public static final String KEY_TSAO = "tsa_order";
     //private static final String KEY_COO = "coordinates";
 
 
@@ -77,14 +78,32 @@ public class ToursActivity extends AppCompatActivity implements LoadJSONTask2.Li
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        Toast.makeText(this, mToursMapList.get(i).get(KEY_TNAME),Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, mToursMapList.get(i).get(KEY_TNAME),Toast.LENGTH_LONG).show();
+        Intent myIntent3 = new Intent(ToursActivity.this, TourDetails.class);
+        //myIntent2.putExtra("Position", i);
+        myIntent3.putExtra( KEY_TID, mToursMapList.get(i).get(KEY_TID)); //String.valueOf(l));//ID_EXTRA, id
+        myIntent3.putExtra( KEY_TNAME, mToursMapList.get(i).get(KEY_TNAME));
+        myIntent3.putExtra( KEY_TDESC, mToursMapList.get(i).get(KEY_TDESC));
+        myIntent3.putExtra( KEY_TSAO, mToursMapList.get(i).get(KEY_TSAO));
+
+
+        //myIntent2.putExtra("key", "value"); //Optional parameters
+        //CurrentActivity.this.startActivity(myIntent);
+        startActivity(myIntent3);
+
     }
 
     private void loadListView() {
-
+/*
         ListAdapter adapter = new SimpleAdapter(ToursActivity.this, mToursMapList, R.layout.list_item2,
                 new String[] { KEY_TID, KEY_UID, KEY_TNAME, KEY_TDESC, KEY_TSAO },
                 new int[] { R.id.tour_id, R.id.user_id, R.id.tour_name, R.id.tour_desc, R.id.tsa_order });
+*/
+
+        ListAdapter adapter = new SimpleAdapter(ToursActivity.this, mToursMapList, R.layout.list_item2,
+                new String[] { KEY_TNAME },
+                new int[] { R.id.tour_name });
+
 
         mListView2.setAdapter(adapter);
 

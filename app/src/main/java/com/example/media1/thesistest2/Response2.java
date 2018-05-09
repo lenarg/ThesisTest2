@@ -2,6 +2,7 @@ package com.example.media1.thesistest2.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.example.media1.thesistest2.model.TourStoring;
 
 public class Response2 {
 

@@ -85,6 +85,11 @@
             android:name=".PlaceDetails"
             android:label="@string/title_activity_place_details"
             android:theme="@style/AppTheme"></activity>
+
+        <activity
+            android:name=".TourDetails"
+            android:label="@string/title_activity_tour_details"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
