@@ -33,7 +33,7 @@ public class ToursActivity extends AppCompatActivity implements LoadJSONTask2.Li
     public static final String KEY_UID = "user_id";
     public static final String KEY_TNAME = "tour_name";
     public static final String KEY_TDESC = "tour_desc";
-    public static final String KEY_TSAO = "tsa_order";
+    public static final String KEY_TPL = "tour_places";
     //private static final String KEY_COO = "coordinates";
 
 
@@ -58,7 +58,7 @@ public class ToursActivity extends AppCompatActivity implements LoadJSONTask2.Li
             map.put(KEY_UID, tours.getUser_id());
             map.put(KEY_TNAME, tours.getTour_name());
             map.put(KEY_TDESC, tours.getTour_desc());
-            map.put(KEY_TSAO, tours.getTsa_order());
+            map.put(KEY_TPL, tours.getTour_places());
 
             //map.put(KEY_TYPE, allplaces.getType());
             //map.put(KEY_COO, allplaces.getCoordinates());
@@ -84,7 +84,7 @@ public class ToursActivity extends AppCompatActivity implements LoadJSONTask2.Li
         myIntent3.putExtra( KEY_TID, mToursMapList.get(i).get(KEY_TID)); //String.valueOf(l));//ID_EXTRA, id
         myIntent3.putExtra( KEY_TNAME, mToursMapList.get(i).get(KEY_TNAME));
         myIntent3.putExtra( KEY_TDESC, mToursMapList.get(i).get(KEY_TDESC));
-        myIntent3.putExtra( KEY_TSAO, mToursMapList.get(i).get(KEY_TSAO));
+        myIntent3.putExtra( KEY_TPL, mToursMapList.get(i).get(KEY_TPL));
 
 
         //myIntent2.putExtra("key", "value"); //Optional parameters
@@ -96,7 +96,7 @@ public class ToursActivity extends AppCompatActivity implements LoadJSONTask2.Li
     private void loadListView() {
 /*
         ListAdapter adapter = new SimpleAdapter(ToursActivity.this, mToursMapList, R.layout.list_item2,
-                new String[] { KEY_TID, KEY_UID, KEY_TNAME, KEY_TDESC, KEY_TSAO },
+                new String[] { KEY_TID, KEY_UID, KEY_TNAME, KEY_TDESC, KEY_TPL },
                 new int[] { R.id.tour_id, R.id.user_id, R.id.tour_name, R.id.tour_desc, R.id.tsa_order });
 */
 

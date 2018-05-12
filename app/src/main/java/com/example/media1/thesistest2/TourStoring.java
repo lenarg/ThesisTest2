@@ -6,7 +6,7 @@ public class TourStoring {
     private String user_id;
     private String tour_name;
     private String tour_desc;
-    private String tsa_order;
+    private String tour_places;
     //private String coordinates;
 
     public String getTour_id() {
@@ -25,8 +25,8 @@ public class TourStoring {
         return tour_desc;
     }
 
-    public String getTsa_order() {
-        return tsa_order;
+    public String getTour_places() {
+        return tour_places;
     }
 
     //public String getCoordinates() { return coordinates;  }

@@ -92,11 +92,32 @@
             android:layout_below="@+id/imgid"
             android:layout_marginTop="42dp" /> -->
 
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tdescription"
+            android:layout_marginTop="18dp"
+
+            android:text="Tour Places"
+            android:textColor="@color/common_google_signin_btn_text_dark_focused"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <ListView
+            android:id="@+id/list_view5"
+            android:layout_width="200dp"
+            android:layout_height="300dp"
+            android:layout_below="@+id/textView6"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"
+            android:scrollbars="vertical" />
+
         <Button
             android:id="@+id/tnvgt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tdescription"
+            android:layout_below="@+id/list_view5"
             android:layout_centerHorizontal="true"
             android:text="START TOUR" />
 
