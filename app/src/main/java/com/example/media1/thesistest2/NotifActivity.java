@@ -32,6 +32,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.maps.android.PolyUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -134,7 +135,9 @@ public class NotifActivity extends AppCompatActivity {
                 JSONArray jsonArray = baseJsonResponse.getJSONArray("allplaces");//new JSONArray(json);//Extract “allplaces” JSONArray
                 //Log.d("msg7","Its here 5!");
                 //LatLng tap = new LatLng(40.416425,21.521270); //point inside namata region (rectangle area)
-                LatLng tap = new LatLng(40.328595, 20.996130); //circle kotyli
+                //LatLng tap = new LatLng(40.449148, 21.517980); //point inside vlasti (rec)
+                //LatLng tap = new LatLng(40.328595, 20.996130); //circle kotyli
+                LatLng tap = new LatLng(40.387060, 21.323610); //pol simantro
                 //LatLng tap = new LatLng(40.393161, 20.835766);
                 //LatLng tap = new LatLng(40.417223, 21.057134); //circle
                 //int intersectCount = 0;
@@ -151,7 +154,7 @@ public class NotifActivity extends AppCompatActivity {
                     String[] coordstable = coords.split(";");
                     //List<LatLng> vertices = new ArrayList<LatLng>();
 
-                    /* if ( itype == 1 || itype == 2 ){ // Polygon or Rectangle
+                    if ( itype == 1 ||  itype == 2 ){ // Polygon or Rectangle
 
                         //Log.d("msg7","Rec and Pols");
 
@@ -159,15 +162,32 @@ public class NotifActivity extends AppCompatActivity {
                         // do Ray-Casting
                         //if R-C result is odd then we're in the area, show notification!
 
+
+
                         List<LatLng> vertices = new ArrayList<LatLng>();
 
-                        for (int j = 1; j<coordstable.length; j=j+2) {
-                            double platx = Double.parseDouble(coordstable[j]);
-                            double plngy = Double.parseDouble(coordstable[j + 1]);
+                        if (itype == 2) {
 
-                            vertices.add(new LatLng(platx, plngy));
+                            double platx1 = Double.parseDouble(coordstable[1]);
+                            double plngy1 = Double.parseDouble(coordstable[2]);
+                            double platx2 = Double.parseDouble(coordstable[3]);
+                            double plngy2 = Double.parseDouble(coordstable[4]);
+
+                            vertices.add(new LatLng(platx1, plngy1));
+                            vertices.add(new LatLng(platx1, plngy2));
+                            vertices.add(new LatLng(platx2, plngy2));
+                            vertices.add(new LatLng(platx2, plngy1));
+                        }else {
+                            for (int j = 1; j < coordstable.length; j = j + 2) {
+
+                                double platx = Double.parseDouble(coordstable[j]);
+                                double plngy = Double.parseDouble(coordstable[j + 1]);
+
+                                vertices.add(new LatLng(platx, plngy));
+                            }
                         }
 
+                        /*
                         int intersectCount = 0;
                         for (int j = 0; j < vertices.size() - 1; j++) {
                             if (rayCastIntersect(tap, vertices.get(j), vertices.get(j + 1))) {
@@ -186,9 +206,16 @@ public class NotifActivity extends AppCompatActivity {
                             //do nothing
                             //Log.d("msg7","its OUT");
 
+                        }*/
+                        //PolyUtil.containsLocation(userLocation, polyPointsList, false);
+                        boolean isitin = PolyUtil.containsLocation( tap, vertices, false);
+
+                        if (isitin == true){
+                            Log.d("msg7","its in rec place with ID: " + place_id);
+
                         }
 
-                    }else */ if ( itype == 3 ){ //Circle
+                    }else  if ( itype == 3 ){ //Circle
 
                         //Log.d("msg7","Circle");
 
@@ -222,6 +249,7 @@ public class NotifActivity extends AppCompatActivity {
                             //Toast.makeText(getBaseContext(), "Outside", Toast.LENGTH_LONG).show();
                         } else { //its OUT
                             //Toast.makeText(getBaseContext(), "Inside", Toast.LENGTH_LONG).show();
+                            //Log.d("msg7","Its OUT");
                         }
 
 
