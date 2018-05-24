@@ -1,10 +1,12 @@
 package com.example.media1.thesistest2;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
@@ -39,6 +41,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -48,6 +51,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
@@ -63,6 +67,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -103,6 +108,7 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
     public static final String KEY_TYPE = "type";
     public static final String KEY_COO = "coordinates";
     public static final String KEY_IMG = "pfimage";
+    public static final String KEY_DIST = "dist";
 
     /** Called when the activity is first created. */
     @Override
@@ -110,44 +116,142 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby);
 
+
         // Get the location manager
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        // Define the criteria how to select the locatioin provider -> use
-        // default
-        Criteria criteria = new Criteria();
-        provider = locationManager.getBestProvider(criteria, false);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        Location location = locationManager.getLastKnownLocation(provider);
+        Log.d("msg7", "before asking if loc enabled");
+        if (isLocationEnabled(NearbyActivity.this)) {
+            // Define the criteria how to select the locatioin provider -> use
+            // default
+            Log.d("msg7", "after asking if loc enabled");
+            Criteria criteria = new Criteria();
+            provider = locationManager.getBestProvider(criteria, false);
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
 
 
-        //latitudeField.setText(String.valueOf(lat));
-        //longitudeField.setText(String.valueOf(lng));
+            //Location location = locationManager.getLastKnownLocation(provider);
+            //getLocation();
+
+            //latitudeField.setText(String.valueOf(lat));
+            //longitudeField.setText(String.valueOf(lng));
 
 
-        // Initialize the location fields
-        if (location != null) {
-            double lat5 = (location.getLatitude()); //ayta einai  h topothesia mou
-            double lng5 = (location.getLongitude());
-            Log.d("msg7", "HERE lat: " + lat5 + " lng: " + lng5);
+            // Initialize the location fields
+            //if (location != null) {
+            //    double lat5 = (location.getLatitude()); //ayta einai  h topothesia mou
+            //  double lng5 = (location.getLongitude());
+            //   Log.d("msg7", "HERE lat: " + lat5 + " lng: " + lng5);
 
-            System.out.println("Provider " + provider + " has been selected.");
-            onLocationChanged(location);
+            // System.out.println("Provider " + provider + " has been selected.");
+            //  onLocationChanged(location);
+            //} else {
+            //Log.d("msg7", "Location not available");
+            //--LocationListener locationListener = new MyLocationListener();
+            //--locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+            //locationManager.requestLocationUpdates(provider, 1000, 0, this);
+            //Location location = locationManager.getLastKnownLocation(provider);
+
+            // double lat5 = (location.getLatitude()); //ayta einai  h topothesia mou
+            //double lng5 = (location.getLongitude());
+            // Log.d("msg7", "HERE lat: " + lat5 + " lng: " + lng5);
+
+            //-System.out.println("Provider " + provider + " has been selected.");
+            //-onLocationChanged(location);
+            //}
+
+            mListView = (ListView) findViewById(R.id.list_view4);
+            mListView.setOnItemClickListener(this);
+            new LoadJSONTask(this).execute(URL);
         } else {
-            Log.d("msg7", "Location not available");
+            //prompt user to enable location....
+            //.................
+            Log.d("msg7", "gps off 1");
+            AlertDialog.Builder notifyLocationServices = new AlertDialog.Builder(NearbyActivity.this);
+            notifyLocationServices.setTitle("Location Services are OFF");
+            notifyLocationServices.setMessage("Location Services must be turned on to show nearby places.");
+            notifyLocationServices.setPositiveButton("Turn on", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent openLocationSettings = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    NearbyActivity.this.startActivity(openLocationSettings);
+                    finish();
+                }
+            });
+            notifyLocationServices.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            notifyLocationServices.show();
+
         }
 
-        mListView = (ListView) findViewById(R.id.list_view4);
-        mListView.setOnItemClickListener(this);
-        new LoadJSONTask(this).execute(URL);
+        //mListView = (ListView) findViewById(R.id.list_view4);
+        //mListView.setOnItemClickListener(this);
+        //new LoadJSONTask(this).execute(URL);
+    }
+
+    /*---------- Listener class to get coordinates ------------- */
+    private class MyLocationListener implements LocationListener {
+
+        @Override
+        public void onLocationChanged(Location loc) {
+            //editLocation.setText("");
+            //pb.setVisibility(View.INVISIBLE);
+            //Toast.makeText(
+            //        getBaseContext(),
+            //        "Location changed: Lat: " + loc.getLatitude() + " Lng: "
+            //                + loc.getLongitude(), Toast.LENGTH_SHORT).show();
+            String longitude = "Longitude: " + loc.getLongitude();
+            String latitude = "Latitude: " + loc.getLatitude();
+            Log.d("msg7", "Location changed: Lat: " + latitude + " Lng: " + longitude);
+
+            //Log.d("msg7", latitude);
+
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
+    }
+
+    public static boolean isLocationEnabled(Context context) {
+
+        int locationMode = 0;
+        String locationProviders;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            try {
+                locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
+            } catch (Settings.SettingNotFoundException e) {
+                e.printStackTrace();
+            }
+            return locationMode != Settings.Secure.LOCATION_MODE_OFF;
+        } else {
+            locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+            return !TextUtils.isEmpty(locationProviders);
+        }
+
+        //...............
+        //return true;
     }
 
     /* Request updates at startup */
@@ -164,7 +268,7 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        locationManager.requestLocationUpdates(provider, 400, 1, this);
+//        locationManager.requestLocationUpdates(provider, 400, 1, this);
     }
 
     /* Remove the locationlistener updates when Activity is paused */
@@ -176,11 +280,13 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
 
     @Override
     public void onLocationChanged(Location location) {
+        locationManager.removeUpdates(this);
+
         double lat = (location.getLatitude()); //ayta einai  h topothesia mou
         double lng = (location.getLongitude());
         //latitudeField.setText(String.valueOf(lat));
         //longitudeField.setText(String.valueOf(lng));
-        Log.d("msg7", "now HERE lat: " + lat + " lng: " + lng);
+        Log.d("msg7", "now changed HERE lat: " + lat + " lng: " + lng);
 
     }
 
@@ -208,6 +314,19 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
 
         Collections.sort(allplacesList, new SortbyDist());
 
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Location location3 = locationManager.getLastKnownLocation(provider);
+
+
         for (PlaceStoring allplaces : allplacesList) {
 
             HashMap<String, String> map = new HashMap<>();
@@ -219,6 +338,49 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
             map.put(KEY_TYPE, allplaces.getType());
             map.put(KEY_COO, allplaces.getCoordinates());
             map.put(KEY_IMG, allplaces.getImage());
+
+            String[] coordsx = allplaces.getCoordinates().split(";");
+            String latcx = "0";
+            String lngcx = "0";
+
+            int xt = Integer.parseInt(allplaces.getType());
+
+            if (xt == 3) { //circle
+                latcx = coordsx[2]; //center
+                lngcx = coordsx[3];
+
+            } else if (xt == 2) { //rec
+                String latnex = coordsx[1];
+                String lngnex = coordsx[2];
+                String latswx = coordsx[3];
+                String lngswx = coordsx[4];
+                double llatnex = Double.parseDouble(latnex);
+                double llngnex = Double.parseDouble(lngnex);
+                double llatswx = Double.parseDouble(latswx);
+                double llngswx = Double.parseDouble(lngswx);
+
+                double llatcx, llngcx;
+
+                llngcx = llngswx + ((llngnex - llngswx) / 2);
+                llatcx = llatswx + ((llatnex - llatswx) / 2);
+
+                latcx = String.valueOf(llatcx);
+                lngcx = String.valueOf(llngcx);
+            }
+
+            Location locx = new Location(LocationManager.GPS_PROVIDER);
+
+            double latcad = Double.parseDouble(latcx);
+            double lngcad = Double.parseDouble(lngcx);
+            locx.setLatitude(latcad);
+            locx.setLongitude(lngcad);
+
+            double distx = locx.distanceTo(location3);
+            DecimalFormat df = new DecimalFormat("#.##");
+            String sdistx = df.format(distx);
+            sdistx =  sdistx + " km";
+
+            map.put(KEY_DIST, sdistx);
 
             mPlacesMapList.add(map);
         }
@@ -244,7 +406,7 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
         myIntent2.putExtra(KEY_TYPE, mPlacesMapList.get(i).get(KEY_TYPE));
         myIntent2.putExtra(KEY_COO, mPlacesMapList.get(i).get(KEY_COO));
         myIntent2.putExtra(KEY_IMG, mPlacesMapList.get(i).get(KEY_IMG));
-
+        myIntent2.putExtra(KEY_DIST, mPlacesMapList.get(i).get(KEY_DIST));
         //myIntent2.putExtra("key", "value"); //Optional parameters
         //CurrentActivity.this.startActivity(myIntent);
         startActivity(myIntent2);
@@ -252,9 +414,11 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
 
     private void loadListView() {
 
-        ListAdapter adapter = new SimpleAdapter(NearbyActivity.this, mPlacesMapList, R.layout.list_item,
-                new String[]{KEY_NAME},
-                new int[]{R.id.name});
+
+
+        ListAdapter adapter = new SimpleAdapter(NearbyActivity.this, mPlacesMapList, R.layout.list_item3,
+                new String[]{KEY_NAME, KEY_DIST },
+                new int[]{R.id.name, R.id.distance});
 
         mListView.setAdapter(adapter);
 
@@ -351,17 +515,20 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
                 ActivityCompat.requestPermissions(NearbyActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 
                 return 0;
-            }else {
-                Location location2 = locationManager.getLastKnownLocation(provider);
-                double dista = loca.distanceTo(location2);
-                double distb = locb.distanceTo(location2);
-                return Double.compare(dista, distb);
+            }
+
+            Location location2 = locationManager.getLastKnownLocation(provider);
+           //Log.d ("msg7", "loc in SbD " + location2);
+            double dista = loca.distanceTo(location2);
+            double distb = locb.distanceTo(location2);
+            //Log.d ("msg7", "dista " + dista +" distb " + distb);
+            return Double.compare(dista, distb);
                 //return dista - distb;
 
                 //latca lngca latcb lngcb
 
                 //return a.rollno - b.rollno;
-            }
+
         }
 
 

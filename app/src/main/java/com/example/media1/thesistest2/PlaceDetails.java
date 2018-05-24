@@ -1,5 +1,6 @@
 package com.example.media1.thesistest2;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +28,7 @@ import static com.example.media1.thesistest2.PlacesActivity.KEY_TYPE;
 import static com.example.media1.thesistest2.PlacesActivity.KEY_COO;
 import static com.example.media1.thesistest2.PlacesActivity.KEY_IMG;
 
+
 public class PlaceDetails extends AppCompatActivity {
 
     //String passedVar = null;
@@ -40,6 +43,9 @@ public class PlaceDetails extends AppCompatActivity {
     //private TextView passedViewC = null;
     String passedVarT = null;
     //private TextView passedViewC = null;
+
+    public static final String KEY_NAME2 = "name";
+    public static final String KEY_COO2 = "coordinates";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +84,23 @@ public class PlaceDetails extends AppCompatActivity {
         new SendHttpRequestTask().execute();
         new SendHttpRequestTask2().execute();
 
+        Button clickGOButton = (Button) findViewById(R.id.nvgtbtn);
+        clickGOButton.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Intent myIntent4 = new Intent(PlaceDetails.this, NavigationActivity.class);
+                myIntent4.putExtra(KEY_NAME2, passedVarN);
+                myIntent4.putExtra(KEY_COO2, passedVarC); //Optional parameters
+                PlaceDetails.this.startActivity(myIntent4);
+
+            }
+        });
+
     }
+
+
 
     private class SendHttpRequestTask extends AsyncTask<String, Void, Bitmap> {
         @Override

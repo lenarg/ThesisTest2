@@ -91,7 +91,7 @@
         android:layout_marginTop="42dp" />
 
     <Button
-        android:id="@+id/nvgt"
+        android:id="@+id/nvgtbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/mapimg"

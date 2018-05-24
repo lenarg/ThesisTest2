@@ -1,13 +1,19 @@
 package com.example.media1.thesistest2;
 
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -247,28 +253,17 @@ public class NotifActivity extends AppCompatActivity {
                         if( distance[0] < pradius  ){ //itsIN
                             Log.d("msg7","Its IN circle place" + place_id); //with ID: " + place_id);
                             //Toast.makeText(getBaseContext(), "Outside", Toast.LENGTH_LONG).show();
+                            sendNotification();
+
+
                         } else { //its OUT
                             //Toast.makeText(getBaseContext(), "Inside", Toast.LENGTH_LONG).show();
                             //Log.d("msg7","Its OUT");
                         }
 
-
                     }
 
                 }
-
-                /*
-                if ( (intersectCount % 2) == 1 ) { //odd = inside
-
-                    //Show notification
-                    Log.d("msg7","Its IN!");
-
-                }else{ //even = outside
-
-                    //do nothing
-                    Log.d("msg7","its OUT");
-
-                }*/
 
             } catch (JSONException e) {
                 Log.e(LOG_TAG, "Error processing JSON", e);
@@ -276,8 +271,27 @@ public class NotifActivity extends AppCompatActivity {
         }
     }
 
+    public void sendNotification() {
+
+        Log.d("msg7","here1");
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setSmallIcon(android.R.drawable.ic_dialog_alert);
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.journaldev.com/"));
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        builder.setContentIntent(pendingIntent);
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
+        builder.setContentTitle("Notifications Title");
+        builder.setContentText("Your notification content here.");
+        builder.setSubText("Tap to view the website.");
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        // Will display the notification in the notification bar
+        notificationManager.notify(1, builder.build());
+    }
 
 
+/*
     private boolean rayCastIntersect(LatLng tap, LatLng vertA, LatLng vertB) {
 
         double aY = vertA.latitude;
@@ -298,30 +312,5 @@ public class NotifActivity extends AppCompatActivity {
         double x = (pY - bee) / m; // algebra is neat!
 
         return x > pX;
-    }
+    }*/
 }
-
-
-
-
-
-/**
-    latlng tap = ( 40.416425, 21.521270); //point inside namata region (rectangle area)
-
-    for (int i = 0; i < allplaces.length; i++) {
-        if ( type(i) == "1" || type(i) == "2" ){ // Polygon or Rectangle
-
-            // put coordinates in vertices array as latlng(double lat, double lng) format
-            // do Ray-Casting
-            //if R-C result is odd then we're in the area, show notification!
-
-        }else if ( type(i) == "3" ){ //Circle
-
-            // do Geofencing
-
-        }
-
-    }
-**/
-
-
