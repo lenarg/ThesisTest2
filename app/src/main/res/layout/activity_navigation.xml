@@ -32,4 +32,24 @@
         tools:layout_editor_absoluteX="117dp"
         tools:layout_editor_absoluteY="172dp" />
 
+    <ImageView
+        android:id="@+id/directarrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="229dp" />
+
+    <TextView
+        android:id="@+id/dirtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="21dp"
+        android:text="dirtext"
+        android:textSize="36sp"
+        tools:layout_editor_absoluteX="117dp"
+        tools:layout_editor_absoluteY="172dp" />
+
 </RelativeLayout>

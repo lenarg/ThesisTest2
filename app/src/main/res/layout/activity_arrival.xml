@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".ArrivalActivity">
+
+
+<include layout="@layout/content_arrival" />
+
+<TextView
+    android:id="@+id/arrvtxt"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="105dp"
+    android:text="You arrived at:"
+    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+<TextView
+    android:id="@+id/arplname"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="159dp"
+    android:text="place name"
+    android:textAppearance="?android:attr/textAppearanceLarge" />
+
+
+<Button
+    android:id="@+id/getdetails"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:layout_marginBottom="228dp"
+    android:text="Get Place Details" />
+
+<Button
+    android:id="@+id/nexttplace"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_alignStart="@+id/getdetails"
+    android:layout_marginBottom="140dp"
+    android:text="Next Tour Place"
+    android:visibility="invisible" />
+
+<Button
+    android:id="@+id/endtour"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignTop="@+id/nexttplace"
+    android:layout_centerHorizontal="true"
+    android:text="End Tour" />
+
+
+</RelativeLayout>

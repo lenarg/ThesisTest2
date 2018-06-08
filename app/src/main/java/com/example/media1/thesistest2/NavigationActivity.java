@@ -29,6 +29,15 @@ import java.text.DecimalFormat;
 import static com.example.media1.thesistest2.PlaceDetails.KEY_NAME2;
 import static com.example.media1.thesistest2.PlaceDetails.KEY_COO2;
 import static com.example.media1.thesistest2.PlaceDetails.KEY_TYPE2;
+
+import static com.example.media1.thesistest2.ArrivalActivity.KEY_NAME3;
+import static com.example.media1.thesistest2.ArrivalActivity.KEY_COO3;
+import static com.example.media1.thesistest2.ArrivalActivity.KEY_TYPE3;
+
+import static com.example.media1.thesistest2.TourDetails.KEY_NAME5;
+import static com.example.media1.thesistest2.TourDetails.KEY_COO5;
+import static com.example.media1.thesistest2.TourDetails.KEY_TYPE5;
+
 import static com.example.media1.thesistest2.MyLocService.mLastLocation;
 import static com.example.media1.thesistest2.MyLocService.MY_ACTION;
 
@@ -73,24 +82,37 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         //String value = intent.getStringExtra("key");
         //String value = intent.getStringExtra("key");
 
-        passedVarNn = getIntent().getStringExtra(KEY_NAME2);
+        if ( getIntent().getStringExtra(KEY_NAME3) != null){
+            passedVarNn = getIntent().getStringExtra(KEY_NAME3);
+            passedVarCn = getIntent().getStringExtra(KEY_COO3);
+            passedVarTn = getIntent().getStringExtra(KEY_TYPE3);
+        }else if( getIntent().getStringExtra(KEY_NAME5) != null ){
+            passedVarNn = getIntent().getStringExtra(KEY_NAME5);
+            passedVarCn = getIntent().getStringExtra(KEY_COO5);
+            passedVarTn = getIntent().getStringExtra(KEY_TYPE5);
+        }else{
+            passedVarNn = getIntent().getStringExtra(KEY_NAME2);
+            passedVarCn = getIntent().getStringExtra(KEY_COO2);
+            passedVarTn = getIntent().getStringExtra(KEY_TYPE2);
+        }
         passedViewNn = (TextView)findViewById(R.id.nvgtName);
         passedViewNn.setText(passedVarNn);
 
-        passedVarCn = getIntent().getStringExtra(KEY_COO2);
+
+        //passedVarCn = getIntent().getStringExtra(KEY_COO2);
         passedViewCn = (TextView)findViewById(R.id.nvgtDist);
 
-        passedVarTn = getIntent().getStringExtra(KEY_TYPE2);
+        //passedVarTn = getIntent().getStringExtra(KEY_TYPE2);
 
         arrow = (ImageView) findViewById(R.id.directarrow);
         fieldBearing = (TextView)findViewById(R.id.dirtext);
 
         //Location fakeloc = new Location("");
-        //fakeloc.setLatitude(38.0413); //eleusis
-        //fakeloc.setLongitude(23.5418);
+        fakeloc.setLatitude(38.0413); //eleusis
+        fakeloc.setLongitude(23.5418);
 
-        fakeloc.setLatitude(40.5182); //kastoria
-        fakeloc.setLongitude(21.2681);
+        //fakeloc.setLatitude(40.5182); //kastoria
+        //fakeloc.setLongitude(21.2681);
         fakeloc.setAltitude(0);
         //if(mLastLocation != null) {
 
@@ -132,6 +154,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         String latc = "0";
         String lngc = "0";
         int nt = Integer.parseInt(passedVarTn);
+
 
         if (nt == 3) { //circle
             latc = coords[2]; //center
@@ -207,7 +230,7 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         //to receive event from our service
         myReceiver = new MyReceiver();
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(MyLocService.MY_ACTION);
+        intentFilter.addAction(MY_ACTION);
         registerReceiver(myReceiver, intentFilter);
 
         //Start our own service
@@ -231,13 +254,27 @@ public class NavigationActivity extends AppCompatActivity implements SensorEvent
         public void onReceive(Context arg0, Intent arg1) {
             // TODO Auto-generated method stub
             //String datapassed = arg1.getStringExtra("DATAPASSED");
-            int datapassed = arg1.getIntExtra("DATAPASSED", 0);
+            //int datapassed = arg1.getIntExtra("DATAPASSED", 0);
+            int lat1 = arg1.getIntExtra("lat1", 0);
+            int lat2 = arg1.getIntExtra("lat2", 0);
+            int lng1 = arg1.getIntExtra("lng1", 0);
+            int lng2 = arg1.getIntExtra("lng2", 0);
 
-            /*Toast.makeText(NavigationActivity.this,
+
+            //fakeloc.setLatitude(Double.parseDouble(lat1 + "." + lat2));
+            //fakeloc.setLongitude(Double.parseDouble(lng1 + "." + lng2));
+            //fakeloc.setAltitude(0);
+
+/*
+            Toast.makeText(NavigationActivity.this,
                     "Triggered by Service!\n"
                             + "Data passed: " + String.valueOf(datapassed),
+                    Toast.LENGTH_LONG).show();*/
+            Toast.makeText(NavigationActivity.this,
+                    "Triggered by Service!\n"
+                            + "lat: " + String.valueOf(lat1)+ "." + String.valueOf(lat2) + " lng: " + String.valueOf(lng1) + "." + String.valueOf(lng2),
                     Toast.LENGTH_LONG).show();
-//String.valueOf(datapassed),*/
+// + "." + String.valueOf(lat2) + " lng: " + String.valueOf(lng1) + "." + String.valueOf(lng2),
         }
 
     }

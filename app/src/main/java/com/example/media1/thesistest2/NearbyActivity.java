@@ -377,9 +377,14 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
 
             double distx = locx.distanceTo(location3);
             DecimalFormat df = new DecimalFormat("#.##");
-            String sdistx = df.format(distx);
-            sdistx =  sdistx + " km";
-
+            String sdistx;
+            if (distx<1000) {
+                sdistx = df.format(distx);
+                sdistx =  sdistx + " m";
+            }else{
+                sdistx = df.format(distx/1000);
+                sdistx =  sdistx + " km";
+            }
             map.put(KEY_DIST, sdistx);
 
             mPlacesMapList.add(map);

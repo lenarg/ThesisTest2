@@ -28,6 +28,12 @@ import static com.example.media1.thesistest2.PlacesActivity.KEY_TYPE;
 import static com.example.media1.thesistest2.PlacesActivity.KEY_COO;
 import static com.example.media1.thesistest2.PlacesActivity.KEY_IMG;
 
+import static com.example.media1.thesistest2.ArrivalActivity.KEY_NAME4;
+import static com.example.media1.thesistest2.ArrivalActivity.KEY_DESC4;
+import static com.example.media1.thesistest2.ArrivalActivity.KEY_TYPE4;
+import static com.example.media1.thesistest2.ArrivalActivity.KEY_COO4;
+import static com.example.media1.thesistest2.ArrivalActivity.KEY_IMG4;
+
 
 public class PlaceDetails extends AppCompatActivity {
 
@@ -46,6 +52,7 @@ public class PlaceDetails extends AppCompatActivity {
 
     public static final String KEY_NAME2 = "name";
     public static final String KEY_COO2 = "coordinates";
+    public static final String KEY_TYPE2 = "place type";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,23 +70,37 @@ public class PlaceDetails extends AppCompatActivity {
         //passedView.setText("YOU CLICKED ITEM ID="+passedVar);
 
 
+        if ( getIntent().getStringExtra(KEY_NAME4) != null){
+            passedVarN = getIntent().getStringExtra(KEY_NAME4);
+            passedVarD = getIntent().getStringExtra(KEY_DESC4);
+            passedVarI = getIntent().getStringExtra(KEY_IMG4);
+            passedVarC = getIntent().getStringExtra(KEY_COO4);
+            passedVarT = getIntent().getStringExtra(KEY_TYPE4);
 
-        passedVarN = getIntent().getStringExtra(KEY_NAME);
+        }else{
+            passedVarN = getIntent().getStringExtra(KEY_NAME);
+            passedVarD = getIntent().getStringExtra(KEY_DESC);
+            passedVarI = getIntent().getStringExtra(KEY_IMG);
+            passedVarC = getIntent().getStringExtra(KEY_COO);
+            passedVarT = getIntent().getStringExtra(KEY_TYPE);
+        }
+
+        //passedVarN = getIntent().getStringExtra(KEY_NAME);
         passedViewN = (TextView)findViewById(R.id.name);
         passedViewN.setText(passedVarN);
 
-        passedVarD = getIntent().getStringExtra(KEY_DESC);
+        //passedVarD = getIntent().getStringExtra(KEY_DESC);
         passedViewD = (TextView)findViewById(R.id.description);
         passedViewD.setText(passedVarD);
 
-        passedVarI = getIntent().getStringExtra(KEY_IMG);
+        //passedVarI = getIntent().getStringExtra(KEY_IMG);
         //passedViewI = (TextView)findViewById(R.id.pimg);
         //passedViewI.setText(passedVarI);
 
         //passedVarM = getIntent().getStringExtra(KEY_MAP);
 
-        passedVarC = getIntent().getStringExtra(KEY_COO);
-        passedVarT = getIntent().getStringExtra(KEY_TYPE);
+        //passedVarC = getIntent().getStringExtra(KEY_COO);
+        //passedVarT = getIntent().getStringExtra(KEY_TYPE);
 
         new SendHttpRequestTask().execute();
         new SendHttpRequestTask2().execute();
@@ -93,6 +114,7 @@ public class PlaceDetails extends AppCompatActivity {
                 Intent myIntent4 = new Intent(PlaceDetails.this, NavigationActivity.class);
                 myIntent4.putExtra(KEY_NAME2, passedVarN);
                 myIntent4.putExtra(KEY_COO2, passedVarC); //Optional parameters
+                myIntent4.putExtra(KEY_TYPE2, passedVarT);
                 PlaceDetails.this.startActivity(myIntent4);
 
             }

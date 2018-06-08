@@ -93,7 +93,17 @@
             android:name=".TourDetails"
             android:label="@string/title_activity_tour_details"
             android:theme="@style/AppTheme" />
-        <activity android:name=".NavigationActivity"></activity>
+        <activity android:name=".NavigationActivity" />
+
+        <service
+            android:name=".MyLocService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity
+            android:name=".ArrivalActivity"
+            android:label="@string/title_activity_arrival"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
