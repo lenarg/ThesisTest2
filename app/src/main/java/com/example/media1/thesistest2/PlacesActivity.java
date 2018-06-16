@@ -28,7 +28,8 @@ public class PlacesActivity extends AppCompatActivity implements LoadJSONTask.Li
 
     public static final String URL = "https://zafora.icte.uowm.gr/~ictest00344/get_json.php";
 
-    private List<HashMap<String, String>> mPlacesMapList = new ArrayList<>();
+    public List<HashMap<String, String>> mPlacesMapList = new ArrayList<>();
+    public static List<HashMap<String, String>> mPlacesMapListS = new ArrayList<>();
 
     //private static final String KEY_PID = "place_id";
     public static final String KEY_PID = "place_id";
@@ -66,6 +67,7 @@ public class PlacesActivity extends AppCompatActivity implements LoadJSONTask.Li
             map.put(KEY_IMG, allplaces.getImage());
 
             mPlacesMapList.add(map);
+            mPlacesMapListS.add(map);
         }
 
         loadListView();

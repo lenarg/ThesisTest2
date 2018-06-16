@@ -88,7 +88,7 @@ public class NotifActivity extends AppCompatActivity {
 
 
     //for marker showing up
-    private class MarkerTask extends AsyncTask<Void, Void, String> {
+    public static class MarkerTask extends AsyncTask<Void, Void, String> {
 
         private static final String LOG_TAG = "ExampleApp";
 
@@ -141,9 +141,9 @@ public class NotifActivity extends AppCompatActivity {
                 JSONArray jsonArray = baseJsonResponse.getJSONArray("allplaces");//new JSONArray(json);//Extract “allplaces” JSONArray
                 //Log.d("msg7","Its here 5!");
                 //LatLng tap = new LatLng(40.416425,21.521270); //point inside namata region (rectangle area)
-                //LatLng tap = new LatLng(40.449148, 21.517980); //point inside vlasti (rec)
-                //LatLng tap = new LatLng(40.328595, 20.996130); //circle kotyli
-                LatLng tap = new LatLng(40.387060, 21.323610); //pol simantro
+                LatLng tap = new LatLng(40.449148, 21.517980); //point inside vlasti (rec)
+                //LatLng tap = new LatLng(40.328595, 20.996130); //circle kotyli 28
+                //LatLng tap = new LatLng(40.387060, 21.323610); //pol simantro
                 //LatLng tap = new LatLng(40.393161, 20.835766);
                 //LatLng tap = new LatLng(40.417223, 21.057134); //circle
                 //int intersectCount = 0;
@@ -253,7 +253,8 @@ public class NotifActivity extends AppCompatActivity {
                         if( distance[0] < pradius  ){ //itsIN
                             Log.d("msg7","Its IN circle place" + place_id); //with ID: " + place_id);
                             //Toast.makeText(getBaseContext(), "Outside", Toast.LENGTH_LONG).show();
-                            sendNotification();
+                            //sendNotification();
+                            //ArrivalActivity;
 
 
                         } else { //its OUT
@@ -271,7 +272,7 @@ public class NotifActivity extends AppCompatActivity {
         }
     }
 
-    public void sendNotification() {
+    /*public void sendNotification() {
 
         Log.d("msg7","here1");
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
@@ -289,7 +290,7 @@ public class NotifActivity extends AppCompatActivity {
         // Will display the notification in the notification bar
         notificationManager.notify(1, builder.build());
     }
-
+*/
 
 /*
     private boolean rayCastIntersect(LatLng tap, LatLng vertA, LatLng vertB) {

@@ -89,7 +89,7 @@ import com.example.media1.thesistest2.model.PlaceStoring;
 
 
 //public class NearbyActivity extends AppCompatActivity {
-public class NearbyActivity extends AppCompatActivity implements LocationListener, LoadJSONTask.Listener, AdapterView.OnItemClickListener {
+public class NearbyActivity extends AppCompatActivity implements  LoadJSONTask.Listener, AdapterView.OnItemClickListener {
     private TextView latitudeField;
     private TextView longitudeField;
     private LocationManager locationManager;
@@ -118,9 +118,9 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
 
 
         // Get the location manager
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        //locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Log.d("msg7", "before asking if loc enabled");
-        if (isLocationEnabled(NearbyActivity.this)) {
+        /*if (isLocationEnabled(NearbyActivity.this)) {
             // Define the criteria how to select the locatioin provider -> use
             // default
             Log.d("msg7", "after asking if loc enabled");
@@ -167,10 +167,10 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
             //-System.out.println("Provider " + provider + " has been selected.");
             //-onLocationChanged(location);
             //}
-
+*/
             mListView = (ListView) findViewById(R.id.list_view4);
             mListView.setOnItemClickListener(this);
-            new LoadJSONTask(this).execute(URL);
+            new LoadJSONTask(this).execute(URL);/*
         } else {
             //prompt user to enable location....
             //.................
@@ -194,15 +194,16 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
             });
             notifyLocationServices.show();
 
-        }
+        }*/
 
         //mListView = (ListView) findViewById(R.id.list_view4);
         //mListView.setOnItemClickListener(this);
         //new LoadJSONTask(this).execute(URL);
     }
 
+
     /*---------- Listener class to get coordinates ------------- */
-    private class MyLocationListener implements LocationListener {
+   /* private class MyLocationListener implements LocationListener {
 
         @Override
         public void onLocationChanged(Location loc) {
@@ -252,13 +253,13 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
 
         //...............
         //return true;
-    }
+    }*/
 
     /* Request updates at startup */
     @Override
     protected void onResume() {
         super.onResume();
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        //if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -266,8 +267,8 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
+        //    return;
+        //}
 //        locationManager.requestLocationUpdates(provider, 400, 1, this);
     }
 
@@ -275,20 +276,20 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
     @Override
     protected void onPause() {
         super.onPause();
-        locationManager.removeUpdates(this);
+        //locationManager.removeUpdates(this);
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        locationManager.removeUpdates(this);
+   /* @Override
+    //public void onLocationChanged(Location location) {
+        //locationManager.removeUpdates(this);
 
-        double lat = (location.getLatitude()); //ayta einai  h topothesia mou
-        double lng = (location.getLongitude());
+        //double lat = (location.getLatitude()); //ayta einai  h topothesia mou
+        //double lng = (location.getLongitude());
         //latitudeField.setText(String.valueOf(lat));
         //longitudeField.setText(String.valueOf(lng));
-        Log.d("msg7", "now changed HERE lat: " + lat + " lng: " + lng);
+       // Log.d("msg7", "now changed HERE lat: " + lat + " lng: " + lng);
 
-    }
+    //}
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
@@ -308,13 +309,13 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
         Toast.makeText(this, "Disabled provider " + provider,
                 Toast.LENGTH_SHORT).show();
     }
-
+*/
     @Override
     public void onLoaded(List<PlaceStoring> allplacesList) {
 
         Collections.sort(allplacesList, new SortbyDist());
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        //if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
@@ -322,9 +323,12 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        Location location3 = locationManager.getLastKnownLocation(provider);
+         //   return;
+        //}
+        //Location location3 = locationManager.getLastKnownLocation(provider);
+        Location location3 = new Location("");
+        location3.setLatitude(38.0536);
+        location3.setLongitude(23.5346);
 
 
         for (PlaceStoring allplaces : allplacesList) {
@@ -419,8 +423,6 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
 
     private void loadListView() {
 
-
-
         ListAdapter adapter = new SimpleAdapter(NearbyActivity.this, mPlacesMapList, R.layout.list_item3,
                 new String[]{KEY_NAME, KEY_DIST },
                 new int[]{R.id.name, R.id.distance});
@@ -509,7 +511,7 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
             //location2.setLatitude(38.0546);
             //location2.setLongitude(23.5318);
 
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
                 // here to request the missing permissions, and then overriding
@@ -517,12 +519,15 @@ public class NearbyActivity extends AppCompatActivity implements LocationListene
                 //                                          int[] grantResults)
                 // to handle the case where the user grants the permission. See the documentation
                 // for ActivityCompat#requestPermissions for more details.
-                ActivityCompat.requestPermissions(NearbyActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                //ActivityCompat.requestPermissions(NearbyActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
 
-                return 0;
-            }
+            //    return 0;
+            //}
 
-            Location location2 = locationManager.getLastKnownLocation(provider);
+            //Location location2 = locationManager.getLastKnownLocation(provider);
+            Location location2 = new Location("");
+            location2.setLatitude(38.0536);
+            location2.setLongitude(23.5346);
            //Log.d ("msg7", "loc in SbD " + location2);
             double dista = loca.distanceTo(location2);
             double distb = locb.distanceTo(location2);

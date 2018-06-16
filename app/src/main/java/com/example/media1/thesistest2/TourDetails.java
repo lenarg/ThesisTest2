@@ -57,17 +57,23 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
     private TextView passedViewTD = null;
     String passedVarTPL = null;
     private TextView passedViewTPL = null;
+    String eptshow = "";
+
 
     Location myloc = new Location("");
     Location locCn = new Location("");
 
-    private List<HashMap<String, String>> mTPlacesMapList = new ArrayList<>();
+    public List<HashMap<String, String>> mTPlacesMapList = new ArrayList<>();
+    public static List<HashMap<String, String>> mTPlacesMapListS = new ArrayList<>();
 
+    public static final String KEY_PID8 = "place id";
 
-
+    public static final String KEY_PID5 = "place id";
     public static final String KEY_NAME5 = "name";
     public static final String KEY_COO5 = "coordinates";
     public static final String KEY_TYPE5 = "place type";
+    public static final String KEY_PLACELIST5 = "sorted list of places";
+    String[] sortedPlaceTable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,9 +109,26 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 Intent myIntent8 = new Intent(TourDetails.this, NavigationActivity.class);
-                myIntent8.putExtra(KEY_NAME5, "");
-                myIntent8.putExtra(KEY_COO5, "");
-                myIntent8.putExtra(KEY_TYPE5, "");
+
+                String name5 ="";
+                String type5 ="";
+                String coordinates5="";
+
+                for (int i =0; i<mTPlacesMapList.size(); i++){
+                    //Log.d("msg8", "n " +n);
+                    if( Integer.parseInt(mTPlacesMapList.get(i).get(KEY_PID)) ==  Integer.parseInt(sortedPlaceTable[0]) ){
+
+                        name5 = mTPlacesMapList.get(i).get(KEY_NAME);
+                        type5 = mTPlacesMapList.get(i).get(KEY_TYPE);
+                        coordinates5 = mTPlacesMapList.get(i).get(KEY_COO);
+
+                    }
+                }
+                myIntent8.putExtra(KEY_PID5, sortedPlaceTable[0]);
+                myIntent8.putExtra(KEY_NAME5, name5);
+                myIntent8.putExtra(KEY_COO5, coordinates5);
+                myIntent8.putExtra(KEY_TYPE5, type5);
+                myIntent8.putExtra(KEY_PLACELIST5, eptshow );
                 //myIntent8.putExtra(KEY_TPL2, passedVarTPL);
                 TourDetails.this.startActivity(myIntent8);
 
@@ -144,13 +167,13 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
                     //Log.d("msg8", "mTPlacesMapList.size()"+mTPlacesMapList.size());
 
 
-                    Log.d("msg8", "HERE1");
+                    //Log.d("msg8", "HERE1");
                    // Log.d("msg8", "HERE1"+mTPlacesMapList);
 
-                    Log.d("msg8", "size " +mTPlacesMapList.size());
+                    //Log.d("msg8", "size " +mTPlacesMapList.size());
                     //for (Map.Entry<String,String> entry : mTPlacesMapList.entrySet()){}
                     for (int n =0; n<mTPlacesMapList.size()  ;n++){
-                        Log.d("msg8", "n " +n);
+                        //Log.d("msg8", "n " +n);
                         if( Integer.parseInt(mTPlacesMapList.get(n).get(KEY_PID)) == spt[i] ){
 
                             type = mTPlacesMapList.get(n).get(KEY_TYPE);
@@ -264,18 +287,19 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
                     map.put(KEY_IMG, allplaces.getImage());
 
                     mTPlacesMapList.add(map);
+                    mTPlacesMapListS.add(map);
                 }
             }
         }
 
 
-        Log.d("msg8", "size loaded" +mTPlacesMapList.size());
+        //Log.d("msg8", "size loaded" +mTPlacesMapList.size());
         loadListView();
 
         String[] tourpltable = passedVarTPL.split(";");
         int[] itourpltable = new int[tourpltable.length-1];//= {1,2};
         String sptshow= "places: ";
-        String eptshow= "sortd places: ";
+        //String eptshow= "";
 
         for ( int i = 1; i<tourpltable.length ;i++ ){
             itourpltable[i-1] = Integer.parseInt( tourpltable[i] );
@@ -283,12 +307,15 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
         }
 
         Log.d("msg8", "sptshow" +sptshow);
-        String[] sortedPlaceTable = sortTourPlaces(itourpltable);
+        sortedPlaceTable = sortTourPlaces(itourpltable);
 
-        for (int i = 0; i< sortedPlaceTable.length; i++ ){
-            eptshow = eptshow + sortedPlaceTable[i] + " " ;
+        for (int i = 1; i< sortedPlaceTable.length; i++ ){
+            eptshow = eptshow + ";" + sortedPlaceTable[i];
+
         }
         Log.d("msg8", "eptshow" +eptshow);
+
+
 
     }
 
@@ -304,12 +331,12 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
     public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
 
         Intent myIntent4 = new Intent(TourDetails.this, PlaceDetails.class);
-        myIntent4.putExtra( KEY_PID, mTPlacesMapList.get(i).get(KEY_PID)); //String.valueOf(l));//ID_EXTRA, id
-        myIntent4.putExtra( KEY_NAME, mTPlacesMapList.get(i).get(KEY_NAME));
-        myIntent4.putExtra( KEY_DESC, mTPlacesMapList.get(i).get(KEY_DESC));
-        myIntent4.putExtra( KEY_TYPE, mTPlacesMapList.get(i).get(KEY_TYPE));
-        myIntent4.putExtra( KEY_COO, mTPlacesMapList.get(i).get(KEY_COO));
-        myIntent4.putExtra( KEY_IMG, mTPlacesMapList.get(i).get(KEY_IMG));
+        myIntent4.putExtra( KEY_PID8, mTPlacesMapList.get(i).get(KEY_PID)); //String.valueOf(l));//ID_EXTRA, id
+        //myIntent4.putExtra( KEY_NAME, mTPlacesMapList.get(i).get(KEY_NAME));
+        //myIntent4.putExtra( KEY_DESC, mTPlacesMapList.get(i).get(KEY_DESC));
+        //myIntent4.putExtra( KEY_TYPE, mTPlacesMapList.get(i).get(KEY_TYPE));
+        //myIntent4.putExtra( KEY_COO, mTPlacesMapList.get(i).get(KEY_COO));
+        //myIntent4.putExtra( KEY_IMG, mTPlacesMapList.get(i).get(KEY_IMG));
 
         //myIntent2.putExtra("key", "value"); //Optional parameters
         //CurrentActivity.this.startActivity(myIntent);

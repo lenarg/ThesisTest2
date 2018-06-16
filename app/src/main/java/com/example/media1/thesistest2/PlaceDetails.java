@@ -20,6 +20,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import java.lang.Math;
+import java.util.HashMap;
+import java.util.List;
+
+import static com.example.media1.thesistest2.PlacesActivity.mPlacesMapListS;
+import static com.example.media1.thesistest2.TourDetails.KEY_PID8;
+import static com.example.media1.thesistest2.TourDetails.mTPlacesMapListS;
 
 import static com.example.media1.thesistest2.PlacesActivity.KEY_PID;
 import static com.example.media1.thesistest2.PlacesActivity.KEY_NAME;
@@ -28,6 +34,7 @@ import static com.example.media1.thesistest2.PlacesActivity.KEY_TYPE;
 import static com.example.media1.thesistest2.PlacesActivity.KEY_COO;
 import static com.example.media1.thesistest2.PlacesActivity.KEY_IMG;
 
+import static com.example.media1.thesistest2.ArrivalActivity.KEY_PID4;
 import static com.example.media1.thesistest2.ArrivalActivity.KEY_NAME4;
 import static com.example.media1.thesistest2.ArrivalActivity.KEY_DESC4;
 import static com.example.media1.thesistest2.ArrivalActivity.KEY_TYPE4;
@@ -39,6 +46,7 @@ public class PlaceDetails extends AppCompatActivity {
 
     //String passedVar = null;
     //private TextView passedView = null;
+    String passedVarPid = null;
     String passedVarN = null;
     private TextView passedViewN = null;
     String passedVarD = null;
@@ -50,6 +58,7 @@ public class PlaceDetails extends AppCompatActivity {
     String passedVarT = null;
     //private TextView passedViewC = null;
 
+    public static final String KEY_PID2 = "place id";
     public static final String KEY_NAME2 = "name";
     public static final String KEY_COO2 = "coordinates";
     public static final String KEY_TYPE2 = "place type";
@@ -69,20 +78,64 @@ public class PlaceDetails extends AppCompatActivity {
         //Log.d("msg7","HERE");
         //passedView.setText("YOU CLICKED ITEM ID="+passedVar);
 
+        View GOButton = findViewById(R.id.nvgtbtn);
 
-        if ( getIntent().getStringExtra(KEY_NAME4) != null){
-            passedVarN = getIntent().getStringExtra(KEY_NAME4);
-            passedVarD = getIntent().getStringExtra(KEY_DESC4);
-            passedVarI = getIntent().getStringExtra(KEY_IMG4);
-            passedVarC = getIntent().getStringExtra(KEY_COO4);
-            passedVarT = getIntent().getStringExtra(KEY_TYPE4);
 
+        if ( getIntent().getStringExtra(KEY_PID4) != null){
+            passedVarPid = getIntent().getStringExtra(KEY_PID4);
+            //passedVarN = getIntent().getStringExtra(KEY_NAME4); //arrival
+            //passedVarD = getIntent().getStringExtra(KEY_DESC4);
+            //passedVarI = getIntent().getStringExtra(KEY_IMG4);
+            //passedVarC = getIntent().getStringExtra(KEY_COO4);
+            //passedVarT = getIntent().getStringExtra(KEY_TYPE4);
+            GOButton.setVisibility(View.GONE);
+
+        }else if( getIntent().getStringExtra(KEY_PID8) != null ){
+            passedVarPid = getIntent().getStringExtra(KEY_PID8);  //tourdetails
+            GOButton.setVisibility(View.GONE);
         }else{
-            passedVarN = getIntent().getStringExtra(KEY_NAME);
-            passedVarD = getIntent().getStringExtra(KEY_DESC);
-            passedVarI = getIntent().getStringExtra(KEY_IMG);
-            passedVarC = getIntent().getStringExtra(KEY_COO);
-            passedVarT = getIntent().getStringExtra(KEY_TYPE);
+            passedVarPid = getIntent().getStringExtra(KEY_PID);
+            //passedVarN = getIntent().getStringExtra(KEY_NAME); //placesactivity
+            //passedVarD = getIntent().getStringExtra(KEY_DESC);
+            //passedVarI = getIntent().getStringExtra(KEY_IMG);
+            //passedVarC = getIntent().getStringExtra(KEY_COO);
+            //passedVarT = getIntent().getStringExtra(KEY_TYPE);
+            GOButton.setVisibility(View.VISIBLE);
+
+        }
+
+        if ( mPlacesMapListS.size() != 0 ) {
+            for (int i = 0; i < mPlacesMapListS.size(); i++) {
+
+                if (Integer.parseInt(mPlacesMapListS.get(i).get(KEY_PID)) == Integer.parseInt(passedVarPid)) {
+
+                    //type = mTPlacesMapList.get(n).get(KEY_TYPE);
+                    //coordinates = mTPlacesMapList.get(n).get(KEY_COO);
+                    passedVarN = mPlacesMapListS.get(i).get(KEY_NAME); //placesactivity
+                    passedVarD = mPlacesMapListS.get(i).get(KEY_DESC);
+                    passedVarI = mPlacesMapListS.get(i).get(KEY_IMG);
+                    passedVarC = mPlacesMapListS.get(i).get(KEY_COO);
+                    passedVarT = mPlacesMapListS.get(i).get(KEY_TYPE);
+
+                }
+
+            }
+        }else{
+            for (int i = 0; i < mTPlacesMapListS.size(); i++) {
+
+                if (Integer.parseInt(mTPlacesMapListS.get(i).get(KEY_PID)) == Integer.parseInt(passedVarPid)) {
+
+                    //type = mTPlacesMapList.get(n).get(KEY_TYPE);
+                    //coordinates = mTPlacesMapList.get(n).get(KEY_COO);
+                    passedVarN = mTPlacesMapListS.get(i).get(KEY_NAME); //placesactivity
+                    passedVarD = mTPlacesMapListS.get(i).get(KEY_DESC);
+                    passedVarI = mTPlacesMapListS.get(i).get(KEY_IMG);
+                    passedVarC = mTPlacesMapListS.get(i).get(KEY_COO);
+                    passedVarT = mTPlacesMapListS.get(i).get(KEY_TYPE);
+
+                }
+
+            }
         }
 
         //passedVarN = getIntent().getStringExtra(KEY_NAME);
@@ -92,6 +145,8 @@ public class PlaceDetails extends AppCompatActivity {
         //passedVarD = getIntent().getStringExtra(KEY_DESC);
         passedViewD = (TextView)findViewById(R.id.description);
         passedViewD.setText(passedVarD);
+
+
 
         //passedVarI = getIntent().getStringExtra(KEY_IMG);
         //passedViewI = (TextView)findViewById(R.id.pimg);
@@ -105,6 +160,8 @@ public class PlaceDetails extends AppCompatActivity {
         new SendHttpRequestTask().execute();
         new SendHttpRequestTask2().execute();
 
+
+
         Button clickGOButton = (Button) findViewById(R.id.nvgtbtn);
         clickGOButton.setOnClickListener( new View.OnClickListener() {
 
@@ -112,6 +169,7 @@ public class PlaceDetails extends AppCompatActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 Intent myIntent4 = new Intent(PlaceDetails.this, NavigationActivity.class);
+                myIntent4.putExtra(KEY_PID2, passedVarPid);
                 myIntent4.putExtra(KEY_NAME2, passedVarN);
                 myIntent4.putExtra(KEY_COO2, passedVarC); //Optional parameters
                 myIntent4.putExtra(KEY_TYPE2, passedVarT);
@@ -264,7 +322,5 @@ public class PlaceDetails extends AppCompatActivity {
 
 
     }
-
-
 
 }
