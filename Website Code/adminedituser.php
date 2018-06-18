@@ -119,7 +119,9 @@ include('https.php'); //Includes the control file that always redirects to https
 	 }
  }
 
-echo '<!DOCTYPE html">
+ ?>
+ 
+ <!DOCTYPE html>
 
 <head>
 
@@ -136,10 +138,11 @@ echo '<!DOCTYPE html">
 
 </head>
  
- <body>';
- include('navBar.php'); 
+ <body>
  
- echo ' <div class="container">
+ <?php  include('navBar.php'); ?>
+ 
+ <div class="container">
   
  <div id="maincontent">
  
@@ -148,6 +151,8 @@ echo '<!DOCTYPE html">
 	<table>
 		<thead><tr><th><h3>Edit User</h3></th></tr></thead>
 		<tbody>
+		<?php 
+			echo '
 			<tr><td>
 				<input type="hidden" name="id" value="'; echo $user_id; echo '" />
 			</td></tr>
@@ -163,23 +168,22 @@ echo '<!DOCTYPE html">
 			<tr><td colspan="2" align="right"><input type="submit" name="submit" value="Submit edits" /></td></tr>
 			<tr><td>
 				<input type="hidden" name="id" value="'; echo $user_id;  echo '" />
-			</td></tr>
+			</td></tr>';
+		?>
 		</tbody>
 	</table>
 	</form>
  
 </div> 
 
- </div>'; 
+ </div>
  
- include('footer.php'); 
+ <?php include('footer.php'); ?>
  
- echo ' <!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
+	<!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 </body>
-</html>';
-
-?> 
+</html>

@@ -48,17 +48,32 @@ if($admin_check == 1 ) {
 		}
 		else
 		{
+						
 			$tour_select = $_POST['tour_select1'];
 			$tourp ='';
 			
-			$tplac = $tour_select[0];
-			 for ($i = 1; $i < count($tour_select); ++$i) {
+			$tplac = '';//$tour_select[0];
+			 for ($i = 0; $i < count($tour_select); ++$i) {
 				//print $tour_select[$i];
 				$tplac1 = $tour_select[$i];
 				$tplac = $tplac . ';' . $tplac1;
 			}
 			
 			$tour_places = $tplac;
+			///////////////////////////////////////////
+			/*$tour_select = $_POST['tour_select'];
+			$tourp ='';
+			
+			$tplac = '';
+			for ($i = 0; $i < count($tour_select); ++$i) {
+				//print $tour_select[$i];
+				$tplac1 = $tour_select[$i];
+				$tplac = $tplac . ';' . $tplac1;
+			}
+			
+			//print $tplac;
+						
+			$tour_places = $tplac;*/
 			
 			 // save the data to the database 			
 			try {
@@ -124,9 +139,9 @@ if($admin_check == 1 ) {
 		 echo 'Error!';
 	 }
  }
+?>
 
-
-echo '<!DOCTYPE html>
+<!DOCTYPE html>
 
 <head>
 
@@ -150,11 +165,11 @@ echo '<!DOCTYPE html>
 
 </head>
  
- <body>'; 
+ <body>
  
- include('navBar.php'); 
+ <?php include('navBar.php'); ?>
  
- echo '</br>
+</br>
 	 </br>
 	 <div class="container">
 	  
@@ -164,48 +179,48 @@ echo '<!DOCTYPE html>
 		<table>
 			<thead><tr><th><h3>Edit Tour</h3></th></tr></thead>
 			<tbody>
-				<tr><td><input type="hidden" name="tour_id" value="'; echo $tour_id; echo '" /></td></tr>
-				<tr><td>Tour Name:</td><td><input type="text" name="tour_name" maxlength="90" value="'; echo $tour_name; echo '" /></td></tr>
-				<tr><td>Tour Description:</td><td><input type="text" name="tour_desc" maxlength="500" value="'; echo $tour_desc; echo '" /></td></tr>
-				<tr><td></br></td></tr>
-				<tr><td> 
-						<label for="select-places2">Select places for the tour: </br>(CTRL+Click for multiple selection)</label>
-						<select class="form-control" name=\'tour_select1[]\' id="select-places2" multiple="multiple">';
-						
-							 $tplaces2 = explode( ";" , $tour_places );
-							 $i=0;
-							 while( $row = $result1->fetch(PDO::FETCH_ASSOC) ){ 
-								if ( $row['place_id'] == $tplaces2[$i] ){
-									echo "<option selected value'".$row['place_id']."'>".$row['name']."</option>";	
-									$i++;
-								}else{
-									echo "<option value='".$row['place_id']."'>".$row['name']."</option>";
-								}
-							}
+				<?php echo '<tr><td><input type="hidden" name="tour_id" value="'; echo $tour_id; echo '" /></td></tr>
+							<tr><td>Tour Name:</td><td><input type="text" name="tour_name" maxlength="90" value="'; echo $tour_name; echo '" /></td></tr>
+							<tr><td>Tour Description:</td><td><input type="text" name="tour_desc" maxlength="500" value="'; echo $tour_desc; echo '" /></td></tr>
+							<tr><td></br></td></tr>
+							<tr><td> 
+								<label for="select-places2">Select places for the tour: </br>(CTRL+Click for multiple selection)</label>
+								<select class="form-control" name=\'tour_select1[]\' id="select-places2" multiple="multiple">';
+								
+									 $tplaces2 = explode( ";" , $tour_places );
+									 $i=1;
+									 while( $row = $result1->fetch(PDO::FETCH_ASSOC) ){ 
+										if ( $row['place_id'] == $tplaces2[$i] ){
+											echo "<option selected value='".$row['place_id']."'>".$row['name']."</option>";	
+											//echo "<option selected value='".$tplaces2[$i]."'>".$row['name']."</option>";
+											$i++;
+										}else{
+											echo "<option value='".$row['place_id']."'>".$row['name']."</option>";
+											//echo "<option value='".$tplaces2[$i]."'>".$row['name']."</option>";
+										}
+									 }
 							
-					echo '</select>
-					</td>
-					<td></td>
-					</tr>
-					<tr><td><br></td></tr>
+								echo '</select>
+								</td>
+								<td></td>
+							</tr>
+							<tr><td><br></td></tr>
 				<tr><td colspan="2" align="right"><input type="submit" name="submit" value="Submit edits" /></td></tr>
-				<tr><td><input type="hidden" name="tour_id" value="'; echo $tour_id; echo '" /></td></tr>
+				<tr><td><input type="hidden" name="tour_id" value="'; echo $tour_id; echo '" /></td></tr>'; ?>
 			</tbody>
 		</table>
 		</form>
 	 </div>
 	</div>
-	 </div>';
+	 </div>
 	 
-	 include('footer.php'); 
+	 <?php include('footer.php'); ?>
 	 
-	 echo '<!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
+	<!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
 	 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	 <!-- Latest compiled and minified JavaScript -->
 	 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 </body>
 
-</html>';
-
-?> 
+</html>

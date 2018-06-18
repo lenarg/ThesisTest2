@@ -108,7 +108,7 @@ function random_str($length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzAB
 	 }
  }
 
-echo'
+?>
 
 <!DOCTYPE html>
 
@@ -149,9 +149,9 @@ echo'
 	</form>
  
 
- </div>'; 
- include('footer.php'); 
- echo '
+ </div>
+ <?php include('footer.php'); ?>
+
  <!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
@@ -159,6 +159,4 @@ echo'
 
 </body>
 
-</html>';
-
-?>
+</html>

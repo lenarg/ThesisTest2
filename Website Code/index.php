@@ -5,9 +5,9 @@
 	
 	if(isset($_SESSION['login_user'])){
 		header("location: profile.php");
-	}
+	}?>
 
-echo '<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 	<title>mARs - Log In page</title>
@@ -32,21 +32,19 @@ echo '<!DOCTYPE html>
 					<label>Password :</label>
 					<input id="password" name="password" placeholder="********" type="password">
 					<input name="submit" type="submit" value="Login">
-					<span>'; echo $error; echo '</span>
+					<span><?php echo $error; ?></span>
 				</form>
 				<font size="1"><a href="ForgottenPassword.php">Forgot your password?</a></font> <br><br><br>
 				<p>or <font size="5"><a href="signup.php">Sign up</a></font></p>
 		</div>
-	</div>';
+	</div>
 	
-	include('footer.php');
+	<?php include('footer.php');?>
 	
-	echo '
+	
 	<!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </body>
-</html>';
-
-?>
+</html>

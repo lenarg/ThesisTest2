@@ -93,9 +93,9 @@ include('https.php'); //Includes the control file that always redirects to https
 	 } else { // if the 'id' in the URL isn't valid, or if there is no 'id' value, display an error
 		 echo 'Error!';
 	 }
- }
+ }?>
 
-echo '<!DOCTYPE html">
+ <!DOCTYPE html">
 
 <head>
 
@@ -112,10 +112,10 @@ echo '<!DOCTYPE html">
 
 </head>
  
- <body>'; 
- include('navBar.php'); 
+ <body>
+ <?php include('navBar.php'); ?>
  
- echo ' 
+
 <br>
 <br>
  <div class="container">
@@ -126,47 +126,38 @@ echo '<!DOCTYPE html">
 	<table>
 		<thead><tr><th><h3>Edit Account</h3></th></tr></thead>
 		<tbody>
+		<?php 
+			echo '
 			<tr><td>
-				<input type="hidden" name="id" value="'; 
-				echo $user_id; 
-				echo '" />
+				<input type="hidden" name="id" value="';  echo $user_id;  echo '" />
 			</td></tr>
-			<tr><td>*Username&nbsp;</td><td><input type="text" name="username" maxlength="20" value="'; echo $username;
-			echo '"/></td></tr>
-			<tr><td>*Name</td><td><input type="text" name="name" maxlength="20" value="'; echo $name;
-			echo '"/></td></tr>
-			<tr><td>*Surname</td><td><input type="text" name="surname" maxlength="20" value="'; echo $surname;
-			echo '"/></td></tr>
-			<tr><td>*Email</td><td><input type="text" name="email" maxlength="30" value="'; echo $email; 
-			echo '"/></td></tr>
-			<tr><td>&nbsp;Address</td><td><input type="text" name="address" maxlength="50" value="'; echo $address; 
-			echo '"/></td></tr>
-			<tr><td>&nbsp;City</td><td><input type="text" name="city" maxlength="15" value="'; echo $city;
-			echo '"/></td></tr>
-			<tr><td>&nbsp;Phone</td><td><input type="text" name="phone" maxlength="15" value="'; echo $phone; 
-			echo '"/></td></tr>						
+			<tr><td>*Username&nbsp;</td><td><input type="text" name="username" maxlength="20" value="'; echo $username; echo '"/></td></tr>
+			<tr><td>*Name</td><td><input type="text" name="name" maxlength="20" value="'; echo $name; echo '"/></td></tr>
+			<tr><td>*Surname</td><td><input type="text" name="surname" maxlength="20" value="'; echo $surname; echo '"/></td></tr>
+			<tr><td>*Email</td><td><input type="text" name="email" maxlength="30" value="'; echo $email;  echo '"/></td></tr>
+			<tr><td>&nbsp;Address</td><td><input type="text" name="address" maxlength="50" value="'; echo $address;  echo '"/></td></tr>
+			<tr><td>&nbsp;City</td><td><input type="text" name="city" maxlength="15" value="'; echo $city; echo '"/></td></tr>
+			<tr><td>&nbsp;Phone</td><td><input type="text" name="phone" maxlength="15" value="'; echo $phone; echo '"/></td></tr>						
 			
 			<tr><td colspan="2" align="right"><input type="submit" name="submit" value="Submit edits" /></td></tr>
 			<tr><td>
-				<input type="hidden" name="id" value="'; echo $user_id; 
-				echo'" />
-			</td></tr>
+				<input type="hidden" name="id" value="'; echo $user_id;  echo'" />
+			</td></tr>'; 
+		?>
 		</tbody>
 	</table>
 	</form>
  
  </div> 
 
- </div>';
- include('footer.php'); 
+ </div>
+ <?php include('footer.php'); ?>
  
- echo ' <!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
+	<!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 </body>
 
-</html>';
-
-?> 
+</html>

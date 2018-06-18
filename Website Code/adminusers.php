@@ -3,8 +3,9 @@
 include('adminsession.php');
 require('connect.php');
 include('https.php'); //Includes the control file that always redirects to https
+?>
 
-echo '<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 	<title>Users</title>
@@ -27,11 +28,11 @@ echo '<!DOCTYPE html>
 	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/themes/base/jquery-ui.css">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
-<body>';
+<body>
 
- include('navBar.php'); 
+ <?php include('navBar.php'); ?>
 
- echo '	<div class="container">
+<div class="container">
 		<center>
 			<div class="panel panel-default">
 			  <div class="panel-heading">
@@ -44,8 +45,8 @@ echo '<!DOCTYPE html>
 					 <!-- <p><button id="create-place">Add a new place</button></p> -->
 					 
 					 <div id="maincontent">
-					 <div class="table-responsive">';
-							
+					 <div class="table-responsive">
+						<?php							
 							//$result=mysqli_query($link, "SELECT * FROM users");
 							try {
 								$result = $dbh ->prepare("SELECT * FROM users");
@@ -84,9 +85,9 @@ echo '<!DOCTYPE html>
 									
 								
 								echo "</table>"; // close table
+						?>
 						   
-						   
-					echo' </div>	
+					</div>	
 					 </div>
 				</div>
 						
@@ -96,14 +97,12 @@ echo '<!DOCTYPE html>
 			  </div>
 			</div>
 		</center>
-	</div>';
+		</div>
 	
-	include('footer.php'); 
-	echo '<!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
+	<?php include('footer.php'); ?>
+	<!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </body>
-</html>';
-
-?>
+</html>

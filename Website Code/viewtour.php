@@ -72,11 +72,12 @@ else // if the 'id' in the URL isn't valid, or if there is no 'id' value, displa
 
 		 return $EncString['Points'];
 	}
+?>
 
-echo '<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-	<title>Tour order</title>
+	<title>Tour Details</title>
 	<link href="style.css" rel="stylesheet" type="text/css">
 	
 	<script type="text/javascript" language="Javascript">
@@ -98,15 +99,16 @@ echo '<!DOCTYPE html>
 	<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/themes/base/jquery-ui.css">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
-<body>'; 
-include('navBar.php'); 
+<body>
+
+<?php include('navBar.php'); 
 
 echo '<div class="container">
 		<div id="content">';
 			echo '<table id="tourtable" class="table" cellpadding="0" border="0"  class="sortable">';
 			echo '<thead>';
 			echo '<tr><th><h1><b>Tour View</b></h1></th><tr>';
-			echo '<tr><font size="5"><td><b>Tour Name: </b></td><td>'.$row['tour_name'].'</td></font></tr>'; 
+			echo '<tr><font size="5"><td><b>Tour Name: </b></td><td>'.$row['tour_name'].'</td><td></td><td></td></font></tr>'; 
 			
 			if($admin_check == 1 ) {
 				echo '<tr><font size="5"><td><b>By User: </b></td><td>'.$row['user_id'].'.'; //..'<p>';
@@ -121,18 +123,18 @@ echo '<div class="container">
 				}	
 				
 				while($row2 = $usern->fetch(PDO::FETCH_ASSOC)) {
-					echo ' ' . $row2['username'] . '</td></font></tr>';
+					echo ' ' . $row2['username'] . '</td><td></td><td></td></font></tr>';
 				}
 			}
 									
-			echo '<tr><font size="5"><td><b>Tour Description: </b></td><td>'.$row['tour_desc'].'<td></font></tr>';
+			echo '<tr><font size="5"><td><b>Tour Description: </b></td><td>'.$row['tour_desc'].'</td><td></td><td></td></font></tr>';
 			echo '</thead><tbody>';
 			
 			//echo '<h2>Tour View</h2>';
 			
 			
 			
-			echo '<tr><font size="5"><td><b>Tour Places: </b></td></font></tr>';
+			echo '<tr><font size="5"><td><b><u>Tour Places </u></b></td><td></td><td></td><td></td></font></tr>';
 			//echo "test1";
 			for ($i=1;$i<count($tplaces); $i++)
 			{
@@ -228,13 +230,10 @@ echo '<div class="container">
 			
 	echo '</div>
 	</div>'; 
-	include('footer.php'); 
-	echo '<!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
+	include('footer.php'); ?>
+	<!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </body>
-</html>';
-
-
-?> 
+</html>

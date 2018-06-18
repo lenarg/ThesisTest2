@@ -3,7 +3,9 @@
 require('connect.php');
 include ('session.php');
 include('https.php'); //Includes the control file that always redirects to https
-/*
+
+error_reporting(E_ALL); ini_set('display_errors',1);
+
 if($admin_check == 1 ) {
 			try {
 				$result = $dbh ->prepare("SELECT name,place_id,type,coordinates FROM allplaces");
@@ -27,15 +29,15 @@ if($admin_check == 1 ) {
 			//$rows = mysqli_num_rows($query);
 			//$row = $result->fetch(PDO::FETCH_ASSOC);
 			//$filter = "SELECT name,place_id,type, coordinates FROM allplaces WHERE user_id = '$userid'";
-}*/
+}
 //$result = mysqli_query($link, $filter);
 
 // check if the form has been submitted. If it has, process the form and save it to the database
- if ( isset($_POST['submit_tour']) )
- {
-	
-	 if( !empty($_POST['tour_name']) ) //AND !empty($_POST['tour_select']) ) 
-	{
+ if ( isset($_POST['submit_tour']) ){
+	 
+	//AND !empty($_POST['tour_select']) ) 
+	 if( !empty($_POST['tour_name']) AND !empty($_POST['tour_select']) ) {
+		
 		$tour_name = trim($_POST['tour_name']); //mysqli_real_escape_string($link, trim($_POST['tour_name']));
 		$tour_desc = trim($_POST['tour_desc']); //mysqli_real_escape_string($link, trim($_POST['tour_desc']));
 		
@@ -70,7 +72,10 @@ if($admin_check == 1 ) {
 		}else{
 			// get form data, making sure it is valid
 			
-			/*$tour_select = $_POST['tour_select'];
+			
+			
+			
+			$tour_select = $_POST['tour_select'];
 			$tourp ='';
 			
 			$tplac = '';
@@ -82,7 +87,7 @@ if($admin_check == 1 ) {
 			
 			//print $tplac;
 						
-			$tour_places = $tplac;*/
+			$tour_places = $tplac;
 			//$query = mysqli_query($link, "INSERT INTO tours (user_id,tour_name,tour_places,tour_desc) 
 			//				VALUES('$userid','$tour_name','$tour_places','$tour_desc')") 
 			//				or die(mysqli_error($link)); 
@@ -91,13 +96,8 @@ if($admin_check == 1 ) {
 		
 			try {
 				
-				$query = $dbh->prepare("INSERT INTO tours (user_id,tour_name,tour_places,tour_desc) VALUES (?,?,?,?)");   //(:user_id,:tour_name,:tour_places,:tour_desc)");
-				$query->execute( array("2","testy",";14;37;35","amazing"));//array( $userid,$tour_name,$tour_places,$tour_desc ) );
-				//$query->bindParam(':user_id', $userid, PDO::PARAM_INT);
-				//$query->bindParam(':tour_name', $tour_name, PDO::PARAM_STR);
-				//$query->bindParam(':tour_places', $tour_places, PDO::PARAM_STR);
-				//$query->bindParam(':tour_desc', $tour_desc, PDO::PARAM_STR);
-				//$query->execute();
+				$query = $dbh->prepare("INSERT INTO tours(user_id, tour_name, tour_places, tour_desc) VALUES(?,?,?,?)");   //(:user_id,:tour_name,:tour_places,:tour_desc)");
+				$query->execute( array( $userid,$tour_name,$tour_places,$tour_desc ) ); //$tour_places
 			}
 			catch(PDOException $e) {
 				echo "Error: " . $e->getMessage();
@@ -105,7 +105,7 @@ if($admin_check == 1 ) {
 			}		
 			//$row = $query->fetch(PDO::FETCH_ASSOC);
 			
-							
+						
 			if ( $query ) {
 				header('Location: tours.php');							
 			} else {
@@ -124,11 +124,6 @@ if($admin_check == 1 ) {
 		   </SCRIPT>");
 
 	}
-}else{
-	/*echo ("<SCRIPT LANGUAGE='JavaScript'> 
-				window.alert('HERE 3') 
-				window.location.href='newtour.php' 
-				</SCRIPT>");*/
 }
 	 
 ?> 
@@ -157,8 +152,8 @@ if($admin_check == 1 ) {
 				//} else {
 				//	optOtherReason.style.display = 'none';
 				//}
-			}
-		}*/
+			}*/
+		}
 	</script>
 	
 	<!-- Bootstrap starts here -->
@@ -192,12 +187,12 @@ if($admin_check == 1 ) {
 					<tr><td><br></td></tr>
 					<tr><td><br></td></tr>
 					<tr><td> 
-						<!--<label for="select-places">Select places for the tour: </br>(CTRL+Click for multiple selection)</label>
+						<label for="select-places">Select places for the tour: </br>(CTRL+Click for multiple selection)</label>
 						<select class="form-control" name='tour_select[]' id="select-places" multiple="multiple">
-							<?php //while( $row=$result->fetch(PDO::FETCH_ASSOC) ){ 
-								//echo "<option value='".$row['place_id']."'>".$row['name']."</option>";	
-							//} ?>
-						</select>-->
+							<?php while( $row=$result->fetch(PDO::FETCH_ASSOC) ){ 
+								echo "<option value='".$row['place_id']."'>".$row['name']."</option>";	
+							} ?>
+						</select>
 						<div id="otherdetail" style="display: none;">
 							
 							More Detail Here Please 

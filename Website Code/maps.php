@@ -2,8 +2,9 @@
 /* user file */
 include('session.php');
 include('https.php'); //Includes the control file that always redirects to https
+?>
 
-echo '<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>	
     <title>Χάρτης Δυτικής Μακεδονίας</title>    
@@ -17,11 +18,11 @@ echo '<!DOCTYPE html>
 	<!-- Optional theme -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
   </head>
-  <body>'; 
+  <body>
   
-  include('navBar.php'); 
+ <?php include('navBar.php'); 
   
-  echo '<div class="container" id="sidebar">
+	echo '<div class="container" id="sidebar">
 			
 			<div class="panel panel-default">
 			  <div class="panel-heading">
@@ -30,9 +31,9 @@ echo '<!DOCTYPE html>
 			  <div class="panel-body">'; 
 
 					
-include 'placestable.php';
+	include 'placestable.php';?>
 					
-echo '<script src="//code.jquery.com/jquery-1.12.4.min.js"
+	<script src="//code.jquery.com/jquery-1.12.4.min.js"
 					integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
 					crossorigin="anonymous"></script>
 			  </div>
@@ -40,8 +41,8 @@ echo '<script src="//code.jquery.com/jquery-1.12.4.min.js"
 			</div>
 			  
 		</div>
-		<div id="map"> 	';							
-		echo '	<script>
+		<div id="map"> 						
+			<script>
 			  // This example requires the Drawing library. Include the libraries=drawing
 			  // parameter when you first load the API. For example:
 			  // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=drawing">
@@ -59,11 +60,11 @@ echo '<script src="//code.jquery.com/jquery-1.12.4.min.js"
 				  center: {lat: 40.383210, lng: 21.483071},
 				  scaleControl: true,
 				  zoom: 10
-				});';
+				});
 				
 				//SHOW AREAS SHAPES -MAP 
 				  
-				include "locations.php";
+				<?php include "locations.php";
 					
 				echo '								
 				var place_id = new Array();
@@ -85,16 +86,17 @@ echo '<script src="//code.jquery.com/jquery-1.12.4.min.js"
 					echo "coordinates[$i]='".$coordinates[$i]."';\n";
 					echo "pimage[$i]='".$pimage[$i]."';\n";
 					echo "pfimage[$i]='".$pfimage[$i]."';\n";
-				}
+				} 
 				
-				echo 'var infowindow = new google.maps.InfoWindow();
+				echo'
+				var infowindow = new google.maps.InfoWindow();
 
 				var i;  
 
 				for (i = 0; i < coordinates.length; i++) {  					
 					
 					var str = coordinates[i];
-					var coo = str.split(";"); '; 
+					var coo = str.split(";");  ';
 					
 					if($admin_check == 1 ) { 
 					
@@ -112,7 +114,7 @@ echo '<script src="//code.jquery.com/jquery-1.12.4.min.js"
 								var contentString = "<b>Name: </b><br>" + name[i] + "<br><b>Description: </b><br>" + description[i] +"<br> <img src=\'placeimgs/" + pfimage[i] + "\' width=\'100\' height=\'100\' > <br><button onclick=\'GetPlaceDetails("+place_id[i]+")\' class=\'btn btn-warning btn-sm\'>Update</button>&nbsp;<button onclick=\'DeletePlace("+place_id[i]+")\' class=\'btn btn-danger btn-sm\'>Delete</button><br>"; 
 							} 	'; 
 					
-					}                                                                                        
+					}                                                                                      
 						
 					echo '
 					if ( type[i] == 2 ){		//rectangle
@@ -245,15 +247,14 @@ echo '<script src="//code.jquery.com/jquery-1.12.4.min.js"
 			</script>
 		</div> 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRA3MU0N6jNYF7Jkj_VzYGMcxQ8XNkg_0&libraries=drawing&callback=initMap"
-         async defer></script>';
+         async defer></script>  ';
 		 
-	 include('footer.php'); 
+	 include('footer.php'); ?>
 	 
-	 echo ' <!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
+	 <!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   </body>
-</html>';
+</html>
 
-?>

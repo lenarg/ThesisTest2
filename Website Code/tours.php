@@ -2,9 +2,10 @@
 /* user file */
 include('session.php');
 require('connect.php');
-include('https.php'); //Includes the control file that always redirects to https
+include('https.php'); //Includes the control file that always redirects to https 
+?>
 
-echo '<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
 	<title>Tours</title>
@@ -27,9 +28,9 @@ echo '<!DOCTYPE html>
 	<link rel="stylesheet" type="text/css" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.17/themes/base/jquery-ui.css">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
-<body>';
+<body>
 
-include("navBar.php"); 
+<?php include("navBar.php"); 
 echo '<div class="container">
 	
 	<div id="content">
@@ -142,11 +143,10 @@ echo '<div class="container">
 	</div>
 	</div>'; 
 	
-	include('footer.php'); 
-	echo '<!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
+	include('footer.php'); ?>
+	<!-- jQuery (necessary for Bootstraps JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 </body>
-</html>';
-?>
+</html>
