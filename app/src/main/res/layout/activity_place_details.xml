@@ -96,7 +96,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/mapimg"
         android:layout_centerHorizontal="true"
-        android:text="GO" />
+        android:text="@string/StartNavBtn" />
 
 
 

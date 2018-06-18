@@ -55,8 +55,6 @@
         <activity android:name=".NearbyActivity" />
         <activity android:name=".ToursActivity" />
         <activity android:name=".PlacesActivity" />
-        <activity android:name=".NotifActivity" />
-
 
 
         <activity

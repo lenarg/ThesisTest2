@@ -29,7 +29,7 @@ public class GoogleService extends Service implements LocationListener{
     private Handler mHandler = new Handler();
     private Timer mTimer = null;
     long notify_interval = 1000;
-    public static String str_receiver = "servicetutorial.service.receiver";
+    public static String str_receiver = "servicetutorial.service2.receiver";
     Intent intentloc;
 
 

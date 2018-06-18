@@ -41,6 +41,9 @@ import static com.example.media1.thesistest2.ArrivalActivity.KEY_TYPE4;
 import static com.example.media1.thesistest2.ArrivalActivity.KEY_COO4;
 import static com.example.media1.thesistest2.ArrivalActivity.KEY_IMG4;
 
+import static com.example.media1.thesistest2.NearbyActivity.mPlacesMapListS2;
+import static com.example.media1.thesistest2.NearbyActivity.KEY_PID9;
+
 
 public class PlaceDetails extends AppCompatActivity {
 
@@ -63,6 +66,7 @@ public class PlaceDetails extends AppCompatActivity {
     public static final String KEY_COO2 = "coordinates";
     public static final String KEY_TYPE2 = "place type";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +85,7 @@ public class PlaceDetails extends AppCompatActivity {
         View GOButton = findViewById(R.id.nvgtbtn);
 
 
-        if ( getIntent().getStringExtra(KEY_PID4) != null){
+        if (getIntent().getStringExtra(KEY_PID4) != null) {
             passedVarPid = getIntent().getStringExtra(KEY_PID4);
             //passedVarN = getIntent().getStringExtra(KEY_NAME4); //arrival
             //passedVarD = getIntent().getStringExtra(KEY_DESC4);
@@ -89,11 +93,13 @@ public class PlaceDetails extends AppCompatActivity {
             //passedVarC = getIntent().getStringExtra(KEY_COO4);
             //passedVarT = getIntent().getStringExtra(KEY_TYPE4);
             GOButton.setVisibility(View.GONE);
-
-        }else if( getIntent().getStringExtra(KEY_PID8) != null ){
+        } else if (getIntent().getStringExtra(KEY_PID8) != null) {
             passedVarPid = getIntent().getStringExtra(KEY_PID8);  //tourdetails
             GOButton.setVisibility(View.GONE);
-        }else{
+        } else if (getIntent().getStringExtra(KEY_PID9) != null) {
+            passedVarPid = getIntent().getStringExtra(KEY_PID9);  //nearbyactivity
+            GOButton.setVisibility(View.VISIBLE);
+        } else {
             passedVarPid = getIntent().getStringExtra(KEY_PID);
             //passedVarN = getIntent().getStringExtra(KEY_NAME); //placesactivity
             //passedVarD = getIntent().getStringExtra(KEY_DESC);
@@ -104,7 +110,7 @@ public class PlaceDetails extends AppCompatActivity {
 
         }
 
-        if ( mPlacesMapListS.size() != 0 ) {
+        if (mPlacesMapListS.size() != 0) {
             for (int i = 0; i < mPlacesMapListS.size(); i++) {
 
                 if (Integer.parseInt(mPlacesMapListS.get(i).get(KEY_PID)) == Integer.parseInt(passedVarPid)) {
@@ -116,6 +122,22 @@ public class PlaceDetails extends AppCompatActivity {
                     passedVarI = mPlacesMapListS.get(i).get(KEY_IMG);
                     passedVarC = mPlacesMapListS.get(i).get(KEY_COO);
                     passedVarT = mPlacesMapListS.get(i).get(KEY_TYPE);
+
+                }
+
+            }
+        }else if(mPlacesMapListS2.size() != 0){
+            for (int i = 0; i < mPlacesMapListS2.size(); i++) {
+
+                if (Integer.parseInt(mPlacesMapListS2.get(i).get(KEY_PID)) == Integer.parseInt(passedVarPid)) {
+
+                    //type = mTPlacesMapList.get(n).get(KEY_TYPE);
+                    //coordinates = mTPlacesMapList.get(n).get(KEY_COO);
+                    passedVarN = mPlacesMapListS2.get(i).get(KEY_NAME); //placesactivity
+                    passedVarD = mPlacesMapListS2.get(i).get(KEY_DESC);
+                    passedVarI = mPlacesMapListS2.get(i).get(KEY_IMG);
+                    passedVarC = mPlacesMapListS2.get(i).get(KEY_COO);
+                    passedVarT = mPlacesMapListS2.get(i).get(KEY_TYPE);
 
                 }
 
@@ -146,6 +168,12 @@ public class PlaceDetails extends AppCompatActivity {
         passedViewD = (TextView)findViewById(R.id.description);
         passedViewD.setText(passedVarD);
 
+
+        View imageplace = findViewById(R.id.imgid);
+        imageplace.setVisibility(View.VISIBLE);
+        if (passedVarI == null){
+            imageplace.setVisibility(View.GONE);
+        }
 
 
         //passedVarI = getIntent().getStringExtra(KEY_IMG);
@@ -204,6 +232,7 @@ public class PlaceDetails extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(Bitmap result) {
+
             ImageView imageView = (ImageView) findViewById(R.id.imgid);
             imageView.setImageBitmap(result);
         }

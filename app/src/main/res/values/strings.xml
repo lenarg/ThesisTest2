@@ -9,10 +9,19 @@
     <string name="searchText">Search</string>
     <string name="addressText">Address:</string>
     <string name="coordinatesText">Coordinates:</string>
-    <string name="title_activity_camera">Camera</string>
     <string name="placesText">Places</string>
     <string name="notifText">Notifications</string>
     <string name="title_activity_place_details">Place Details</string>
     <string name="title_activity_tour_details">Tour Details</string>
     <string name="title_activity_arrival">ArrivalActivity</string>
+    <string name="arrivalText">You arrived at: </string>
+    <string name="arrivalPName">Place Name</string>
+    <string name="arrivalBtnPDetails">Get Place Details</string>
+    <string name="arrivalBtnNextTP">Next Tour Place</string>
+    <string name="arrivalBtnMenu">Main Menu</string>
+    <string name="StartNavBtn">START NAVIGATION</string>
+    <string name="StartTourBtn">START TOUR</string>
+    <string name="TourNameText">Tour Name</string>
+    <string name="TourDescText">Tour Description</string>
+    <string name="TourPlacesText">Tour Places</string>
 </resources>

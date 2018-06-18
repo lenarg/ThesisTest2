@@ -17,7 +17,7 @@ tools:context=".ArrivalActivity">
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="105dp"
-        android:text="You arrived at:"
+        android:text="@string/arrivalText"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <TextView
@@ -27,7 +27,7 @@ tools:context=".ArrivalActivity">
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="159dp"
-        android:text="place name"
+        android:text="@string/arrivalPName"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 
@@ -38,16 +38,16 @@ tools:context=".ArrivalActivity">
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="228dp"
-        android:text="Get Place Details" />
+        android:text="@string/arrivalBtnPDetails" />
 
     <Button
         android:id="@+id/nexttplace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/getdetails"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="140dp"
-        android:text="Next Tour Place" />
+        android:text="@string/arrivalBtnNextTP" />
 
     <Button
         android:id="@+id/mainmenu"
@@ -56,7 +56,7 @@ tools:context=".ArrivalActivity">
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="85dp"
-        android:text="Main Menu" />
+        android:text="@string/arrivalBtnMenu" />
 
 
 </RelativeLayout>

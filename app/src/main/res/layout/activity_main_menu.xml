@@ -1,116 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#58d2ab"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.media1.thesistest2.MainMenu">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#58d2ab"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context="com.example.media1.thesistest2.MainMenu">
 
-
-
-    <ImageButton
-        android:id="@+id/mapsButton"
+    <TableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="35dp"
-        android:layout_marginTop="138dp"
-        android:layout_toStartOf="@+id/nearbyButton"
-        android:background="@drawable/mapicon2"
-        android:onClick="onMapsClick"/>
+        android:layout_margin="70dp">
 
-    <TextView
-        android:id="@+id/textView"
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/mapsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/mapicon2"
+                android:onClick="onMapsClick" />
+
+            <ImageButton
+                android:id="@+id/nothere1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/mapicon2"
+                android:clickable="false"
+                android:visibility="invisible" />
+
+            <ImageButton
+                android:id="@+id/placesButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/placesicon3"
+                android:onClick="onPlacesClick" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:text="@string/mapText"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <TextView
+                android:id="@+id/nothere3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:text="@string/placesText"
+                android:textAlignment="center"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <ImageButton
+                android:id="@+id/nothere"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/mapicon2"
+                android:clickable="false"
+                android:visibility="invisible" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/nearbyButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/nearbyicon"
+                android:onClick="onNearbyClick" />
+
+            <ImageButton
+                android:id="@+id/nothere2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/mapicon2"
+                android:clickable="false"
+                android:visibility="invisible" />
+
+            <ImageButton
+                android:id="@+id/toursButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/toursicon"
+                android:onClick="onToursClick" />
+
+        </TableRow>
+
+    <TableRow
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:text="@string/mapText"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_below="@+id/mapsButton"
-        android:layout_alignStart="@+id/textView7" />
+        android:layout_height="wrap_content">
 
-    <ImageButton
-        android:id="@+id/nearbyButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/mapsButton"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/nearbyicon"
-        android:onClick="onNearbyClick" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/nearbyText"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/nearbyButton"
-        android:layout_centerHorizontal="true"
-        android:text="@string/nearbyText"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        <TextView
+            android:id="@+id/nothere4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:visibility="invisible" />
 
-    <ImageButton
-        android:id="@+id/toursButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/nearbyButton"
-        android:layout_marginStart="41dp"
-        android:layout_toEndOf="@+id/nearbyButton"
-        android:background="@drawable/toursicon"
-        android:onClick="onToursClick" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/toursText"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_below="@+id/toursButton"
-        android:layout_alignEnd="@+id/toursButton"
-        android:layout_alignStart="@+id/toursButton" />
-
-    <ImageButton
-        android:id="@+id/placesButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/placesicon3"
-        android:onClick="onPlacesClick"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/mapsButton" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:text="@string/placesText"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_below="@+id/placesButton"
-        android:layout_alignStart="@+id/placesButton"
-        android:layout_marginStart="10dp" />
-
-    <ImageButton
-        android:id="@+id/notifButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/placesicon3"
-        android:onClick="onNotifClick"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/nearbyButton" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:text="@string/notifText"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:layout_below="@+id/notifButton"
-        android:layout_centerHorizontal="true" />
-
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/toursText"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </TableRow>
+    </TableLayout>
 
 </RelativeLayout>

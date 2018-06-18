@@ -9,9 +9,19 @@
     <string name="searchText">Αναζήτηση</string>
     <string name="addressText">Διεύθυνση:</string>
     <string name="coordinatesText">Συντεταγμένες:</string>
-    <string name="title_activity_camera">Κάμερα</string>
     <string name="placesText">Σημεία Ενδιαφέροντος</string>
     <string name="notifText">Ειδοποιήσεις</string>
     <string name="title_activity_place_details">Λεπτομέριες Περιοχής</string>
     <string name="title_activity_tour_details">Λεπτομέριες Περιήγησης</string>
+    <string name="title_activity_arrival">Άφηξη</string>
+    <string name="arrivalText">Φτάσατε σε: </string>
+    <string name="arrivalPName">Όνομα Περιοχής</string>
+    <string name="arrivalBtnPDetails">Πληροφορίες Περιοχής</string>
+    <string name="arrivalBtnNextTP">Επόμενη Περιοχή</string>
+    <string name="arrivalBtnMenu">Επιστροφή στο Μενού</string>
+    <string name="StartTourBtn">ΕΝΑΡΞΗ ΠΕΡΙΗΓΗΣΗΣ</string>
+    <string name="TourNameText">Όνομα Περιήγησης</string>
+    <string name="TourDescText">Περιγραφή Περιήγησης</string>
+    <string name="TourPlacesText">Περιοχές Περιήγησης</string>
+    <string name="StartNavBtn">ΕΝΑΡΞΗ ΠΛΟΗΓΗΣΗΣ</string>
 </resources>

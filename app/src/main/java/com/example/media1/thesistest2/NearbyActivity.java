@@ -1,12 +1,9 @@
 package com.example.media1.thesistest2;
 
-import android.Manifest;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.IntentSender;
@@ -21,27 +18,18 @@ import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.UserHandle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -51,44 +39,23 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.maps.model.LatLng;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-
-
-import android.app.Activity;
-import android.content.Context;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.os.Bundle;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.media1.thesistest2.model.PlaceStoring;
 
 
-//public class NearbyActivity extends AppCompatActivity {
 public class NearbyActivity extends AppCompatActivity implements  LoadJSONTask.Listener, AdapterView.OnItemClickListener {
     private TextView latitudeField;
     private TextView longitudeField;
@@ -100,8 +67,9 @@ public class NearbyActivity extends AppCompatActivity implements  LoadJSONTask.L
     public static final String URL = "https://zafora.icte.uowm.gr/~ictest00344/get_json.php";
 
     private List<HashMap<String, String>> mPlacesMapList = new ArrayList<>();
+    public static List<HashMap<String, String>> mPlacesMapListS2 = new ArrayList<>();
 
-    public static final String KEY_PID = "place_id";
+    public static final String KEY_PID9 = "place_id";
     public static final String KEY_UID = "user_id";
     public static final String KEY_NAME = "name";
     public static final String KEY_DESC = "description";
@@ -110,6 +78,13 @@ public class NearbyActivity extends AppCompatActivity implements  LoadJSONTask.L
     public static final String KEY_IMG = "pfimage";
     public static final String KEY_DIST = "dist";
 
+    private static final int nbREQUEST_PERMISSIONS = 100;
+    boolean nbboolean_permission;
+    Double nblatitude,nblongitude;
+    Location nblocation = new Location("");
+
+    private static boolean jsonIsLoaded = false;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -117,225 +92,110 @@ public class NearbyActivity extends AppCompatActivity implements  LoadJSONTask.L
         setContentView(R.layout.activity_nearby);
 
 
-        // Get the location manager
-        //locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Log.d("msg7", "before asking if loc enabled");
-        /*if (isLocationEnabled(NearbyActivity.this)) {
-            // Define the criteria how to select the locatioin provider -> use
-            // default
-            Log.d("msg7", "after asking if loc enabled");
-            Criteria criteria = new Criteria();
-            provider = locationManager.getBestProvider(criteria, false);
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
+        nbfn_permission();
 
+        if (nbboolean_permission) {
 
-            //Location location = locationManager.getLastKnownLocation(provider);
-            //getLocation();
+            Intent intentloc = new Intent(getApplicationContext(), GoogleService.class);
+            startService(intentloc);
 
-            //latitudeField.setText(String.valueOf(lat));
-            //longitudeField.setText(String.valueOf(lng));
-
-
-            // Initialize the location fields
-            //if (location != null) {
-            //    double lat5 = (location.getLatitude()); //ayta einai  h topothesia mou
-            //  double lng5 = (location.getLongitude());
-            //   Log.d("msg7", "HERE lat: " + lat5 + " lng: " + lng5);
-
-            // System.out.println("Provider " + provider + " has been selected.");
-            //  onLocationChanged(location);
-            //} else {
-            //Log.d("msg7", "Location not available");
-            //--LocationListener locationListener = new MyLocationListener();
-            //--locationManager.requestLocationUpdates( LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
-            //locationManager.requestLocationUpdates(provider, 1000, 0, this);
-            //Location location = locationManager.getLastKnownLocation(provider);
-
-            // double lat5 = (location.getLatitude()); //ayta einai  h topothesia mou
-            //double lng5 = (location.getLongitude());
-            // Log.d("msg7", "HERE lat: " + lat5 + " lng: " + lng5);
-
-            //-System.out.println("Provider " + provider + " has been selected.");
-            //-onLocationChanged(location);
-            //}
-*/
-            mListView = (ListView) findViewById(R.id.list_view4);
-            mListView.setOnItemClickListener(this);
-            new LoadJSONTask(this).execute(URL);/*
         } else {
-            //prompt user to enable location....
-            //.................
-            Log.d("msg7", "gps off 1");
-            AlertDialog.Builder notifyLocationServices = new AlertDialog.Builder(NearbyActivity.this);
-            notifyLocationServices.setTitle("Location Services are OFF");
-            notifyLocationServices.setMessage("Location Services must be turned on to show nearby places.");
-            notifyLocationServices.setPositiveButton("Turn on", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent openLocationSettings = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    NearbyActivity.this.startActivity(openLocationSettings);
-                    finish();
-                }
-            });
-            notifyLocationServices.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    finish();
-                }
-            });
-            notifyLocationServices.show();
+            Toast.makeText(getApplicationContext(), "Please enable the gps", Toast.LENGTH_SHORT).show();
+        }
 
-        }*/
-
-        //mListView = (ListView) findViewById(R.id.list_view4);
-        //mListView.setOnItemClickListener(this);
+        mListView = (ListView) findViewById(R.id.list_view4);
+        mListView.setOnItemClickListener(this);
         //new LoadJSONTask(this).execute(URL);
     }
 
+    private void nbfn_permission() {
+        if ((ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
 
-    /*---------- Listener class to get coordinates ------------- */
-   /* private class MyLocationListener implements LocationListener {
-
-        @Override
-        public void onLocationChanged(Location loc) {
-            //editLocation.setText("");
-            //pb.setVisibility(View.INVISIBLE);
-            //Toast.makeText(
-            //        getBaseContext(),
-            //        "Location changed: Lat: " + loc.getLatitude() + " Lng: "
-            //                + loc.getLongitude(), Toast.LENGTH_SHORT).show();
-            String longitude = "Longitude: " + loc.getLongitude();
-            String latitude = "Latitude: " + loc.getLatitude();
-            Log.d("msg7", "Location changed: Lat: " + latitude + " Lng: " + longitude);
-
-            //Log.d("msg7", latitude);
+            if ((ActivityCompat.shouldShowRequestPermissionRationale(NearbyActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION))) {
 
 
-        }
+            } else {
+                ActivityCompat.requestPermissions(NearbyActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        nbREQUEST_PERMISSIONS);
 
-        @Override
-        public void onProviderDisabled(String provider) {
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
+            }
+        } else {
+            nbboolean_permission = true;
         }
     }
 
-    public static boolean isLocationEnabled(Context context) {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        int locationMode = 0;
-        String locationProviders;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            try {
-                locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
-            } catch (Settings.SettingNotFoundException e) {
-                e.printStackTrace();
+        switch (requestCode) {
+            case nbREQUEST_PERMISSIONS: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    nbboolean_permission = true;
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please allow the permission", Toast.LENGTH_LONG).show();
+
+                }
             }
-            return locationMode != Settings.Secure.LOCATION_MODE_OFF;
-        } else {
-            locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-            return !TextUtils.isEmpty(locationProviders);
         }
+    }
 
-        //...............
-        //return true;
-    }*/
+    private BroadcastReceiver nbbroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intentloc) {
+
+            nblatitude = Double.valueOf(intentloc.getStringExtra("latutide"));
+            nblongitude = Double.valueOf(intentloc.getStringExtra("longitude"));
+            Log.d("msg4","latnb: "+nblatitude+" lngnb: "+nblongitude);
+
+            nblocation.setLatitude(nblatitude);
+            nblocation.setLongitude(nblongitude);
+            nblocation.setAltitude(0);
+
+            if ( jsonIsLoaded == false ) {
+                new LoadJSONTask(NearbyActivity.this).execute(URL);
+                jsonIsLoaded = true; //sto onResume ginetai false etsi den fortonei sunexeia me ta broadcasts
+            }
+
+
+        }
+    };
+
 
     /* Request updates at startup */
     @Override
     protected void onResume() {
         super.onResume();
-        //if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-        //    return;
-        //}
-//        locationManager.requestLocationUpdates(provider, 400, 1, this);
+        registerReceiver(nbbroadcastReceiver, new IntentFilter(GoogleService.str_receiver));
+        jsonIsLoaded = false;
     }
 
     /* Remove the locationlistener updates when Activity is paused */
     @Override
     protected void onPause() {
         super.onPause();
+        unregisterReceiver(nbbroadcastReceiver);
         //locationManager.removeUpdates(this);
     }
 
-   /* @Override
-    //public void onLocationChanged(Location location) {
-        //locationManager.removeUpdates(this);
 
-        //double lat = (location.getLatitude()); //ayta einai  h topothesia mou
-        //double lng = (location.getLongitude());
-        //latitudeField.setText(String.valueOf(lat));
-        //longitudeField.setText(String.valueOf(lng));
-       // Log.d("msg7", "now changed HERE lat: " + lat + " lng: " + lng);
-
-    //}
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        Toast.makeText(this, "Enabled new provider " + provider,
-                Toast.LENGTH_SHORT).show();
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-        Toast.makeText(this, "Disabled provider " + provider,
-                Toast.LENGTH_SHORT).show();
-    }
-*/
     @Override
     public void onLoaded(List<PlaceStoring> allplacesList) {
 
         Collections.sort(allplacesList, new SortbyDist());
 
-        //if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-         //   return;
-        //}
-        //Location location3 = locationManager.getLastKnownLocation(provider);
+
         Location location3 = new Location("");
-        location3.setLatitude(38.0536);
-        location3.setLongitude(23.5346);
+        location3.setLatitude(nblatitude);//38.0536);
+        location3.setLongitude(nblongitude);//23.5346);
 
 
         for (PlaceStoring allplaces : allplacesList) {
 
             HashMap<String, String> map = new HashMap<>();
 
-            map.put(KEY_PID, allplaces.getPlace_id());
+            map.put(KEY_PID9, allplaces.getPlace_id());
             map.put(KEY_UID, allplaces.getUser_id());
             map.put(KEY_NAME, allplaces.getName());
             map.put(KEY_DESC, allplaces.getDescription());
@@ -372,7 +232,7 @@ public class NearbyActivity extends AppCompatActivity implements  LoadJSONTask.L
                 lngcx = String.valueOf(llngcx);
             }
 
-            Location locx = new Location(LocationManager.GPS_PROVIDER);
+            Location locx = new Location("");
 
             double latcad = Double.parseDouble(latcx);
             double lngcad = Double.parseDouble(lngcx);
@@ -392,6 +252,7 @@ public class NearbyActivity extends AppCompatActivity implements  LoadJSONTask.L
             map.put(KEY_DIST, sdistx);
 
             mPlacesMapList.add(map);
+            mPlacesMapListS2.add(map);
         }
 
         loadListView();
@@ -409,13 +270,13 @@ public class NearbyActivity extends AppCompatActivity implements  LoadJSONTask.L
         //Toast.makeText(this, mPlacesMapList.get(i).get(KEY_NAME),Toast.LENGTH_LONG).show();
         Intent myIntent2 = new Intent(NearbyActivity.this, PlaceDetails.class);
         //myIntent2.putExtra("Position", i);
-        myIntent2.putExtra(KEY_PID, mPlacesMapList.get(i).get(KEY_PID)); //String.valueOf(l));//ID_EXTRA, id
-        myIntent2.putExtra(KEY_NAME, mPlacesMapList.get(i).get(KEY_NAME));
-        myIntent2.putExtra(KEY_DESC, mPlacesMapList.get(i).get(KEY_DESC));
-        myIntent2.putExtra(KEY_TYPE, mPlacesMapList.get(i).get(KEY_TYPE));
-        myIntent2.putExtra(KEY_COO, mPlacesMapList.get(i).get(KEY_COO));
-        myIntent2.putExtra(KEY_IMG, mPlacesMapList.get(i).get(KEY_IMG));
-        myIntent2.putExtra(KEY_DIST, mPlacesMapList.get(i).get(KEY_DIST));
+        myIntent2.putExtra(KEY_PID9, mPlacesMapList.get(i).get(KEY_PID9)); //String.valueOf(l));//ID_EXTRA, id
+        //myIntent2.putExtra(KEY_NAME, mPlacesMapList.get(i).get(KEY_NAME));
+        //myIntent2.putExtra(KEY_DESC, mPlacesMapList.get(i).get(KEY_DESC));
+        //myIntent2.putExtra(KEY_TYPE, mPlacesMapList.get(i).get(KEY_TYPE));
+        //myIntent2.putExtra(KEY_COO, mPlacesMapList.get(i).get(KEY_COO));
+        //myIntent2.putExtra(KEY_IMG, mPlacesMapList.get(i).get(KEY_IMG));
+        //myIntent2.putExtra(KEY_DIST, mPlacesMapList.get(i).get(KEY_DIST));
         //myIntent2.putExtra("key", "value"); //Optional parameters
         //CurrentActivity.this.startActivity(myIntent);
         startActivity(myIntent2);
@@ -507,37 +368,15 @@ public class NearbyActivity extends AppCompatActivity implements  LoadJSONTask.L
             locb.setLatitude(latcbd);
             locb.setLongitude(lngcbd);
 
-            //Location location2 = new Location("");
-            //location2.setLatitude(38.0546);
-            //location2.setLongitude(23.5318);
 
-            //if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                //ActivityCompat.requestPermissions(NearbyActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-
-            //    return 0;
-            //}
-
-            //Location location2 = locationManager.getLastKnownLocation(provider);
             Location location2 = new Location("");
-            location2.setLatitude(38.0536);
-            location2.setLongitude(23.5346);
+            location2.setLatitude(nblatitude);//38.0536);
+            location2.setLongitude(nblongitude);//23.5346);
            //Log.d ("msg7", "loc in SbD " + location2);
             double dista = loca.distanceTo(location2);
             double distb = locb.distanceTo(location2);
             //Log.d ("msg7", "dista " + dista +" distb " + distb);
             return Double.compare(dista, distb);
-                //return dista - distb;
-
-                //latca lngca latcb lngcb
-
-                //return a.rollno - b.rollno;
 
         }
 
