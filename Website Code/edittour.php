@@ -52,29 +52,14 @@ if($admin_check == 1 ) {
 			$tour_select = $_POST['tour_select1'];
 			$tourp ='';
 			
-			$tplac = '';//$tour_select[0];
+			$tplac = '';
 			 for ($i = 0; $i < count($tour_select); ++$i) {
-				//print $tour_select[$i];
 				$tplac1 = $tour_select[$i];
 				$tplac = $tplac . ';' . $tplac1;
 			}
 			
 			$tour_places = $tplac;
-			///////////////////////////////////////////
-			/*$tour_select = $_POST['tour_select'];
-			$tourp ='';
-			
-			$tplac = '';
-			for ($i = 0; $i < count($tour_select); ++$i) {
-				//print $tour_select[$i];
-				$tplac1 = $tour_select[$i];
-				$tplac = $tplac . ';' . $tplac1;
-			}
-			
-			//print $tplac;
 						
-			$tour_places = $tplac;*/
-			
 			 // save the data to the database 			
 			try {
 				$result2 = $dbh ->prepare("UPDATE tours SET tour_name=:tour_name, tour_places=:tour_places, tour_desc=:tour_desc WHERE tour_id=:tour_id");
@@ -98,9 +83,9 @@ if($admin_check == 1 ) {
 		 echo 'Error in id!';
 	}
  }
- else
+ else {
  // if the form hasn't been submitted, get the data from the db and display the form
- {
+ 
 	 
 	 // get the 'id' value from the URL (if it exists), making sure that it is valid (checing that it is numeric/larger than 0)
 	 if (isset($_GET['tid']) && is_numeric($_GET['tid']) && $_GET['tid'] > 0)
@@ -116,8 +101,7 @@ if($admin_check == 1 ) {
 			echo "Error: " . $e->getMessage();
 		}		
 		$row = $result->fetch(PDO::FETCH_ASSOC);
-		 
-		   
+		 		   
 		 // check that the 'id' matches up with a row in the databse
 		 if($row)
 		 {		 
@@ -192,11 +176,9 @@ if($admin_check == 1 ) {
 									 while( $row = $result1->fetch(PDO::FETCH_ASSOC) ){ 
 										if ( $row['place_id'] == $tplaces2[$i] ){
 											echo "<option selected value='".$row['place_id']."'>".$row['name']."</option>";	
-											//echo "<option selected value='".$tplaces2[$i]."'>".$row['name']."</option>";
 											$i++;
 										}else{
 											echo "<option value='".$row['place_id']."'>".$row['name']."</option>";
-											//echo "<option value='".$tplaces2[$i]."'>".$row['name']."</option>";
 										}
 									 }
 							
