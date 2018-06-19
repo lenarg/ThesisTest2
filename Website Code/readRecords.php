@@ -70,14 +70,14 @@ include ('session.php');?>
 							<th onclick="sortTable(0)">User</th>
 							<th onclick="sortTable(1)">Name</th>
 							<th>Description</th>
-							<th>Buttons</th>
+							
 						</tr>';
 	}else{
 					$data = '<table class="table" cellpadding="4" border="1"  class="sortable" id="places_table">
 						<tr>
 							<th onclick="sortTable(0)">Name</th>
 							<th>Description</th>
-							<th>Buttons</th>
+							<th></th>
 						</tr>';
 	}
 	// Design initial table header 
@@ -142,20 +142,18 @@ include ('session.php');?>
 				
 				$data .= '<tr>
 					<td>'.$row2['username'].'</td>
-					<td>'.$row['name'].'</td>
-					<td>'.$row['description'].'</td>
-					<td>
-						<button onclick="GetPlaceDetails('.$row['place_id'].')" class="btn btn-warning btn-sm">Update</button>
-						<button onclick="DeletePlace('.$row['place_id'].')" class="btn btn-danger btn-sm">Delete</button>
-					</td>
+					<td>'.$row['name'].'</br></br><button onclick="GetPlaceDetails('.$row['place_id'].')" class="btn btn-warning btn-xs">Update</button></br></br>
+						<button onclick="DeletePlace('.$row['place_id'].')" class="btn btn-danger btn-xs">Delete</button></td>
+					<td class="tabldesc">'.$row['description'].'</td>
+					
 				</tr>';
 			}else{
 				$data .= '<tr>
 					<td>'.$row['name'].'</td>
 					<td>'.$row['description'].'</td>
 					<td>
-						<button onclick="GetPlaceDetails('.$row['place_id'].')" class="btn btn-warning btn-sm">Update</button>
-						<button onclick="DeletePlace('.$row['place_id'].')" class="btn btn-danger btn-sm">Delete</button>
+						<button onclick="GetPlaceDetails('.$row['place_id'].')" class="btn btn-warning btn-xs">Update</button>
+						<button onclick="DeletePlace('.$row['place_id'].')" class="btn btn-danger btn-xs">Delete</button>
 					</td>
 				</tr>';
 			

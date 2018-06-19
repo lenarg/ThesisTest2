@@ -30,7 +30,6 @@ include('session.php');
 				  $description = array();
 				  $type = array();
 				  $coordinates = array();
-				  $pimage = array();
 				  $pfimage = array();
 				  //while ($row = mysqli_fetch_array($result2)) {  
 				while ($row = $result2->fetch(PDO::FETCH_ASSOC)) { 
@@ -40,7 +39,6 @@ include('session.php');
 					$description[] = $row['description']; 
 					$type[] = $row['type']; 
 					$coordinates[] = $row['coordinates']; 
-					$pimage[] = $row['pimage'];
 					$pfimage[] = $row['pfimage'];
 				} 
 		   

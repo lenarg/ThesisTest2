@@ -20,18 +20,18 @@ include('https.php'); //Includes the control file that always redirects to https
   </head>
   <body>
   
- <?php include('navBar.php'); 
+ <?php include('navBar.php'); ?>
   
-	echo '<div class="container" id="sidebar">
+	<div class="container" id="sidebar">
 			
 			<div class="panel panel-default">
 			  <div class="panel-heading">
 				<center><h3 class="panel-title">Saved Regions</h3></center>
 			  </div>
-			  <div class="panel-body">'; 
+			  <div class="panel-body">
 
 					
-	include 'placestable.php';?>
+	<?php include 'placestable.php';?>
 					
 	<script src="//code.jquery.com/jquery-1.12.4.min.js"
 					integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
@@ -72,9 +72,10 @@ include('https.php'); //Includes the control file that always redirects to https
 				var name = new Array();
 				var description = new Array();				
 				var type = new Array();
-				var coordinates = new Array();
-				var pimage = new Array(); 
+				var coordinates = new Array();				
 				var pfimage = new Array(); ';
+				
+				 //var pimage = new Array(); 
 				 
 				for ($i=0;$i<count($place_id); $i++)
 				{
@@ -84,7 +85,7 @@ include('https.php'); //Includes the control file that always redirects to https
 					echo "description[$i]='".$description[$i]."';\n";
 					echo "type[$i]='".$type[$i]."';\n";
 					echo "coordinates[$i]='".$coordinates[$i]."';\n";
-					echo "pimage[$i]='".$pimage[$i]."';\n";
+					//echo "pimage[$i]='".$pimage[$i]."';\n";
 					echo "pfimage[$i]='".$pfimage[$i]."';\n";
 				} 
 				
@@ -101,14 +102,14 @@ include('https.php'); //Includes the control file that always redirects to https
 					if($admin_check == 1 ) { 
 					
 						echo '				
-							if(  pimage[i] == ""  ){ 
+							if(  pfimage[i] == ""  ){ 
 								var contentString = "<b>Name: </b><br>" + name[i] + "<br><b>Description: </b><br>" + description[i] +"<br><b>User: </b><br>" + user_id[i] +"<br><button onclick=\'GetPlaceDetails("+place_id[i]+")\' class=\'btn btn-warning btn-sm\'>Update</button>&nbsp;<button onclick=\'DeletePlace("+place_id[i]+")\' class=\'btn btn-danger btn-sm\'>Delete</button><br>"; 
 							} else {
 								var contentString = "<b>Name: </b><br>" + name[i] + "<br><b>Description: </b><br>" + description[i] +"<br><b>User: </b><br>" + user_id[i] +"<br><img src=\'placeimgs/" + pfimage[i] + "\' width=\'100\' height=\'100\' ><br><button onclick=\'GetPlaceDetails("+place_id[i]+")\' class=\'btn btn-warning btn-sm\'>Update</button>&nbsp;<button onclick=\'DeletePlace("+place_id[i]+")\' class=\'btn btn-danger btn-sm\'>Delete</button><br>"; 
 							} '; 
 					} else { 
 						echo '					
-							if(  pimage[i] == ""  ){ 
+							if(  pfimage[i] == ""  ){ 
 								var contentString = "<b>Name: </b><br>" + name[i] + "<br><b>Description: </b><br>" + description[i] +"<br> <button onclick=\'GetPlaceDetails("+place_id[i]+")\' class=\'btn btn-warning btn-sm\'>Update</button>&nbsp;<button onclick=\'DeletePlace("+place_id[i]+")\' class=\'btn btn-danger btn-sm\'>Delete</button><br>"; 
 							} else { 
 								var contentString = "<b>Name: </b><br>" + name[i] + "<br><b>Description: </b><br>" + description[i] +"<br> <img src=\'placeimgs/" + pfimage[i] + "\' width=\'100\' height=\'100\' > <br><button onclick=\'GetPlaceDetails("+place_id[i]+")\' class=\'btn btn-warning btn-sm\'>Update</button>&nbsp;<button onclick=\'DeletePlace("+place_id[i]+")\' class=\'btn btn-danger btn-sm\'>Delete</button><br>"; 

@@ -59,10 +59,11 @@ if(isset($_POST['save_region']))
 			$rdesc = str_replace( $remove, "", $rdesc );
 					
 			try {
-				$query = $dbh ->prepare("INSERT INTO allplaces (user_id,name,description,type,coordinates,pimage,pfimage) 
-							VALUES (?,?,?,?,?,?,?)");
+				//$query = $dbh ->prepare("INSERT INTO allplaces (user_id,name,description,type,coordinates,pimage,pfimage) VALUES (?,?,?,?,?,?,?)");
+				$query = $dbh ->prepare("INSERT INTO allplaces (user_id,name,description,type,coordinates,pfimage) 
+							VALUES (?,?,?,?,?,?)");
 				
-				$query->execute(array($userid,$rname,$rdesc,$_POST[region_type],$coords,$upload_image,$ihash));
+				$query->execute(array($userid,$rname,$rdesc,$_POST[region_type],$coords,$ihash)); //$upload_image,
 			}
 			catch(PDOException $e) {
 				echo "Error: " . $e->getMessage();

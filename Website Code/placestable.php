@@ -54,8 +54,17 @@
  
                 <div class="form-group">
                     <label for="update_description">Description</label>
-                    <input type="text" id="update_description" placeholder="Description" class="form-control"/>
+                    <!--<input type="text" id="update_description" placeholder="Description" class="form-control"/>-->
+					<textarea id="update_description" placeholder="Description" class="form-control" rows="3"></textarea>
                 </div>
+				
+				<div class="form-group">
+                    <label for="update_image">Image</label>
+                    <!--<input type="text" id="update_description" placeholder="Description" class="form-control"/>
+					<input type="file" name="upimage" placeholder="Image" />-->
+					<input type="file" id="update_image" placeholder="Image" />
+                </div>
+				
  
                 <!--<div class="form-group">
                     <label for="update_email">Email Address</label>

@@ -215,7 +215,7 @@ echo '<div class="container">
 								&key=AIzaSyCRGBjwj3Q_vd5D2O0cWzzv0E_9_iufy5c" > </td><td>';
 					
 				}
-				if(  $row3['pimage'] != ''  ){ 
+				if(  $row3['pfimage'] != ''  ){ 
 					echo '<img src="placeimgs/'.$row3['pfimage'].'" height="100" > ';
 				}
 				//&markers=color:red%7Clabel:C%7C40.718217,-73.998284

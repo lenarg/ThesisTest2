@@ -117,7 +117,12 @@ echo '<div class="container">
 									}	
 									
 									while($row2 = $result2->fetch(PDO::FETCH_ASSOC)) {
-										$nampl = $nampl . ' ' . $row2['name'];
+										if ($nampl == ''){
+											$nampl = $nampl.$row2['name'];}
+										else{
+											$nampl = $nampl . ', ' . $row2['name'];
+										}
+										
 									}
 								}
 								echo '<td>' . $nampl . '&nbsp;<a class="button" title="View Tour" style="float: right;" data-toggle="modal" href="viewtour.php?tid=' . $row['tour_id'] . '"><img src="images/viewt.png" width="20" /></a></td>';
