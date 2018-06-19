@@ -30,7 +30,7 @@
                 android:onClick="onMapsClick" />
 
             <ImageButton
-                android:id="@+id/nothere1"
+                android:id="@+id/nothere1" 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

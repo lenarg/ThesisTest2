@@ -91,6 +91,7 @@ public class NearbyActivity extends AppCompatActivity implements  LoadJSONTask.L
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nearby);
 
+        jsonIsLoaded = false;
 
         nbfn_permission();
 
@@ -167,8 +168,9 @@ public class NearbyActivity extends AppCompatActivity implements  LoadJSONTask.L
     @Override
     protected void onResume() {
         super.onResume();
+
         registerReceiver(nbbroadcastReceiver, new IntentFilter(GoogleService.str_receiver));
-        jsonIsLoaded = false;
+        //jsonIsLoaded = false;
     }
 
     /* Remove the locationlistener updates when Activity is paused */
@@ -176,6 +178,15 @@ public class NearbyActivity extends AppCompatActivity implements  LoadJSONTask.L
     protected void onPause() {
         super.onPause();
         unregisterReceiver(nbbroadcastReceiver);
+        //jsonIsLoaded = true;
+        //locationManager.removeUpdates(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //jsonIsLoaded = false;
+        //unregisterReceiver(nbbroadcastReceiver);
         //locationManager.removeUpdates(this);
     }
 
