@@ -12,13 +12,9 @@
     <uses-permission android:name="myapp.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
-    <uses-feature android:name="android.hardware.camera" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-
-
 
     <!-- gia to json -->
     <application
@@ -33,6 +29,7 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -55,8 +52,6 @@
         <activity android:name=".NearbyActivity" />
         <activity android:name=".ToursActivity" />
         <activity android:name=".PlacesActivity" />
-
-
         <activity
             android:name=".PlaceDetails"
             android:label="@string/title_activity_place_details"
@@ -71,14 +66,16 @@
             android:name=".MyLocService"
             android:enabled="true"
             android:exported="true" />
-
-        <service android:name=".GoogleService"></service>
+        <service android:name=".GoogleService" />
 
         <activity
             android:name=".ArrivalActivity"
             android:label="@string/title_activity_arrival"
-            android:theme="@style/AppTheme"></activity>
-
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
