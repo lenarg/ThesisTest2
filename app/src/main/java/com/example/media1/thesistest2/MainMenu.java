@@ -4,7 +4,9 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.view.View;
@@ -68,13 +70,14 @@ public class MainMenu extends AppCompatActivity {
         startActivity(i);
     }
 
-/*
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main_menu, menu);
+
         return true;
-    }*/
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -83,9 +86,13 @@ public class MainMenu extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+
+
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.about) {
+            Intent intent = new Intent(this, AboutActivity.class);
+            this.startActivity(intent);
+            //return true;
         }
 
         return super.onOptionsItemSelected(item);
