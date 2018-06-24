@@ -13,7 +13,8 @@
     <string name="notifText">Notifications</string>
     <string name="title_activity_place_details">Place Details</string>
     <string name="title_activity_tour_details">Tour Details</string>
-    <string name="title_activity_arrival">ArrivalActivity</string>
+    <string name="tourPlaces">Tour Places</string>
+    <string name="title_activity_arrival">Arrival</string>
     <string name="arrivalText">You arrived at: </string>
     <string name="arrivalPName">Place Name</string>
     <string name="arrivalBtnPDetails">Get Place Details</string>

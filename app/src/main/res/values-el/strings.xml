@@ -1,4 +1,4 @@
-<resources>
+﻿<resources>
     <string name="app_name">mARs</string>
     <string name="about">Σχετικά με</string>
     <string name="title_activity_nearby">Κοντινά</string>
@@ -9,11 +9,12 @@
     <string name="searchText">Αναζήτηση</string>
     <string name="addressText">Διεύθυνση:</string>
     <string name="coordinatesText">Συντεταγμένες:</string>
-    <string name="placesText">Σημεία Ενδιαφέροντος</string>
+    <string name="placesText">Περιοχές</string>
     <string name="notifText">Ειδοποιήσεις</string>
     <string name="title_activity_place_details">Λεπτομέριες Περιοχής</string>
     <string name="title_activity_tour_details">Λεπτομέριες Περιήγησης</string>
-    <string name="title_activity_arrival">Άφηξη</string>
+    <string name="tourPlaces">Περιοχές Περιήγησης</string>
+    <string name="title_activity_arrival">Άφιξη</string>
     <string name="arrivalText">Φτάσατε σε: </string>
     <string name="arrivalPName">Όνομα Περιοχής</string>
     <string name="arrivalBtnPDetails">Πληροφορίες Περιοχής</string>

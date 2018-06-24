@@ -14,8 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="place name"
+        android:layout_marginTop="33dp"
+        android:text="place name and more more more text"
+        android:textAlignment="center"
         android:textSize="36sp"
         tools:layout_editor_absoluteX="100dp"
         tools:layout_editor_absoluteY="80dp" />
@@ -36,9 +37,9 @@
         android:id="@+id/directarrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="229dp" />
+        android:layout_marginTop="300dp" />
 
     <TextView
         android:id="@+id/dirtext"

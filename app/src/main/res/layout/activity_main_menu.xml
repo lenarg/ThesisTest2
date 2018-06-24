@@ -23,16 +23,16 @@
 
             <ImageButton
                 android:id="@+id/mapsButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="110dp"
+                android:layout_height="80dp"
                 android:layout_weight="1"
                 android:background="@drawable/mapicon2"
                 android:onClick="onMapsClick" />
 
             <ImageButton
-                android:id="@+id/nothere1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/nothere2"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/mapicon2"
                 android:clickable="false"
@@ -40,8 +40,8 @@
 
             <ImageButton
                 android:id="@+id/placesButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="110dp"
+                android:layout_height="80dp"
                 android:layout_weight="1"
                 android:background="@drawable/placesicon3"
                 android:onClick="onPlacesClick" />
@@ -62,11 +62,12 @@
                 android:textAlignment="center"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
-            <TextView
-                android:id="@+id/nothere3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageButton
+                android:id="@+id/nothere4"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/mapicon2"
                 android:clickable="false"
                 android:visibility="invisible" />
 
@@ -87,7 +88,7 @@
 
             <ImageButton
                 android:id="@+id/nothere"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/mapicon2"
@@ -96,21 +97,21 @@
         </TableRow>
 
         <TableRow
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageButton
                 android:id="@+id/nearbyButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="110dp"
+                android:layout_height="80dp"
                 android:layout_weight="1"
                 android:background="@drawable/nearbyicon"
                 android:onClick="onNearbyClick" />
 
             <ImageButton
-                android:id="@+id/nothere2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/nothere3"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/mapicon2"
                 android:clickable="false"
@@ -118,8 +119,8 @@
 
             <ImageButton
                 android:id="@+id/toursButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="110dp"
+                android:layout_height="80dp"
                 android:layout_weight="1"
                 android:background="@drawable/toursicon"
                 android:onClick="onToursClick" />
@@ -139,11 +140,12 @@
             android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
-        <TextView
-            android:id="@+id/nothere4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageButton
+            android:id="@+id/nothere5"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/mapicon2"
             android:clickable="false"
             android:visibility="invisible" />
 
