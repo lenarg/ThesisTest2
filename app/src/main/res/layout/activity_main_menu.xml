@@ -31,7 +31,7 @@
 
             <ImageButton
                 android:id="@+id/nothere2"
-                android:layout_width="60dp"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/mapicon2"
@@ -64,7 +64,7 @@
 
             <ImageButton
                 android:id="@+id/nothere4"
-                android:layout_width="60dp"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/mapicon2"
@@ -110,7 +110,7 @@
 
             <ImageButton
                 android:id="@+id/nothere3"
-                android:layout_width="60dp"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/mapicon2"
@@ -142,7 +142,7 @@
 
         <ImageButton
             android:id="@+id/nothere5"
-            android:layout_width="60dp"
+            android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/mapicon2"

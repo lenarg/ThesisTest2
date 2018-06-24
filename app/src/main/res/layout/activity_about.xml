@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#58d2ab"
+    android:layout_height="match_parent"
+    tools:context=".AboutActivity"
+    android:orientation="horizontal">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <TextView
+        android:id="@+id/developed1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="80dp"
+        android:layout_weight="1"
+        android:text="@string/developed1"
+        android:textColor="#808080" />
+
+    <TextView
+        android:id="@+id/developed2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/developed1"
+        android:layout_weight="1"
+        android:text="@string/developed2"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/supervised1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/developed2"
+        android:layout_weight="1"
+        android:text="@string/supervised1"
+        android:textColor="#808080" />
+
+    <TextView
+        android:id="@+id/supervised2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/supervised1"
+        android:layout_weight="1"
+        android:text="@string/supervised2"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/website1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/supervised2"
+        android:layout_weight="1"
+        android:text="@string/website1"
+        android:textColor="#808080" />
+
+    <TextView
+        android:id="@+id/website2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/website1"
+        android:layout_weight="1"
+        android:text="@string/website2"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/depart1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/website2"
+        android:layout_weight="1"
+        android:text="@string/depart1"
+        android:textColor="#808080" />
+
+    <TextView
+        android:id="@+id/depart2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/depart1"
+        android:layout_weight="1"
+        android:text="@string/depart2"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/uni1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/depart2"
+        android:layout_weight="1"
+        android:text="@string/uni1"
+        android:textColor="#808080" />
+
+    <TextView
+        android:id="@+id/uni2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/uni1"
+        android:layout_weight="1"
+        android:text="@string/uni2"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/year1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/uni2"
+        android:layout_weight="1"
+        android:text="@string/year1"
+        android:textColor="#808080" />
+
+    <TextView
+        android:id="@+id/year2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/year1"
+        android:layout_weight="1"
+        android:text="@string/year2"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/thesthem1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/year2"
+        android:layout_weight="1"
+        android:text="@string/thesthem1"
+        android:textColor="#808080" />
+
+    <TextView
+        android:id="@+id/thesthem2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/thesthem1"
+        android:layout_weight="1"
+        android:text="@string/thesthem2"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>
