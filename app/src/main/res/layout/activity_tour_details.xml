@@ -99,7 +99,7 @@
             android:layout_below="@+id/tdescription"
             android:layout_marginTop="18dp"
 
-            android:text="Tour Places"
+            android:text="@string/tourPlaces"
             android:textColor="@color/common_google_signin_btn_text_dark_focused"
             android:textSize="18sp"
             android:textStyle="bold" />
