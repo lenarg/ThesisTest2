@@ -1,13 +1,20 @@
 package com.example.media1.thesistest2;
 
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -23,6 +30,7 @@ import android.widget.Toast;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -50,7 +58,6 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
 
     public static final String URL = "https://zafora.icte.uowm.gr/~ictest00344/get_json.php";
 
-
     String passedVarTN = null;
     private TextView passedViewTN = null;
     String passedVarTD = null;
@@ -60,8 +67,16 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
     String eptshow = "";
 
 
+
     Location myloc = new Location("");
     Location locCn = new Location("");
+
+    Location tlocation = new Location("");
+
+    private static final int tREQUEST_PERMISSIONS = 100;
+    boolean tboolean_permission;
+    Double tlatitude,tlongitude;
+
 
     public List<HashMap<String, String>> mTPlacesMapList = new ArrayList<>();
     public static List<HashMap<String, String>> mTPlacesMapListS = new ArrayList<>();
@@ -75,11 +90,13 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
     public static final String KEY_PLACELIST5 = "sorted list of places";
     String[] sortedPlaceTable;
 
+    private static boolean jsonIsLoaded = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_details);
-
+        Log.d("msg4", "herr");
 
 
         passedVarTN = getIntent().getStringExtra(KEY_TNAME);
@@ -93,17 +110,13 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
         passedVarTPL = getIntent().getStringExtra(KEY_TPL);
         Log.d("msg7","tour places: " + passedVarTPL);
 
-
-        //new TourDetails.SendHttpRequestTask3().execute();
-        //new TourDetails.SendHttpRequestTask4().execute();
-
         mListView5 = (ListView) findViewById(R.id.list_view5);
         mListView5.setOnItemClickListener(this);
-        new LoadJSONTask(this).execute(URL);
+        //new LoadJSONTask(this).execute(URL);
 
 
-        Button clickGOButton = (Button) findViewById(R.id.tnvgt);
-        clickGOButton.setOnClickListener( new View.OnClickListener() {
+       // Button clickGOButton = (Button) findViewById(R.id.tnvgt);
+        /*clickGOButton.setOnClickListener( new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -115,7 +128,6 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
                 String coordinates5="";
 
                 for (int i =0; i<mTPlacesMapList.size(); i++){
-                    //Log.d("msg8", "n " +n);
                     if( Integer.parseInt(mTPlacesMapList.get(i).get(KEY_PID)) ==  Integer.parseInt(sortedPlaceTable[0]) ){
 
                         name5 = mTPlacesMapList.get(i).get(KEY_NAME);
@@ -129,26 +141,34 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
                 myIntent8.putExtra(KEY_COO5, coordinates5);
                 myIntent8.putExtra(KEY_TYPE5, type5);
                 myIntent8.putExtra(KEY_PLACELIST5, eptshow );
-                //myIntent8.putExtra(KEY_TPL2, passedVarTPL);
                 TourDetails.this.startActivity(myIntent8);
 
             }
-        });
+        });*/
+
+
+        jsonIsLoaded = false;
+
+        tfn_permission();
+
+        if (tboolean_permission) {
+            Intent intentloc = new Intent(getApplicationContext(), GoogleService.class);
+            startService(intentloc);
+
+        } else {
+            Toast.makeText(getApplicationContext(), "Please enable the gps", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private String[] sortTourPlaces(int[] spt) {
 
-
         int k=0;
-        //myloc=lat,lng; //mylocation x=myloc
-        myloc.setLatitude(38.0413); //eleusis
-        myloc.setLongitude(23.5418);
+        myloc.setLatitude(tlatitude);//tlatitude
+        myloc.setLongitude(tlongitude);//
         int ls = spt.length;
         String[] ept = new String[ls];
         String[][] sv = new String[1][2];
         int j = ls;
-        //int le = 0;
-
 
         while ( k<ls ){ // not for
 
@@ -157,28 +177,15 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
             int m =0;
 
             for(int i=0; i<spt.length; i++){
-                if ( spt[i] != 0 ) { //to null egine 0
+                if ( spt[i] != 0 ) {
                     distable[m][0] = Integer.toString(spt[i]);
-                    //Log.d("msg8", "distable["+m+"][0]: "+spt[i]);
-
                     String type ="0";
                     String coordinates ="0";
 
-                    //Log.d("msg8", "mTPlacesMapList.size()"+mTPlacesMapList.size());
-
-
-                    //Log.d("msg8", "HERE1");
-                   // Log.d("msg8", "HERE1"+mTPlacesMapList);
-
-                    //Log.d("msg8", "size " +mTPlacesMapList.size());
-                    //for (Map.Entry<String,String> entry : mTPlacesMapList.entrySet()){}
                     for (int n =0; n<mTPlacesMapList.size()  ;n++){
-                        //Log.d("msg8", "n " +n);
                         if( Integer.parseInt(mTPlacesMapList.get(n).get(KEY_PID)) == spt[i] ){
-
                             type = mTPlacesMapList.get(n).get(KEY_TYPE);
                             coordinates = mTPlacesMapList.get(n).get(KEY_COO);
-
                         }
                     }
 
@@ -212,21 +219,15 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
                     double locCnlat = Double.parseDouble(latc);
                     double locCnlng = Double.parseDouble(lngc);
 
-                    //Location locCn = new Location("");
                     locCn.setLatitude(locCnlat);
                     locCn.setLongitude(locCnlng);
 
                     distable[m][1]= Double.toString( locCn.distanceTo(myloc) );//distance(spt[i] to x);
                     distable[m][2]= locCn.getLatitude() +";"+locCn.getLongitude();
-
-                    //Log.d("msg8", "distable["+m+"][0]: "+distable[m][0]);
-                    //Log.d("msg8", "distable["+m+"][2]: "+distable[m][2]);
-
                     m++;
                 }
             }
 
-            //sv = [ distable[0,0] , distable[0,1] ];
             sv[0][0]= distable[0][0];
             sv[0][1]= distable[0][1];
 
@@ -237,7 +238,6 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
                 }
             }
             ept[k]=sv[0][0];
-            //Log.d("msg8", "ept["+k+"]: "+ept[k]);
             k++;
             for(int i=0;i<spt.length;i++){
                 if ( spt[i] == Integer.parseInt( sv[0][0] ) ){
@@ -245,24 +245,18 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
                 }
             }
 
-            //myloc = sv[0,0];
             for (int i=0; i<distable.length; i++) {
                 if (distable[i][0] == sv[0][0] ) {
                     String[] coo2 = distable[i][2].split(";");
-
 
                     myloc.setLatitude( Double.parseDouble(coo2[0]) );//to kentro aytou me th mikroterh apostash einai to neo x/shmeio ekkinhshs
                     myloc.setLongitude( Double.parseDouble(coo2[1]) );
                 }
             }
         }
-
-
         return ept;
 
     }
-
-
 
 
     @Override
@@ -274,8 +268,6 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
             HashMap<String, String> map = new HashMap<>();
 
             for ( int i=1; i<tplaces.length; i++ ) {
-                //Log.d("msg7","pids " + allplaces.getPlace_id());
-                //Log.d("msg7","pidt " + tplaces[i]);
                 if ( Integer.parseInt(allplaces.getPlace_id()) == Integer.parseInt(tplaces[i]) ) {
                     Log.d("msg7","IN " );
                     map.put(KEY_PID, allplaces.getPlace_id());
@@ -292,14 +284,13 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
             }
         }
 
-
-        //Log.d("msg8", "size loaded" +mTPlacesMapList.size());
         loadListView();
 
+
+
         String[] tourpltable = passedVarTPL.split(";");
-        int[] itourpltable = new int[tourpltable.length-1];//= {1,2};
+        int[] itourpltable = new int[tourpltable.length-1];
         String sptshow= "places: ";
-        //String eptshow= "";
 
         for ( int i = 1; i<tourpltable.length ;i++ ){
             itourpltable[i-1] = Integer.parseInt( tourpltable[i] );
@@ -315,8 +306,36 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
         }
         Log.d("msg8", "eptshow" +eptshow);
 
+        Button clickGOButton = (Button) findViewById(R.id.tnvgt);
+        clickGOButton.setOnClickListener( new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                Intent myIntent8 = new Intent(TourDetails.this, NavigationActivity.class);
 
+                String name5 ="";
+                String type5 ="";
+                String coordinates5="";
+
+                for (int i =0; i<mTPlacesMapList.size(); i++){
+                    if( Integer.parseInt(mTPlacesMapList.get(i).get(KEY_PID)) ==  Integer.parseInt(sortedPlaceTable[0]) ){
+
+                        name5 = mTPlacesMapList.get(i).get(KEY_NAME);
+                        type5 = mTPlacesMapList.get(i).get(KEY_TYPE);
+                        coordinates5 = mTPlacesMapList.get(i).get(KEY_COO);
+
+                    }
+                }
+                myIntent8.putExtra(KEY_PID5, sortedPlaceTable[0]);
+                myIntent8.putExtra(KEY_NAME5, name5);
+                myIntent8.putExtra(KEY_COO5, coordinates5);
+                myIntent8.putExtra(KEY_TYPE5, type5);
+                myIntent8.putExtra(KEY_PLACELIST5, eptshow );
+                TourDetails.this.startActivity(myIntent8);
+
+            }
+        });
     }
 
     @Override
@@ -326,20 +345,11 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
 
     }
 
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int i, long id) {
 
         Intent myIntent4 = new Intent(TourDetails.this, PlaceDetails.class);
-        myIntent4.putExtra( KEY_PID8, mTPlacesMapList.get(i).get(KEY_PID)); //String.valueOf(l));//ID_EXTRA, id
-        //myIntent4.putExtra( KEY_NAME, mTPlacesMapList.get(i).get(KEY_NAME));
-        //myIntent4.putExtra( KEY_DESC, mTPlacesMapList.get(i).get(KEY_DESC));
-        //myIntent4.putExtra( KEY_TYPE, mTPlacesMapList.get(i).get(KEY_TYPE));
-        //myIntent4.putExtra( KEY_COO, mTPlacesMapList.get(i).get(KEY_COO));
-        //myIntent4.putExtra( KEY_IMG, mTPlacesMapList.get(i).get(KEY_IMG));
-
-        //myIntent2.putExtra("key", "value"); //Optional parameters
-        //CurrentActivity.this.startActivity(myIntent);
+        myIntent4.putExtra( KEY_PID8, mTPlacesMapList.get(i).get(KEY_PID));
         startActivity(myIntent4);
 
     }
@@ -350,8 +360,82 @@ public class TourDetails extends AppCompatActivity implements LoadJSONTask.Liste
                 new String[] { KEY_NAME },
                 new int[] { R.id.name });
 
-
         mListView5.setAdapter(adapter);
 
     }
+
+
+
+    /* for location */
+    private void tfn_permission() {
+        if ((ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+
+            if ((ActivityCompat.shouldShowRequestPermissionRationale(TourDetails.this, android.Manifest.permission.ACCESS_FINE_LOCATION))) {
+
+
+            } else {
+                ActivityCompat.requestPermissions(TourDetails.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                        tREQUEST_PERMISSIONS);
+
+            }
+        } else {
+            tboolean_permission = true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case tREQUEST_PERMISSIONS: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    tboolean_permission = true;
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please allow the permission", Toast.LENGTH_LONG).show();
+
+                }
+            }
+        }
+    }
+
+    private BroadcastReceiver tbroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intentloc) {
+
+            tlatitude = Double.valueOf(intentloc.getStringExtra("latutide"));
+            tlongitude = Double.valueOf(intentloc.getStringExtra("longitude"));
+            Log.d("msg4","latna: "+tlatitude+" lngna: "+tlongitude);
+
+            if ( jsonIsLoaded == false ) {
+                new LoadJSONTask(TourDetails.this).execute(URL);
+                jsonIsLoaded = true; //sto onResume ginetai false etsi den fortonei sunexeia me ta broadcasts
+            }
+
+        }
+    };
+
+    @Override
+    protected void onStart() {
+
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+
+        super.onStop();
+    }
+
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(tbroadcastReceiver, new IntentFilter(GoogleService.str_receiver));
+    }
+
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(tbroadcastReceiver);
+    }
+
 }
