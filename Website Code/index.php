@@ -22,8 +22,9 @@
 </head>
 <body>
 	<div class="container">
-		<h1><b>mARs</b> - Tourist Maps of Western Macedonia </h1>
-		
+	<div class="indextitlediv" >
+		<h1><b>mARs</b> </br><small class="text-muted"> Tourist Maps of Western Macedonia</small></h1>
+	</div>
 		<div id="login">
 				<h2>Login Form</h2>
 				<form action="login.php" method="POST">

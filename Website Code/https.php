@@ -7,8 +7,8 @@ if( !isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == "" ){
 	header("HTTP/1.1 301 Moved Permanently");
 	header("Location: $redirect");
 	
-	die("Please visit <a href=$redirect>$redirect </a>"); 
-	
+	die("Please visit <a href=$redirect>$redirect </a>"); 	
 }
-
 ?>
+
+

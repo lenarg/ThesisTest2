@@ -2,6 +2,10 @@
 /* user file */
 require('connect.php');
 
+//include_once("post.php.inc");savemsg(json_encode($_FILES));
+//include_once("post.php.inc");savemsg(json_encode($_POST));
+
+
 // check request
 if(isset($_POST))
 {
@@ -9,19 +13,29 @@ if(isset($_POST))
     $place_id = $_POST['place_id'];
 	$name = trim($_POST['name']);
 	$description = trim($_POST['description']);
+	//$image = 
 	
 	$remove[] = "'";
 	$remove[] = '"';
 	$name = str_replace( $remove, "", $name );
 	$description = str_replace( $remove, "", $description );
 	
-	if ($name == '' || $description == ''){
+	if ( $name == '' || $description == '' )){
 		// generate error message
 		$error = 'ERROR: Please fill in all required fields!';
 		//echo '<script type="text/javascript">alert("$error");</script>';
+		/*echo ("<SCRIPT LANGUAGE='JavaScript'> 
+		   window.alert('You did not complete all of the required fields') 
+		   window.location.href='maps.php' 
+		   </SCRIPT>");*/
+		
 		
 	}else{
-		if(!empty($_FILES["update_image"]["name"])){
+		echo $name;
+		echo $description;
+		echo $place_id;
+		//include 'locations.php';
+		/*if(!empty($_FILES["update_image"]["name"])){
 			
 			$upload_image = $_FILES["update_image"]["name"]; //to onoma pou apothikeuetai sth db
 			$folder = "placeimgs/";   	//"/zstorage/home/ictest00344/public_html/placeimgs/";
@@ -48,25 +62,25 @@ if(isset($_POST))
 			}
 			
 			//prepei na to kanw move me onoma to hash
-			move_uploaded_file( $_FILES["update_image"]["tmp_name"] , $folder.$ihash ); //"$folder" );//.$ihash );//$_FILES["myimage"]["name"] ); //filename, destination //$_FILES["myimage"]["tmp_name"]
 			
-			try {
-				$queryi = $dbh ->prepare("UPDATE allplaces SET pfimage = :pfimage WHERE place_id = :place_id");				
-				$queryi->bindParam(':pfimage', $pfimage, PDO::PARAM_STR);
-				$queryi->bindParam(':place_id', $place_id, PDO::PARAM_INT);
-				$queryi->execute();
+			if ( move_uploaded_file( $_FILES["update_image"]["tmp_name"] , $folder.$ihash ) ){ 
+			
+				try {
+					$queryi = $dbh ->prepare("UPDATE allplaces SET pfimage = :pfimage WHERE place_id = :place_id");				
+					$queryi->bindParam(':pfimage', $pfimage, PDO::PARAM_STR);
+					$queryi->bindParam(':place_id', $place_id, PDO::PARAM_INT);
+					$queryi->execute();
+				}
+				catch(PDOException $e) {
+					echo "Error: " . $e->getMessage();
+				}
 			}
-			catch(PDOException $e) {
-				echo "Error: " . $e->getMessage();
-			}
-				
-		}
+		}*/
 		
 		try {
-				$query = $dbh ->prepare("UPDATE allplaces SET name = :name, description = :description, pfimage = :pfimage WHERE place_id = :place_id");
+				$query = $dbh ->prepare("UPDATE allplaces SET name = :name, description = :description WHERE place_id = :place_id");
 				$query->bindParam(':name', $name, PDO::PARAM_STR);
-				$query->bindParam(':description', $description, PDO::PARAM_STR);				
-				$query->bindParam(':pfimage', $pfimage, PDO::PARAM_STR);
+				$query->bindParam(':description', $description, PDO::PARAM_STR);
 				$query->bindParam(':place_id', $place_id, PDO::PARAM_INT);
 				$query->execute();
 			}
@@ -74,7 +88,7 @@ if(isset($_POST))
 				echo "Error: " . $e->getMessage();
 			}
 			
-		if (!$result = $query ){
+		if (!$query ){//result = $query ){
 			exit($dbh->errorInfo());
 		}
 	}

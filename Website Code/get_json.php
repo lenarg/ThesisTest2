@@ -1,18 +1,14 @@
 <?php 
 /* user file */
 require('connect.php');
-//include('https.php'); //Includes the control file that always redirects to https
-
     
-    //Replace * in the query with the column names.
 	try {
 		$result = $dbh ->prepare("SELECT * FROM allplaces");
 		$result->execute();
 	}
 	catch(PDOException $e) {
 		echo "Error: " . $e->getMessage();
-	}
-    
+	}    
     //Create an array
     $json_response = array();
     $json_response['allplaces'] = array(); //show the tablename
@@ -30,6 +26,6 @@ require('connect.php');
         //push the values in the array
         array_push($json_response['allplaces'],$row_array); //here too
     }
-    echo json_encode($json_response);
- 
+    echo json_encode($json_response); 
 ?>
+

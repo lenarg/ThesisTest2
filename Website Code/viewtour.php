@@ -38,6 +38,68 @@ if (isset($_GET['tid']) && is_numeric($_GET['tid']) && $_GET['tid'] > 0)
 	{
 		echo 'No results!';
 	}
+	
+	$j=0;
+	for ($i=1;$i<count($tplaces); $i++)
+	{
+				$plid = $tplaces[$i];
+				
+				try {
+					$result4 = $dbh ->prepare("SELECT * FROM allplaces WHERE place_id=:plid");
+					$result4->bindParam(':plid', $plid, PDO::PARAM_INT);
+					$result4->execute();
+				}
+				catch(PDOException $e) {
+					echo "Error: " . $e->getMessage();
+				}		
+				$row4 = $result4->fetch(PDO::FETCH_ASSOC);
+				
+				
+				if ( $row4['type'] == 3 ){ //circle
+					$pcoo = explode(";",$row4['coordinates']);
+					
+					$pcenter[$j]= $pcoo[2].";".$pcoo[3];
+					$j++;
+								
+				}else if ( $row4['type'] == 2 ){ //rectangle
+					$pcoo = explode(";",$row4['coordinates']);
+					$clat = ($pcoo[1]+$pcoo[3])/2;
+					$clng = ($pcoo[2]+$pcoo[4])/2;
+					$pcenter[$j]= $clat.";".$clng;
+					$j++;
+				}
+				
+				
+	}
+	$dist =0;
+	for ($i=0;$i<count($pcenter)-1; $i++){
+		$pcen = explode(";",$pcenter[$i]); //pcen0 = lat, pcen 1 =lng
+		$pcennext = explode(";",$pcenter[$i+1]);
+		$earthRadius = 6371000;//meters
+		
+		// convert from degrees to radians
+		  $latFrom = deg2rad($pcen[0]);
+		  $lonFrom = deg2rad($pcen[1]);
+		  $latTo = deg2rad($pcennext[0]);
+		  $lonTo = deg2rad($pcennext[1]);
+
+		  //$latDelta = $latTo - $latFrom;
+		  $lonDelta = $lonTo - $lonFrom;
+
+		  $a = pow(cos($latTo) * sin($lonDelta), 2) + pow(cos($latFrom) * sin($latTo) - sin($latFrom) * cos($latTo) * cos($lonDelta), 2);
+		  $b = sin($latFrom) * sin($latTo) + cos($latFrom) * cos($latTo) * cos($lonDelta);
+
+		  $angle = atan2(sqrt($a), $b);
+		  //$angle = 2 * asin(sqrt(pow(sin($latDelta / 2), 2) + cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
+		  $dist = $dist + ($angle * $earthRadius);
+	}
+	$unit = ' m';
+	if ($dist>1000){
+		$dist = $dist/1000;
+		$unit = ' km';
+	}
+	$dist= round($dist, 2);
+	
 }
 else // if the 'id' in the URL isn't valid, or if there is no 'id' value, display an error
 {
@@ -72,6 +134,8 @@ else // if the 'id' in the URL isn't valid, or if there is no 'id' value, displa
 
 		 return $EncString['Points'];
 	}
+	
+	
 ?>
 
 <!DOCTYPE html>
@@ -128,6 +192,10 @@ echo '<div class="container">
 			}
 									
 			echo '<tr><font size="5"><td><b>Tour Description: </b></td><td>'.$row['tour_desc'].'</td><td></td><td></td></font></tr>';
+			
+			
+			
+			echo '<tr><font size="5"><td><b>Aproximate </br>Total Distance: </b></td><td>'.$dist.$unit.'</td><td></td><td></td></font></tr>';
 			echo '</thead><tbody>';
 			
 			//echo '<h2>Tour View</h2>';
@@ -136,13 +204,10 @@ echo '<div class="container">
 			
 			echo '<tr><font size="5"><td><b><u>Tour Places </u></b></td><td></td><td></td><td></td></font></tr>';
 			//echo "test1";
+			
 			for ($i=1;$i<count($tplaces); $i++)
 			{
-				$plid = $tplaces[$i];
-				//echo "test2";
-				//$result2 = mysqli_query($link, "SELECT * FROM allplaces WHERE place_id='$plid'")
-				//	or die(mysqli_error($link)); 
-				//$row3 = mysqli_fetch_array($result2); 
+				$plid = $tplaces[$i];				
 				try {
 					$result2 = $dbh ->prepare("SELECT * FROM allplaces WHERE place_id=:plid");
 					$result2->bindParam(':plid', $plid, PDO::PARAM_INT);
@@ -158,17 +223,12 @@ echo '<div class="container">
 				
 				if ( $row3['type'] == 3 ){ //circle
 					$pcoo = explode(";",$row3['coordinates']);
-					//$pcoo[2]=latcen / $pcoo[3]=lngcen
 					
 					/* set some options */
 					$MapLat    = $pcoo[2]; //'-42.88188'; // latitude for map and circle center
 					$MapLng    = $pcoo[3]; //'147.32427'; // longitude as above
 					$MapRadius = $pcoo[1]/1000; //100;         // the radius of our circle (in Kilometres)
-					//$MapFill   = 'E85F0E';    // fill colour of our circle
-					//$MapBorder = '91A93A';    // border colour of our circle
-					//$MapWidth  = 200;         // map image width (max 640px)
-					//$MapHeight = 200;         // map image height (max 640px)
-
+					
 					/* create our encoded polyline string */
 					$EncString = GMapCircle($MapLat,$MapLng, $MapRadius);
 					//echo '<td>'.$EncString.'</td><td>';
@@ -180,47 +240,20 @@ echo '<div class="container">
 					&path=color:0xff0000ff|weight:3%7Cenc:'.$EncString.'&sensor=false';
 					
 					/* output an image tag with our map as the source */
-					echo '<td><img src="'.$MapURL.'" /></td><td>';
-					
-					//echo '<td><img src="https://maps.googleapis.com/maps/api/staticmap?center='.$pcoo[2].','.$pcoo[3].'
-					//			&zoom=13&size=200x200&maptype=roadmap
-					//			&key=AIzaSyCRGBjwj3Q_vd5D2O0cWzzv0E_9_iufy5c" ></td><td>';
+					echo '<td><img src="'.$MapURL.'" /></td><td>';					
 								
 				}else if ( $row3['type'] == 2 ){ //rectangle
 					$pcoo = explode(";",$row3['coordinates']);
+					
 					echo '<td><img src="https://maps.googleapis.com/maps/api/staticmap?
 								&path=color:0xff0000ff|weight:3|'.$pcoo[1].','.$pcoo[2].'|'.$pcoo[1].','.$pcoo[4].'|'.$pcoo[3].','.$pcoo[4].'|'.$pcoo[3].','.$pcoo[2].'|'.$pcoo[1].','.$pcoo[2].'
 								&size=200x200&maptype=roadmap
 								&key=AIzaSyCRGBjwj3Q_vd5D2O0cWzzv0E_9_iufy5c" ></td><td>';
-				}else{ //polygon
-					$pcoo = explode(";",$row3['coordinates']);
-					$k = 0;
-					for ( $j = 1 ; $j < count($pcoo); $j=$j+2 ){
-						$pcoo2[0] = $pcoo[$j];
-						$pcoo2[1] = $pcoo[$j+1];
-						$pcoo3[$k] = implode(',',$pcoo2); //pcoolat,pcoolng
-						$k++;
-						//$pcoo2 = implode('|',$pcoo);
-						//$pcoo4 =implode('',$pcoo3)
-					}
-					$pcoo2[0] = $pcoo[1];
-					$pcoo2[1] = $pcoo[2];
-					$pcoo3[$k] = implode(',',$pcoo2); 
-					$pcoo4 = implode('|',$pcoo3); 
-					//echo '<td>' .$pcoo4. '</td><td>';
-					
-					echo '<td><img src="https://maps.googleapis.com/maps/api/staticmap?
-								&path=color:0xff0000ff|weight:3|'.$pcoo4.'
-								&size=200x200&maptype=roadmap
-								&key=AIzaSyCRGBjwj3Q_vd5D2O0cWzzv0E_9_iufy5c" > </td><td>';
-					
 				}
 				if(  $row3['pfimage'] != ''  ){ 
 					echo '<img src="placeimgs/'.$row3['pfimage'].'" height="100" > ';
 				}
-				//&markers=color:red%7Clabel:C%7C40.718217,-73.998284
-				
-				
+								
 				echo '</td></tr>';
 				
 			}

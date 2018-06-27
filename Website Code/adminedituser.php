@@ -172,6 +172,7 @@ include('https.php'); //Includes the control file that always redirects to https
 		?>
 		</tbody>
 	</table>
+	</br></br></br>
 	</form>
  
 </div> 
