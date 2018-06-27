@@ -22,6 +22,7 @@
 					<?php if($admin_check == 1 ) { echo '<li><a href="adminusers.php">Users</a></li>'; } ?>
 					<li><a href="maps.php">Maps</a></li>
 					<li><a href="tours.php">Tours</a></li>
+					<li><a href="about.php">About</a></li>
 					<li class="dropdown">
 					  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Settings <span class="caret"></span></a>
 						<ul class="dropdown-menu">

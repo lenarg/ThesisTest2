@@ -31,14 +31,11 @@ function random_str($length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzAB
 	 $email=$_POST['email'];
 	 if ($email == '' )
 	 {
-	 // generate error message
-	 $error = 'ERROR: Please fill in all required fields!';
+		 // generate error message
+		 $error = 'ERROR: Please fill in all required fields!';
 	 }
 	else
 	 {
-		 // search the database 
-		//$email=$_POST['email'];
-		//$sresult = mysqli_query($link, "SELECT * FROM users WHERE email='$email'");
 		try {		
 			$sresult = $dbh ->prepare("SELECT * FROM users WHERE email = :email");		
 			$sresult->bindParam(':email', $email, PDO::PARAM_STR);		
@@ -47,18 +44,12 @@ function random_str($length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzAB
 		catch(PDOException $e) {
 			echo "Error: " . $e->getMessage();
 		}
-		$row = $sresult->fetch(PDO::FETCH_ASSOC);
-		
-		//if(mysqli_num_rows($sresult)>0){
-			if ( $row ){
-			
+		$row = $sresult->fetch(PDO::FETCH_ASSOC);		
+			if ( $row ){			
 				//NEW Password
 				$a = random_str(8);
-				$hash = password_hash($a, PASSWORD_DEFAULT);
-								
+				$hash = password_hash($a, PASSWORD_DEFAULT);								
 				//SAVE NEW PASSWORD IN DB
-				//$query = mysqli_query($link, "UPDATE users SET password='$hash' WHERE email='$email'")
-				//			or die(mysqli_error($link));
 				try {		
 					$query = $dbh ->prepare("UPDATE users SET password='$hash' WHERE email=:email");		
 					$query->bindParam(':email', $email, PDO::PARAM_STR);		
@@ -66,20 +57,13 @@ function random_str($length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzAB
 				}
 				catch(PDOException $e) {
 					echo "Error: " . $e->getMessage();
-				}
-				
-							
-				if ($query) {
-					
-					//SEND EMAIL
-					// The message
+				}										
+				if ($query) {					
+					//SEND EMAIL - The message
 					$message = "You asked your password to be changed. This is your new temporary password:  $a    As soon as you login, go to your settings and change it to a new one only you will know. ";
-
 					// In case any of our lines are larger than 70 characters, we should use wordwrap()
 					$message = wordwrap($message, 70, "\r\n");
-
 					// Send
-					//mail('caffeinated@example.com', 'My Subject', $message);
 					mail($email, 'Forgotten Password', $message);
 					
 					echo ("<SCRIPT LANGUAGE='JavaScript'> 
@@ -92,19 +76,14 @@ function random_str($length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzAB
 					window.alert('Error: A new password was NOT saved!') 
 					window.location.href='ForgottenPassword.php' 
 					</SCRIPT>");
-				}
-								
+				}								
 		}
 		else {
 				echo ("<SCRIPT LANGUAGE='JavaScript'> 
 								window.alert('Non registered email!') 
 								window.location.href='ForgottenPassword.php' 
-								</SCRIPT>");
-				
+								</SCRIPT>");				
 		}
-		 
-		 // once saved, redirect back to the view page
-		 //header("Location: index.html"); 
 	 }
  }
 

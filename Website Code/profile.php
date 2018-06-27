@@ -32,7 +32,8 @@ echo '
 				} 
 				echo '
 				<br><a id="maps" href="maps.php"> Maps </a>
-				<br><a id="maps" href="tours.php"> Tours </a>
+				<br><a id="tours" href="tours.php"> Tours </a>
+				<br><a id="about" href="about.php"> About </a>
 				<br><a id="logout" href="logout.php">Log Out</a>
 			</div>
 		</div>

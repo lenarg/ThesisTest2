@@ -79,7 +79,6 @@ html, body {
     margin: 0;
     padding: 0;  
 	background: lightblue url("images/mbg2.png") fixed center;
-
 } 
 #menudiv{
 	background-color: white;
@@ -94,9 +93,10 @@ html, body {
 
 #sidebar {
 	/*position:absolute;*/
+	overflow: auto;
 	top:0; left:0;
 	width:30%;
-	height:89%;
+	height: 91.5%;
 	display: inline-block;
 	background:#FFF;
 	float:left;
@@ -104,7 +104,8 @@ html, body {
 }
 #map {
 	display:inline-block;
-	height: 84%;
+	overflow: auto;
+	height: 91.5%;
 	width: 70%;
 	top:0; left:0;
 }
@@ -142,11 +143,12 @@ i {
 }
 
 .footer {
-  position: absolute;
+  position: fixed;
   right: 0;
   bottom: 0;
   left: 0;
-  padding: 1rem;
+  height: 3%;
+  /*padding: 1rem;*/
   background-color: #efefef;
   text-align: center;
 }
@@ -190,4 +192,25 @@ i {
     cursor: pointer;
 }
 
+.abouth1{
+}
 
+.aboutcont{
+	background:white;
+}
+
+.aboutcontainer {
+	
+	padding-top: 50px;
+    padding-right: 30px;
+    padding-bottom: 50px;
+    padding-left: 80px;
+}
+
+.indextitlediv{
+	background-color: white;
+	width:475px;
+	float:right;
+	font-family:raleway;
+	padding:10px 40px 25px;
+}

@@ -143,9 +143,7 @@ if($admin_check == 1 ) {
 				<thead><tr><th><h3>Create New Tour</h3></th></tr></thead>
 				<tbody>
 					<tr><td>Tour Name:&nbsp;</td><td><input type="text" name="tour_name" maxlength="20"/></td></tr>
-					<tr><td>Tour Description: &nbsp;</td><td><input type="text" name="tour_desc" maxlength="500"/></td></tr>
-					<!--<tr><td>Tour Places: &nbsp;</td><td><input type="text" name="tour_places" maxlength="500"/></td></tr>
-					-->
+					<tr><td>Tour Description: &nbsp;</td><td><textarea type="text" name="tour_desc" maxlength="500"></textarea></td></tr>
 					<tr><td><br></td></tr>
 					<tr><td><br></td></tr>
 					<tr><td> 

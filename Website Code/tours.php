@@ -48,7 +48,6 @@ echo '<div class="container">
 					 <div id="maincontent">
 					 <div class="table-responsive">';
 							if($admin_check == 1 ) {
-								//$result=mysqli_query($link, "SELECT * FROM tours");
 								try {
 									$result = $dbh ->prepare("SELECT * FROM tours");
 									$result->execute();
@@ -57,7 +56,6 @@ echo '<div class="container">
 									echo "Error: " . $e->getMessage();
 								}		
 							} else{ 
-								//$result=mysqli_query($link, "SELECT * FROM tours WHERE user_id = '$userid' ");
 								try {
 									$result = $dbh ->prepare("SELECT * FROM tours WHERE user_id = :userid");
 									$result->bindParam(':userid', $userid, PDO::PARAM_INT);
@@ -70,7 +68,7 @@ echo '<div class="container">
 							
 							echo "<table class='table' cellpadding='10' border='1'  class='sortable'>";
 							echo "<thead>";
-							echo "<tr> <th>Tour ID</th>";  //"<tr> <th>Tour ID</th> <th>User ID</th> <th>Tour Name</th> <th>Tour Places</th> <th>Tour Description</th> </tr>";
+							echo "<tr> <th>Tour ID</th>";  
 							if($admin_check == 1 ) {
 								echo "<th>User</th>";
 							}
@@ -82,11 +80,7 @@ echo '<div class="container">
 								echo '<tr>';
 								echo '<td>' . $row['tour_id'] . '</td>';
 								if($admin_check == 1 ) {
-									echo '<td>' . $row['user_id'] . '.';
-									//$usern = mysqli_query($link, "SELECT * FROM users WHERE user_id = '".$row['user_id']."' ");
-									//while($row2 = mysqli_fetch_array( $usern )) {
-									//	echo ' ' . $row2['username'] . '</td>';
-									//}	
+									echo '<td>' . $row['user_id'] . '.';									
 									try {
 										$usern = $dbh ->prepare("SELECT * FROM users WHERE user_id = :user_id");
 										$usern->bindParam(':user_id', $row['user_id'], PDO::PARAM_INT);   //
@@ -95,7 +89,6 @@ echo '<div class="container">
 									catch(PDOException $e) {
 										echo "Error: " . $e->getMessage();
 									}		
-									//$row = $usern->fetch(PDO::FETCH_ASSOC);
 									while( $row2 = $usern->fetch(PDO::FETCH_ASSOC) ) {
 										echo ' ' . $row2['username'] . '</td>';
 									}	
@@ -106,7 +99,6 @@ echo '<div class="container">
 								$tplaces = explode( ";" , $row["tour_places"] );
 								$nampl = '';
 								for ($i = 0; $i < count($tplaces); $i++) {
-									//$result2=mysqli_query($link, "SELECT name FROM allplaces WHERE place_id = '$tplaces[$i]' ");
 									try {
 										$result2 = $dbh ->prepare("SELECT name FROM allplaces WHERE place_id = :place_id");
 										$result2->bindParam(':place_id', $tplaces[$i] , PDO::PARAM_INT);   //
@@ -126,7 +118,6 @@ echo '<div class="container">
 									}
 								}
 								echo '<td>' . $nampl . '&nbsp;<a class="button" title="View Tour" style="float: right;" data-toggle="modal" href="viewtour.php?tid=' . $row['tour_id'] . '"><img src="images/viewt.png" width="20" /></a></td>';
-								//echo '<td>' . $row['tour_places'] . '</td>';
 								echo '<td>' . $row['tour_desc'] . '</td>';
 								echo '<td><a class="button" href="edittour.php?tid=' . $row['tour_id'] . '">Edit</a>&nbsp;<a class="button" a href="deletetour.php?tid=' . $row['tour_id'] . '" onclick="return confirm(\'Delete tour?\');">Delete</a></td>';
 								echo '</tr>';	 

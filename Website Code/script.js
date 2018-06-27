@@ -35,7 +35,7 @@ function GetPlaceDetails(place_id) {
             // Assing existing values to the modal popup fields
             $("#update_name").val(place.name);
             $("#update_description").val(place.description);
-			$("#update_image").val(place.pfimage);  //img
+			//$("#update_image").val(place.pfimage);  //img
             //$("#update_email").val(place.email);
         }
     );
@@ -47,18 +47,16 @@ function UpdatePlaceDetails() {
     // get values
     var name = $("#update_name").val();
     var description = $("#update_description").val();
-    //var email = $("#update_email").val();	
-	var pfimage = $("#update_image").val();  //img
- 
-    // get hidden field value
+    
     var place_id = $("#hidden_place_id").val();
+ 
  
     // Update the details by requesting to the server using ajax
     $.post("updatePlaceDetails.php", {
             place_id: place_id,
             name: name,
-            description: description,
-			pfimage: pfimage  //img
+            description: description
+			//pfimage: pfimage  //img
             //email: email
         },
         function (data, status) {
@@ -70,6 +68,37 @@ function UpdatePlaceDetails() {
         }
     );
 }
+ 
+ /*function UpdateImage(){
+	 var place_id = $("#hidden_place_id").val();
+	 $("#imageModal").modal("show");
+	 $.post("action.php", {
+            place_id: place_id,
+            //name: name,
+            //description: description,
+			pfimage: pfimage  //img
+            //email: email
+        },
+		function (data, status) {
+            // hide modal popup
+            $("#imageModal").modal("hide");
+            // reload Places by using readRecords();
+            readRecords();
+			//window.location.reload(true); 
+        }
+	 
+	 
+	 /*$('#place_id').val($(this).attr("place_id"));
+	  $('#action').val("update");
+	  $('.modal-title').text("Update Image");
+	  $('#insert').val("Update");
+	  $('#imageModal').modal("show");
+	  */
+	 /* );
+	  
+ }
+ 
+ function DeleteImage(){}*/
  
 $(document).ready(function () {
     // READ recods on page load

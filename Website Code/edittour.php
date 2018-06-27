@@ -165,7 +165,7 @@ if($admin_check == 1 ) {
 			<tbody>
 				<?php echo '<tr><td><input type="hidden" name="tour_id" value="'; echo $tour_id; echo '" /></td></tr>
 							<tr><td>Tour Name:</td><td><input type="text" name="tour_name" maxlength="90" value="'; echo $tour_name; echo '" /></td></tr>
-							<tr><td>Tour Description:</td><td><input type="text" name="tour_desc" maxlength="500" value="'; echo $tour_desc; echo '" /></td></tr>
+							<tr><td>Tour Description:</td><td><textarea type="text" name="tour_desc" maxlength="500" value="'; echo $tour_desc; echo '" >'; echo $tour_desc; echo '</textarea></td></tr>
 							<tr><td></br></td></tr>
 							<tr><td> 
 								<label for="select-places2">Select places for the tour: </br>(CTRL+Click for multiple selection)</label>
